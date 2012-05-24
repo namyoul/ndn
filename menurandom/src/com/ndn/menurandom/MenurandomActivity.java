@@ -28,16 +28,16 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
         
         final TabHost tabHost = getTabHost();
         
-        final TabSpec tabSpec1 = tabHost.newTabSpec("Tab1").setIndicator("Ã¹ ¹øÂ° ÅÇ");        
+        final TabSpec tabSpec1 = tabHost.newTabSpec("Tab1").setIndicator("ì²« ë²ˆì§¸ íƒ­");        
         tabSpec1.setContent(R.id.tab1);
         tabHost.addTab(tabSpec1);
         
-        TabSpec tabSpec2 = tabHost.newTabSpec("Tab2").setIndicator("µÎ ¹øÂ° ÅÇ");
+        TabSpec tabSpec2 = tabHost.newTabSpec("Tab2").setIndicator("ë‘ ë²ˆì§¸ íƒ­");
         tabSpec2.setContent(R.id.tab2);
         tabHost.addTab(tabSpec2);
         
         Drawable img = getResources().getDrawable(R.drawable.star);
-        TabSpec tabSpec3 = tabHost.newTabSpec("Tab3").setIndicator("¼¼ ¹øÂ° ÅÇ", img);
+        TabSpec tabSpec3 = tabHost.newTabSpec("Tab3").setIndicator("ì„¸ ë²ˆì§¸ íƒ­", img);
         tabSpec3.setContent(R.id.tab3);
         tabHost.addTab(tabSpec3);
         
@@ -99,7 +99,7 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
 			
 		}
 		else if(v.getTag() == SECOND_BUTTON) {
-			Toast toast = Toast.makeText(this, "¤»¤»¤»¤»¤»¤»", 1000);
+			Toast toast = Toast.makeText(this, "ã…‹ã…‹ã…‹ã…‹ã…‹", 1000);
 			toast.show();
 		}
 		if(v.getTag() == "korea"){

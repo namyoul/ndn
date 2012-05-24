@@ -13,41 +13,41 @@
         <ImageButton
             android:id="@+id/imageButton1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:src="@drawable/ic_launcher" />
 
         <ImageButton
             android:id="@+id/imageButton2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
 	</TableRow>
 	<TableRow>
         <ImageButton
             android:id="@+id/imageButton3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:src="@drawable/ic_launcher"
              />
 
         <ImageButton
             android:id="@+id/imageButton4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
     </TableRow>
     <TableRow>    
         <ImageButton
             android:id="@+id/imageButton5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
 
         <ImageButton
             android:id="@+id/imageButton6"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
     </TableRow>
 </TableLayout>
