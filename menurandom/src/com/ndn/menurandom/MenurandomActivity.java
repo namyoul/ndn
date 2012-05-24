@@ -27,6 +27,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        System.out.println("jjjjjj");
+        
         final TabHost tabHost = getTabHost();
         
         final TabSpec tabSpec1 = tabHost.newTabSpec("Tab1").setIndicator("첫 번째 탭");        
