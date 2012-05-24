@@ -20,6 +20,7 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
 	private static Integer FIRST_BUTTON = 1;
 	private static Integer SECOND_BUTTON = 2;
 	private static Integer korea = 3;
+	ImageButton btn1_1_1 ;
 	
 	
 	@Override
@@ -45,15 +46,19 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
         tabHost.setCurrentTab(0);
         
         
-        ImageButton btn1_1 = (ImageButton)findViewById(R.id.First_ImgBtn1 );
+        ImageButton btn1_1 = (ImageButton)findViewById(R.id.ImgBtn1_1 );
         btn1_1.setTag(FIRST_BUTTON);
         btn1_1.setOnClickListener(this);
         
-        ImageButton btn1_2 = (ImageButton) findViewById(R.id.Secon_ImgBtn1);
+        ImageButton btn1_2 = (ImageButton) findViewById(R.id.ImgBtn1_2);
         btn1_2.setTag(SECOND_BUTTON);
         
-        ImageButton btn1_1_1 = (ImageButton) findViewById(R.id.imgBtn1_1_1);
-        btn1_1_1.setTag(korea);
+         btn1_1_1 = (ImageButton) findViewById(R.id.imgBtn1_1_1);
+        btn1_1_1.setOnClickListener(this);
+        
+       // btn1_1_1.setTag(korea);
+        //ImageButton btn1_1_1 = (ImageButton) findViewById(R.id.imgBtn1_1_1);
+        //btn1_1_1.setTag(korea);
         
 //        button.setOnClickListener(new View.OnClickListener() {
 			
@@ -80,6 +85,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		/*
+		Toast.makeText(getApplicationContext(), "안녕", Toast.LENGTH_SHORT).show();
 		if(v.getTag() == FIRST_BUTTON)
 		{
 			
@@ -105,20 +112,22 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
 			Toast toast = Toast.makeText(this, "ㅋㅋㅋㅋㅋ", 1000);
 			toast.show();
 		}
-		if(v.getTag() == "korea"){
+		if(v == btn1_1_1){ //btn1_1_1.setTag(korea);
+			
+			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 			
 			
 			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
 			layout1_1.setVisibility(View.GONE);
 			
+			LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+			View view1_1_1 = inflater1.inflate(R.layout.view1_1_1, frameLayout1);
+			//layout1_1 = (LinearLayout)findViewById(R.id.view1_1_1);
+			//layout1_1.setVisibility(View.VISIBLE);
 			
-			LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1_1 = inflater.inflate(R.layout.view1_1_1, frameLayout1);
-			
-//			layout1_1 = (LinearLayout)findViewById(R.id.view1_1_1);
-//			layout1_1.setVisibility(View.VISIBLE);
-			
+		
 		}
+		*/
 	}
 }

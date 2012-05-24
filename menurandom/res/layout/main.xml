@@ -38,14 +38,14 @@
                        >
 	                    
 	                    <ImageButton
-	                        android:id="@+id/First_ImgBtn1"
+	                        android:id="@+id/ImgBtn1_1"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="100dp"
 	                        android:layout_weight="0.30"
 	                        android:src="@drawable/ic_launcher" />
 	                    
 	                    <ImageButton
-	                        android:id="@+id/Secon_ImgBtn1"
+	                        android:id="@+id/ImgBtn1_2"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="100dp"
 	                        android:layout_weight="0.30"
