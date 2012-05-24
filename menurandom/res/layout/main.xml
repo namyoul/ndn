@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <FrameLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+
+                   <LinearLayout 
+                       android:layout_width="fill_parent"
+                       android:layout_height="fill_parent" 
+                       android:id="@+id/FirstView"
+                       >
+	                    
+	                    <ImageButton
+	                        android:id="@+id/First_ImgBtn1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="100dp"
+	                        android:layout_weight="0.30"
+	                        android:src="@drawable/ic_launcher" />
+	                    
+	                    <ImageButton
+	                        android:id="@+id/Secon_ImgBtn1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="100dp"
+	                        android:layout_weight="0.30"
+	                        android:src="@drawable/ic_launcher" />
+
+	                    
+						
+					</LinearLayout>
+						
+					<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					    android:layout_width="fill_parent"
+					    android:layout_height="fill_parent"
+					    android:orientation="vertical" 
+					    android:id="@+id/newView"
+				   		android:visibility="gone"
+				    >
+				
+					    <Button
+					        android:id="@+id/button1"
+					        android:layout_width="wrap_content"
+					        android:layout_height="wrap_content"
+					        android:text="Button" />
+					
+					</LinearLayout>
+                </FrameLayout>
+                    
+               
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+                </LinearLayout>
+                
+                 
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+</LinearLayout>
