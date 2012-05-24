@@ -78,7 +78,7 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
         
     }
 
-	@Override
+	
 	public void onClick(View v) {
 		if(v.getTag() == FIRST_BUTTON)
 		{
