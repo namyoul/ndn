@@ -28,6 +28,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener {
         setContentView(R.layout.main);
         
         System.out.println("jjjjjj");
+        System.out.println("jjjjjj");
+        System.out.println("jjjjjj");
         
         final TabHost tabHost = getTabHost();
         
