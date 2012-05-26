@@ -21,7 +21,7 @@ import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
 
 
-public class MenurandomActivity extends TabActivity implements OnClickListener, SensorEventListener {
+public class MenurandomActivity1 extends TabActivity implements OnClickListener, SensorEventListener {
     /** Called when the activity is first created. */
     
 	private static Integer FIRST_BUTTON = 1;
@@ -37,7 +37,7 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        MenurandomActivity.BACK_TEMP = 0;  
+        MenurandomActivity1.BACK_TEMP = 0;  
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -60,7 +60,7 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
         
         
         ImageButton btn1_1 = (ImageButton)findViewById(R.id.ImgBtn1_1 );
-        btn1_1.setTag(MenurandomActivity.FIRST_BUTTON);
+        btn1_1.setTag(MenurandomActivity1.FIRST_BUTTON);
         btn1_1.setOnClickListener(this);
         
         ImageButton btn1_2 = (ImageButton) findViewById(R.id.ImgBtn1_2);
@@ -107,15 +107,15 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 	
 	public void onBackPressed(){  
 		//Toast.makeText(getApplicationContext(), "ㅁㄴ파ㅣㄴㅁㅇ퍼ㅏㅇ님ㅍ", Toast.LENGTH_LONG).show();
-		if(MenurandomActivity.BACK_TEMP== 0){
+		if(MenurandomActivity1.BACK_TEMP== 0){
 			super.finish(); 
 		}else{		
 			FrameLayout back_frameLayout = (FrameLayout)findViewById(R.id.tab1);
 			
-			LinearLayout layout_Back = (LinearLayout) findViewById(MenurandomActivity.BACK_TEMP);
+			LinearLayout layout_Back = (LinearLayout) findViewById(MenurandomActivity1.BACK_TEMP);
 			layout_Back.setVisibility(View.GONE);
 		
-			layout_Back = (LinearLayout)findViewById(MenurandomActivity.BACK_VIEW_TEMP);
+			layout_Back = (LinearLayout)findViewById(MenurandomActivity1.BACK_VIEW_TEMP);
 			layout_Back.setVisibility(View.VISIBLE);
 		}
 		
@@ -134,8 +134,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 		//Toast.makeText(getApplicationContext(), "안녕", Toast.LENGTH_SHORT).show();
 		if(v.getTag() == FIRST_BUTTON)
 		{
-	        MenurandomActivity.BACK_TEMP = R.id.view1_1;
-			MenurandomActivity.BACK_VIEW_TEMP = R.id.FirstView;
+	        MenurandomActivity1.BACK_TEMP = R.id.view1_1;
+			MenurandomActivity1.BACK_VIEW_TEMP = R.id.FirstView;
 			
 			FrameLayout frameLayout = (FrameLayout)findViewById(R.id.tab1);
 			
@@ -186,8 +186,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 		}
 		
 		if(v.getTag()==KOREA){ //btn1_1_1.setTag(korea);
-			MenurandomActivity.BACK_TEMP = R.id.view1_1_1;
-			MenurandomActivity.BACK_VIEW_TEMP = R.id.view1_1;
+			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
@@ -204,8 +204,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 		}
 		
 		if(v.getTag()==CHINA){ //btn1_1_1.setTag(korea);
-			MenurandomActivity.BACK_TEMP = R.id.view1_1_1;
-			MenurandomActivity.BACK_VIEW_TEMP = R.id.view1_1;
+			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
@@ -220,8 +220,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 
 		}
 		if(v.getTag()==JAPAN){ //btn1_1_1.setTag(korea);
-			MenurandomActivity.BACK_TEMP = R.id.view1_1_1;
-			MenurandomActivity.BACK_VIEW_TEMP = R.id.view1_1;
+			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
 			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
@@ -236,8 +236,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 		}
 		
 		if(v.getTag()==AMERICA){ //btn1_1_1.setTag(korea);
-			MenurandomActivity.BACK_TEMP = R.id.view1_1_1;
-			MenurandomActivity.BACK_VIEW_TEMP = R.id.view1_1;
+			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
@@ -252,8 +252,8 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 
 		}
 		if(v.getTag()==OTHER){ //btn1_1_1.setTag(korea);
-			MenurandomActivity.BACK_TEMP = R.id.view1_1_1;
-			MenurandomActivity.BACK_VIEW_TEMP = R.id.view1_1;
+			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
