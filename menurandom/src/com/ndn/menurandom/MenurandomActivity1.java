@@ -39,7 +39,6 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
     public void onCreate(Bundle savedInstanceState) {
         MenurandomActivity1.BACK_TEMP = 0;  
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         
         final TabHost tabHost = getTabHost();
         

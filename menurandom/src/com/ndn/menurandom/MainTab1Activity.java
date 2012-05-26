@@ -1,6 +1,5 @@
 package com.ndn.menurandom;
 
-import android.app.Activity;
 import android.app.TabActivity;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -27,12 +26,28 @@ public class MainTab1Activity extends TabActivity implements OnClickListener, Se
 	public static int BACK_TEMP;
 	public static int BACK_VIEW_TEMP;
 	
-	@Override
     public void onCreate(Bundle savedInstanceState) {
+        MenurandomActivity1.BACK_TEMP = 0;  
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-	}
+        
+        final TabHost tabHost = getTabHost();
+        
+        final TabSpec tabSpec1 = tabHost.newTabSpec("Tab1").setIndicator("첫 번째 탭");        
+        tabSpec1.setContent(R.id.tab1);
+        tabHost.addTab(tabSpec1);
+        
+        TabSpec tabSpec2 = tabHost.newTabSpec("Tab2").setIndicator("두 번째 탭");
+        tabSpec2.setContent(R.id.tab2);
+        tabHost.addTab(tabSpec2);
+        
+        Drawable img = getResources().getDrawable(R.drawable.star);
+        TabSpec tabSpec3 = tabHost.newTabSpec("Tab3").setIndicator("세 번째 탭", img);
+        tabSpec3.setContent(R.id.tab3);
+        tabHost.addTab(tabSpec3);
+        
+        tabHost.setCurrentTab(0);
+    }
 
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub
