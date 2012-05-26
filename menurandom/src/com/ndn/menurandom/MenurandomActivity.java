@@ -129,7 +129,6 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 
 
 	
-	@Override
 	public void onClick(View v) {
 		
 		//Toast.makeText(getApplicationContext(), "안녕", Toast.LENGTH_SHORT).show();
@@ -275,13 +274,11 @@ public class MenurandomActivity extends TabActivity implements OnClickListener, 
 		
 	}
 
-	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		
 		
 	}
 
-	@Override
 	public void onSensorChanged(SensorEvent event) {
 		Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));
 		float a = event.values[0];
