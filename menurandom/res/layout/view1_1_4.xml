@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/view1_1_1" >
+    android:id="@+id/view1_1_4" >
 
 <TableLayout
     android:layout_width="fill_parent"
@@ -11,46 +11,46 @@
     android:stretchColumns="*">
     <TableRow>
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_1"
+            android:id="@+id/imgBtn1_1_4_1"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:layout_weight="1"
             android:src="@drawable/ic_launcher" />
 
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_2"
+            android:id="@+id/imgBtn1_1_4_2"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
 	</TableRow>
 	<TableRow>
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_3"
+            android:id="@+id/imgBtn1_1_4_3"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:src="@drawable/ic_launcher"
              />
 
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_4"
+            android:id="@+id/imgBtn1_1_4_4"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
     </TableRow>
     <TableRow>    
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_5"
+            android:id="@+id/imgBtn1_1_4_5"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
 
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_6"
+            android:id="@+id/imgBtn1_1_4_6"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
         <ImageButton
-            android:id="@+id/imgBtn1_1_1_7"
+            android:id="@+id/imgBtn1_1_4_7"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:src="@drawable/ic_launcher" />
