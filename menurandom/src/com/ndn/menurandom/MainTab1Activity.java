@@ -1,18 +1,19 @@
 package com.ndn.menurandom;
 
 import android.app.TabActivity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-public class MainTab1Activity extends TabActivity implements OnClickListener, SensorEventListener {
+public class MainTab1Activity extends TabActivity implements OnClickListener, SensorEventListener, TabHost.OnTabChangeListener {
     /** Called when the activity is first created. */
     
 	private static Integer FIRST_BUTTON = 1;
@@ -27,7 +28,7 @@ public class MainTab1Activity extends TabActivity implements OnClickListener, Se
 	public static int BACK_VIEW_TEMP;
 	
     public void onCreate(Bundle savedInstanceState) {
-        MenurandomActivity1.BACK_TEMP = 0;  
+        MenurandomActivity1.BACK_TEMP = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -47,6 +48,7 @@ public class MainTab1Activity extends TabActivity implements OnClickListener, Se
         tabHost.addTab(tabSpec3);
         
         tabHost.setCurrentTab(0);
+        tabHost.setOnTabChangedListener(this);
     }
 
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -63,5 +65,15 @@ public class MainTab1Activity extends TabActivity implements OnClickListener, Se
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void onTabChanged(String tabId) {
+		if (tabId == "Tab1") {
+			// Tab 1
+		}else if(tabId == "Tab2"){
+			// Tab 2
+		}else if(tabId == "Tab3"){
+			Intent intent = new Intent(this, MainTab3Activity.class);
+			startActivity(intent);
+		}
+	}
 }
