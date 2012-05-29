@@ -75,7 +75,7 @@ public class MainTab3Activity extends NMapActivity {
 	private NMapLocationManager mMapLocationManager;
 	private NMapCompassManager mMapCompassManager;
 
-	private SearchMapResourcProvider mMapViewerResourceProvider;
+	private SearchMapResourceProvider mMapViewerResourceProvider;
 
 	private NMapPOIdataOverlay mFloatingPOIdataOverlay;
 	private NMapPOIitem mFloatingPOIitem;
@@ -202,7 +202,7 @@ public class MainTab3Activity extends NMapActivity {
 		mMapView.setBuiltInZoomControls(true, lp);
 
 		// create resource provider
-		mMapViewerResourceProvider = new SearchMapResourcProvider(this);
+		mMapViewerResourceProvider = new SearchMapResourceProvider(this);
 
 		// set data provider listener
 		super.setMapDataProviderListener(onDataProviderListener);
