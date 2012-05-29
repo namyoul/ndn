@@ -43,11 +43,11 @@ import com.nhn.android.mapviewer.overlay.NMapPathDataOverlay;
 //public class MainTab3Activity extends NMapActivity {
 public class MainTab3Activity extends NMapActivity {
 	private static final String LOG_TAG = "NHK";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	// set your API key which is registered for MainTab3Activity library.
 	private static final String API_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
-	private static String STR_RESTAURANT = "떡볶이 맛있다";
+	private static String STR_RESTAURANT = "갈비탕";
 
 	private MapContainerView mMapContainerView;
 
@@ -96,21 +96,92 @@ public class MainTab3Activity extends NMapActivity {
 
 		// create parent view to rotate map view
 		mMapContainerView = new MapContainerView(this);
-		mMapContainerView.addView(mMapView);
 		
-		EditText edit = new EditText(this);
-		edit.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		edit.setText("Hello World");
-		mMapContainerView.addView(edit);
+		// init view
+		initMapContainerView(mMapContainerView);
 		
-		Button button = new Button(this);
-		button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		button.setText("TEST");
-		mMapContainerView.addView(button);
-
+		// init NMap 
+		initNMap();
+		
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
+		
+		// Display Restaurant
+		displayResturantOverlay();
+	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.e(LOG_TAG, "onStart!");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e(LOG_TAG, "onResume!");
+	}
+
+	@Override
+	protected void onStop() {
+		Log.e(LOG_TAG, "onStop!");
+		stopMyLocation();
+
+		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.e(LOG_TAG, "onDestro");
+		// save map view state such as map center position and zoom level.
+		saveInstanceState();
+		
+		Log.e(LOG_TAG, "----------y!");
+		super.onDestroy();
+	}
+	
+	// Overlay Item (Restaurant) display
+	private void displayResturantOverlay() {
+		// Markers for POI item
+		int markerId = SearchMapPOIflagType.PIN;
+
+		// set POI data
+		NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
+		poiData.beginPOIdata(2);
+		poiData.addPOIitem(127.0630205, 37.5091300, "갈비탕 777-111", markerId, 0);
+		poiData.addPOIitem(127.061, 37.51, "갈비탕 123-456", markerId, 0);
+		poiData.endPOIdata();
+
+		// create POI data overlay
+		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+
+		// set event listener to the overlay
+		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+
+		// select an item
+		poiDataOverlay.selectPOIitem(0, true);
+
+		// show all POI data
+		poiDataOverlay.showAllPOIdata(0);
+	}
+	
+	// Initialize MapContainerView
+	private void initMapContainerView(MapContainerView view){
+		view.addView(mMapView);
+		
+//		EditText edit = new EditText(this);
+//		edit.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//		edit.setText("Hello World");
+//		view.addView(edit);
+		
+//		Button button = new Button(this);
+//		button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//		button.setText("TEST");
+//		view.addView(button);
+	}
+	
+	// initialize NMap view & listener & controller & etc.
+	private void initNMap(){
 		// initialize map view
 		mMapView.setClickable(true);
 		mMapView.setEnabled(true);
@@ -150,36 +221,6 @@ public class MainTab3Activity extends NMapActivity {
 
 		// create my location overlay
 		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.e(LOG_TAG, "onStart!");
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		Log.e(LOG_TAG, "onResume!");
-	}
-
-	@Override
-	protected void onStop() {
-		Log.e(LOG_TAG, "onStop!");
-		stopMyLocation();
-
-		super.onStop();
-	}
-
-	@Override
-	protected void onDestroy() {
-		Log.e(LOG_TAG, "onDestro");
-		// save map view state such as map center position and zoom level.
-		saveInstanceState();
-		
-		Log.e(LOG_TAG, "----------y!");
-		super.onDestroy();
 	}
 
 	/* Test Functions */
@@ -260,7 +301,6 @@ public class MainTab3Activity extends NMapActivity {
 	}
 
 	private void testPathPOIdataOverlay() {
-
 		// set POI data
 		NMapPOIdata poiData = new NMapPOIdata(4, mMapViewerResourceProvider, true);
 		poiData.beginPOIdata(4);
@@ -275,32 +315,6 @@ public class MainTab3Activity extends NMapActivity {
 
 		// set event listener to the overlay
 		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-	}
-
-	private void testPOIdataOverlay() {
-
-		// Markers for POI item
-		int markerId = SearchMapPOIflagType.PIN;
-
-		// set POI data
-		NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-		poiData.beginPOIdata(2);
-		poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
-		poiData.addPOIitem(127.061, 37.51, "Pizza 123-456", markerId, 0);
-		poiData.endPOIdata();
-
-		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-
-		// set event listener to the overlay
-		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-		// select an item
-		poiDataOverlay.selectPOIitem(0, true);
-
-		// show all POI data
-		//poiDataOverlay.showAllPOIdata(0);
 	}
 
 	private void testFloatingPOIdataOverlay() {
@@ -489,9 +503,11 @@ public class MainTab3Activity extends NMapActivity {
 		public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
 			if (DEBUG) {
 				if (item != null) {
-					Log.i(LOG_TAG, "onFocusChanged: " + item.toString());
+					// item selected
+//					Log.e(LOG_TAG, "onFocusChanged: " + item.toString());
 				} else {
-					Log.i(LOG_TAG, "onFocusChanged: ");
+					// no item selected
+//					Log.e(LOG_TAG, "onFocusChanged: ");
 				}
 			}
 		}
@@ -613,7 +629,6 @@ public class MainTab3Activity extends NMapActivity {
 	private static final int MENU_ITEM_MY_LOCATION = 40;
 
 	private static final int MENU_ITEM_TEST_MODE = 50;
-	private static final int MENU_ITEM_TEST_POI_DATA = MENU_ITEM_TEST_MODE + 1;
 	private static final int MENU_ITEM_TEST_PATH_DATA = MENU_ITEM_TEST_MODE + 2;
 	private static final int MENU_ITEM_TEST_FLOATING_DATA = MENU_ITEM_TEST_MODE + 3;
 	private static final int MENU_ITEM_TEST_AUTO_ROTATE = MENU_ITEM_TEST_MODE + 4;
@@ -675,9 +690,6 @@ public class MainTab3Activity extends NMapActivity {
 
 		subMenu = menu.addSubMenu(Menu.NONE, MENU_ITEM_TEST_MODE, Menu.CATEGORY_SECONDARY, "Test mode");
 		subMenu.setIcon(android.R.drawable.ic_menu_more);
-
-		menuItem = subMenu.add(0, MENU_ITEM_TEST_POI_DATA, Menu.NONE, "Test POI data");
-		menuItem.setAlphabeticShortcut('p');
 
 		menuItem = subMenu.add(0, MENU_ITEM_TEST_PATH_DATA, Menu.NONE, "Test Path data");
 		menuItem.setAlphabeticShortcut('t');
@@ -768,13 +780,6 @@ public class MainTab3Activity extends NMapActivity {
 
 			case MENU_ITEM_MY_LOCATION:
 				startMyLocation();
-				return true;
-
-			case MENU_ITEM_TEST_POI_DATA:
-				mOverlayManager.clearOverlays();
-
-				// add POI data overlay
-				testPOIdataOverlay();
 				return true;
 
 			case MENU_ITEM_TEST_PATH_DATA:
@@ -880,7 +885,7 @@ public class MainTab3Activity extends NMapActivity {
 				final int childTop = (height - childHeight) / 2;
 				
 				if (i==0){
-					view.layout(childLeft+20, childTop+20, childLeft + childWidth - 20, childTop + childHeight/2);					
+					view.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight*3/4);					
 				} else if (i==1) {
 					view.layout(childLeft+20, childTop + childHeight/2 + 20, childLeft + childWidth - 20, childTop + childHeight*3/4 - 20);
 				} else if (i==2) {
@@ -892,7 +897,7 @@ public class MainTab3Activity extends NMapActivity {
 //				final int childHeight = view.getMeasuredHeight();
 //				final int childLeft = (width - childWidth) / 2;
 //				final int childTop = (height - childHeight) / 2;
-////				view.layout(childLeft+20, childTop+20, childLeft + childWidth-20, childTop + childHeight-20);
+//				view.layout(childLeft+20, childTop+20, childLeft + childWidth-20, childTop + childHeight-20);
 //				view.layout(childLeft+20, childTop+20, childLeft + 80, childTop + 80);
 //			}
 
