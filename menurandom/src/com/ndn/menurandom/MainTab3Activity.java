@@ -47,7 +47,7 @@ public class MainTab3Activity extends NMapActivity {
 
 	// set your API key which is registered for MainTab3Activity library.
 	private static final String API_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
-	private static String STR_RESTAURANT = "갈비탕";
+	private static String STR_RESTAURANT = "떡볶이 맛있다";
 
 	private MapContainerView mMapContainerView;
 
