@@ -32,8 +32,22 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 	private static Integer AMERICA = 6;
 	private static Integer OTHER = 7;
 	public static Integer BACK_BUTTON_CNT = 0;
+	
+	
 	public static int BACK_TEMP;
 	public static int BACK_VIEW_TEMP;
+	
+	
+	private String currentState = STATE_FIRST_1;
+	
+	private static String STATE_FIRST = "0";
+	private static String STATE_FIRST_1 = "0_1";
+	private static String STATE_SECOND = "1";
+	private static String STATE_THIRD = "2";
+	private static String STATE_FORTH = "3";
+	 
+	
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +119,21 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
     }
 	
 	public void onBackPressed(){  
-		//Toast.makeText(getApplicationContext(), "ㅁㄴ파ㅣㄴㅁㅇ퍼ㅏㅇ님ㅍ", Toast.LENGTH_LONG).show();
+		if(currentState == STATE_FIRST)
+		{
+			// 처리 없음
+		}
+		else if(currentState == STATE_SECOND)
+		{
+			// 첫번째 화면으로 변경
+		}
+		
+		
+		
+		
+		
+		
+		/*(//Toast.makeText(getApplicationContext(), "ㅁㄴ파ㅣㄴㅁㅇ퍼ㅏㅇ님ㅍ", Toast.LENGTH_LONG).show();
 		if(MenurandomActivity1.BACK_TEMP== 0){
 			super.finish(); 
 		}else{		
@@ -120,7 +148,7 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 		
 //		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 //		View back_view1_1 = inflater.inflate(MenurandomActivity.BACK_VIEW_TEMP, back_frameLayout);
-		
+		*/
 		
 
 	} 
@@ -134,12 +162,12 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 		if(v.getTag() == FIRST_BUTTON)
 		{
 	        MenurandomActivity1.BACK_TEMP = R.id.view1_1;
-			MenurandomActivity1.BACK_VIEW_TEMP = R.id.FirstView;
+		//	MenurandomActivity1.BACK_VIEW_TEMP = R.id.FirstView;
 			
 			FrameLayout frameLayout = (FrameLayout)findViewById(R.id.tab1);
 			
-			LinearLayout layout = (LinearLayout)findViewById(R.id.FirstView);
-			layout.setVisibility(View.GONE);
+		//	LinearLayout layout = (LinearLayout)findViewById(R.id.FirstView);
+		//	layout.setVisibility(View.GONE);
 			
 			LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 			View view1_1 = inflater.inflate(R.layout.view1_1, frameLayout);
@@ -185,7 +213,7 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 		}
 		
 		if(v.getTag()==KOREA){ //btn1_1_1.setTag(korea);
-			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			//MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
 			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
@@ -203,7 +231,7 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 		}
 		
 		if(v.getTag()==CHINA){ //btn1_1_1.setTag(korea);
-			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			//MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
 			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
@@ -219,7 +247,7 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 
 		}
 		if(v.getTag()==JAPAN){ //btn1_1_1.setTag(korea);
-			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			//MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
 			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
@@ -235,7 +263,7 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 		}
 		
 		if(v.getTag()==AMERICA){ //btn1_1_1.setTag(korea);
-			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			//MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
 			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
@@ -251,7 +279,7 @@ public class MenurandomActivity1 extends TabActivity implements OnClickListener,
 
 		}
 		if(v.getTag()==OTHER){ //btn1_1_1.setTag(korea);
-			MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
+			//MenurandomActivity1.BACK_TEMP = R.id.view1_1_1;
 			MenurandomActivity1.BACK_VIEW_TEMP = R.id.view1_1;
 			
 			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
