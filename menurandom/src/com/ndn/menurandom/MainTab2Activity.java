@@ -3,13 +3,13 @@ package com.ndn.menurandom;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class MainTab2Activity extends Activity {
+public class MainTab2Activity extends TopTabActivity {
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tab_2);
-		
+	public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       
+        setSelectTab(1);
 	}
 
 }
