@@ -1,7 +1,6 @@
 package com.ndn.menurandom;
 
 import java.util.ArrayList;
-
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+
+
 
 
 public class MainTab1Activity extends TopTabActivity implements OnClickListener, SensorEventListener {
@@ -50,8 +52,9 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static ArrayList<String> Array1_1_5;
 	
     public void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
-        
         
         setSelectTab(0);
         
@@ -61,10 +64,13 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
         btn1_1.setTag(FIRST_BUTTON);
         btn1_1.setOnClickListener(this);
         
+
         ImageButton btn1_2 = (ImageButton) findViewById(R.id.ImgBtn1_2);
         btn1_2.setTag(SECOND_BUTTON);
         btn1_2.setOnClickListener(this);
         
+
+
     }
     
     
@@ -326,5 +332,6 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 		
 	}
+	
 
 }
