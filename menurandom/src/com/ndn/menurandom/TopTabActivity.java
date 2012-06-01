@@ -4,7 +4,6 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.Toast;
@@ -66,4 +65,3 @@ public class TopTabActivity extends TabActivity implements OnTabChangeListener {
 		}	
 	}
 }
-
