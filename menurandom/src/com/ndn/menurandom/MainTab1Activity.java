@@ -1,7 +1,6 @@
 package com.ndn.menurandom;
 
 import java.util.ArrayList;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,13 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,14 +34,12 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static String STATE_SECOND = "1";
 	private static String STATE_THIRD = "2";
 	private static String STATE_FORTH = "3";
-
-	private View temp_First_view;
-	private View temp_View1_1;
 	
 	private int backPressedCount = 0;
 	private long backPressedStartTime = 0;
 	private int doublePressedTimeThresHold = 300;
 	
+	private static ArrayList<String> Array1_2;
 	private static ArrayList<String> Array1_1_1;
 	private static ArrayList<String> Array1_1_2;
 	private static ArrayList<String> Array1_1_3;
@@ -53,14 +48,14 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	private View view1;
 	private View view1_1;
+	private View view1_2;
 	private View view1_1_1;
 	private View view1_1_2;
 	private View view1_1_3;
 	private View view1_1_4;
 	private View view1_1_5;
 	
-	private ArrayList<View> viewList = new ArrayList<View>();
-	
+		
     public void onCreate(Bundle savedInstanceState) {
 
 
@@ -77,6 +72,10 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
         view1_1 = createView1_1();
 		frameLayout.addView(view1_1);
 		view1_1.setVisibility(View.GONE);
+		
+		view1_2 = createView1_2();
+		frameLayout.addView(view1_2);
+		view1_2.setVisibility(View.GONE);
 		
 		view1_1_1 = createView1_1_1();
 		frameLayout.addView(view1_1_1);
@@ -145,6 +144,16 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		btn1_1_5.setTag(OTHER);
         btn1_1_5.setOnClickListener(this);
         
+        return returnVal;
+    }
+
+    private View createView1_2()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_2, null);    
+           
         return returnVal;
     }
     
@@ -285,6 +294,23 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	    }
 		else if(v.getTag()==SECOND_BUTTON){
 			
+			currentState = STATE_SECOND;			
+			
+	        setViewAsVisible(view1_2);
+			
+			Array1_2 = new ArrayList<String>();
+			Array1_2.add(0, "술마셔 베이베");
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_2);
+			
+			ListView listview = (ListView) view1_2.findViewById(R.id.list1_2);
+			listview.setAdapter(adapter);
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				}
+			});
 			
 			
 		}
