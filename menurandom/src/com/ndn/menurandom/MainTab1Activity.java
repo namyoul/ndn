@@ -54,7 +54,10 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private View view1;
 	private View view1_1;
 	private View view1_1_1;
-	
+	private View view1_1_2;
+	private View view1_1_3;
+	private View view1_1_4;
+	private View view1_1_5;
 	
 	private ArrayList<View> viewList = new ArrayList<View>();
 	
@@ -79,6 +82,21 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		frameLayout.addView(view1_1_1);
 		view1_1_1.setVisibility(View.GONE);
 		
+		view1_1_2 = createView1_1_2();
+		frameLayout.addView(view1_1_2);
+		view1_1_2.setVisibility(View.GONE);
+		
+		view1_1_3 = createView1_1_2();
+		frameLayout.addView(view1_1_3);
+		view1_1_3.setVisibility(View.GONE);
+		
+		view1_1_4 = createView1_1_2();
+		frameLayout.addView(view1_1_4);
+		view1_1_4.setVisibility(View.GONE);
+		
+		view1_1_5 = createView1_1_5();
+		frameLayout.addView(view1_1_5);
+		view1_1_5.setVisibility(View.GONE);
     }
     
     
@@ -136,6 +154,46 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
     	
     	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		returnVal = inflater.inflate(R.layout.view1_1_1, null);        
+           
+        return returnVal;
+    }
+    
+    private View createView1_1_2()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_1_2, null);        
+           
+        return returnVal;
+    }
+
+    private View createView1_1_3()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_1_3, null);        
+           
+        return returnVal;
+    }
+    
+    private View createView1_1_4()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_1_4, null);        
+           
+        return returnVal;
+    }
+    
+    private View createView1_1_5()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_1_5, null);        
            
         return returnVal;
     }
@@ -212,7 +270,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		{
 			// 첫번째 화면으로 변경
 			currentState = STATE_SECOND;
-	        
+			setViewAsVisible(view1_1);
 		}
 	}
 
