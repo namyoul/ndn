@@ -86,11 +86,11 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		frameLayout.addView(view1_1_2);
 		view1_1_2.setVisibility(View.GONE);
 		
-		view1_1_3 = createView1_1_2();
+		view1_1_3 = createView1_1_3();
 		frameLayout.addView(view1_1_3);
 		view1_1_3.setVisibility(View.GONE);
 		
-		view1_1_4 = createView1_1_2();
+		view1_1_4 = createView1_1_4();
 		frameLayout.addView(view1_1_4);
 		view1_1_4.setVisibility(View.GONE);
 		
@@ -141,7 +141,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		btn1_1_4.setTag(AMERICA);
         btn1_1_4.setOnClickListener(this);
         
-        ImageButton btn1_1_5 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_4);
+        ImageButton btn1_1_5 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_5);
 		btn1_1_5.setTag(OTHER);
         btn1_1_5.setOnClickListener(this);
         
@@ -310,61 +310,93 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		}
 		
 		if(v.getTag()==CHINA){ //btn1_1_1.setTag(korea);
-
+			currentState = STATE_THIRD;
 			
-			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
-
-			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
-			layout1_1.setVisibility(View.INVISIBLE);
+			setViewAsVisible(view1_1_2);
 			
-			LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1_2 = inflater1.inflate(R.layout.view1_1_2, frameLayout1);
-			//layout1_1 = (LinearLayout)findViewById(R.id.view1_1_1);
-			//layout1_1.setVisibility(View.VISIBLE);
+	        
+			Array1_1_2 = new ArrayList<String>();
+			Array1_1_2.add(0, "탕수육");
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_2);
+			
+			ListView listview = (ListView) view1_1_2.findViewById(R.id.list1_1_2);
+			listview.setAdapter(adapter);
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				}
+			});
 			
 			
 		}
 		if(v.getTag()==JAPAN){ //btn1_1_1.setTag(korea);
 
-			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
-
-			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
-			layout1_1.setVisibility(View.INVISIBLE);
+			currentState = STATE_THIRD;
 			
-			LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1_3 = inflater1.inflate(R.layout.view1_1_3, frameLayout1);
-			//layout1_1 = (LinearLayout)findViewById(R.id.view1_1_1);
-			//layout1_1.setVisibility(View.VISIBLE);
+			setViewAsVisible(view1_1_3);
 			
+	        
+			Array1_1_3 = new ArrayList<String>();
+			Array1_1_3.add(0, "오니기리");
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_3);
+			
+			ListView listview = (ListView) view1_1_3.findViewById(R.id.list1_1_3);
+			listview.setAdapter(adapter);
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				}
+			});
+			
 		}
 		
 		if(v.getTag()==AMERICA){ //btn1_1_1.setTag(korea);
 
 			
-			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
-
-			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
-			layout1_1.setVisibility(View.INVISIBLE);
+			currentState = STATE_THIRD;
 			
-			LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1_4 = inflater1.inflate(R.layout.view1_1_4, frameLayout1);
-			//layout1_1 = (LinearLayout)findViewById(R.id.view1_1_1);
-			//layout1_1.setVisibility(View.VISIBLE);
+			setViewAsVisible(view1_1_4);
 			
+	        
+			Array1_1_4 = new ArrayList<String>();
+			Array1_1_4.add(0, "샐러드");
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_4);
+			
+			ListView listview = (ListView) view1_1_4.findViewById(R.id.list1_1_4);
+			listview.setAdapter(adapter);
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				}
+			});
+			
 		}
 		if(v.getTag()==OTHER){ //btn1_1_1.setTag(korea);
-			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
-			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
-			layout1_1.setVisibility(View.INVISIBLE);
+			currentState = STATE_THIRD;
 			
-			LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1_5 = inflater1.inflate(R.layout.view1_1_5, frameLayout1);
-			//layout1_1 = (LinearLayout)findViewById(R.id.view1_1_1);
-			//layout1_1.setVisibility(View.VISIBLE);
+			setViewAsVisible(view1_1_5);
 			
+	        
+			Array1_1_5 = new ArrayList<String>();
+			Array1_1_5.add(0, "김밥천국");
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_5);
+			
+			ListView listview = (ListView) view1_1_5.findViewById(R.id.list1_1_5);
+			listview.setAdapter(adapter);
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				}
+			});
 			
 
 		}
