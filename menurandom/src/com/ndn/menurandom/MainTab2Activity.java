@@ -9,7 +9,7 @@ public class MainTab2Activity extends TopTabActivity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        
-        setSelectTab(1);
+        
 	}
 
 }

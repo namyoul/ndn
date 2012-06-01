@@ -24,30 +24,8 @@
 	        <FrameLayout
 	            android:id="@+id/tab1"
 	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent" >
-		
-	            <LinearLayout 
-	            	android:id="@+id/FirstView"
-	            	android:layout_width="fill_parent"
-	            	android:layout_height="fill_parent" >
-	                >
-	                
-	
-			            <ImageButton
-			                android:id="@+id/ImgBtn1_1"
-			                android:layout_width="wrap_content"
-			                android:layout_height="100dp"
-			                android:layout_weight="0.30"
-			                android:src="@drawable/ic_launcher" />
-			
-			            <ImageButton
-			                android:id="@+id/ImgBtn1_2"
-			                android:layout_width="wrap_content"
-			                android:layout_height="100dp"
-			                android:layout_weight="0.30"
-			                android:src="@drawable/ic_launcher" />
-	
-	            </LinearLayout>
+       android:layout_height="fill_parent" >
+	            
 		  	</FrameLayout>      
             <LinearLayout
                 android:id="@+id/tab2"

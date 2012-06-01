@@ -9,16 +9,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-
-
-
 
 
 public class MainTab1Activity extends TopTabActivity implements OnClickListener, SensorEventListener {
@@ -50,29 +50,125 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static ArrayList<String> Array1_1_3;
 	private static ArrayList<String> Array1_1_4;
 	private static ArrayList<String> Array1_1_5;
+
+	private View view1;
+	private View view1_1;
+	private View view1_1_1;
+	
+	
+	private ArrayList<View> viewList = new ArrayList<View>();
 	
     public void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
         
-        setSelectTab(0);
+        //setSelectTab(0);
         
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
+		
+        view1 = createView1();
+        frameLayout.addView(view1);
+		
+        //viewList.add(view1);
+        view1_1 = createView1_1();
+		frameLayout.addView(view1_1);
+		view1_1.setVisibility(View.GONE);
+		
+		view1_1_1 = createView1_1_1();
+		frameLayout.addView(view1_1_1);
+		view1_1_1.setVisibility(View.GONE);
+		
+    }
+    
+    
+    private View createView1()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.tab_1, null);        
         
-         
-        ImageButton btn1_1 = (ImageButton)findViewById(R.id.ImgBtn1_1 );
+		ImageButton btn1_1 = (ImageButton)returnVal.findViewById(R.id.ImgBtn1_1 );
         btn1_1.setTag(FIRST_BUTTON);
         btn1_1.setOnClickListener(this);
         
-
-        ImageButton btn1_2 = (ImageButton) findViewById(R.id.ImgBtn1_2);
+        ImageButton btn1_2 = (ImageButton)returnVal.findViewById(R.id.ImgBtn1_2);
         btn1_2.setTag(SECOND_BUTTON);
         btn1_2.setOnClickListener(this);
-        
 
-
+        return returnVal;
     }
     
+    private View createView1_1()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_1, null);        
+        
+		ImageButton btn1_1_1 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_1);
+		btn1_1_1.setTag(KOREA);
+        btn1_1_1.setOnClickListener(this);
+        
+        ImageButton btn1_1_2 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_2);
+		btn1_1_2.setTag(CHINA);
+        btn1_1_2.setOnClickListener(this);
+        
+        ImageButton btn1_1_3 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_3);
+		btn1_1_3.setTag(JAPAN);
+        btn1_1_3.setOnClickListener(this);
+		
+        ImageButton btn1_1_4 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_4);
+		btn1_1_4.setTag(AMERICA);
+        btn1_1_4.setOnClickListener(this);
+        
+        ImageButton btn1_1_5 = (ImageButton) returnVal.findViewById(R.id.imgBtn1_1_4);
+		btn1_1_5.setTag(OTHER);
+        btn1_1_5.setOnClickListener(this);
+        
+        return returnVal;
+    }
+    
+    private View createView1_1_1()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view1_1_1, null);        
+           
+        return returnVal;
+    }
+    
+    
+    private void setViewAsVisible(View view)
+    {
+    	FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
+		for(int i =0; i < frameLayout.getChildCount(); i++)
+		{
+			View v = frameLayout.getChildAt(i);
+			if(v == view)
+    		{
+    			v.setVisibility(View.VISIBLE);
+    		}
+    		else
+    		{
+    			v.setVisibility(View.GONE);
+    		}
+		}
+    	
+    	/*for(View v : viewList)
+    	{
+    		if(v == view)
+    		{
+    			v.setVisibility(View.VISIBLE);
+    		}
+    		else
+    		{
+    			v.setVisibility(View.GONE);
+    		}
+    	}*/
+    }
     
 	
 	public void onBackPressed(){
@@ -105,75 +201,17 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 				backPressedStartTime = currentTime;
 			}
 		}
-		
-
 		else if(currentState == STATE_SECOND)
 		{
 			// 첫번째 화면으로 변경
 			currentState = STATE_FIRST;
-			FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);
 			
-			LinearLayout layout = (LinearLayout)findViewById(R.id.view1_1);
-			layout.setVisibility(View.INVISIBLE);
-			
-			
-			//LinearLayout layout1 = (LinearLayout)findViewById(R.id.FirstView);
-			//layout.setVisibility(View.VISIBLE);
-			//LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			//View fView = inflater.inflate(R.layout.main, frameLayout);
-			//View fView = inflater.inflate(R.id.FirstView, frameLayout);
-			View fView = temp_First_view;
-			fView.setVisibility(View.VISIBLE);
-			
-	        ImageButton btn1_1 = (ImageButton) fView.findViewById(R.id.ImgBtn1_1 );
-	        btn1_1.setTag(FIRST_BUTTON);
-	        btn1_1.setOnClickListener(this);
-	        
-	        ImageButton btn1_2 = (ImageButton) fView.findViewById(R.id.ImgBtn1_2);
-	        btn1_2.setTag(SECOND_BUTTON);
-	        btn1_2.setOnClickListener(this);
-	        
+			setViewAsVisible(view1);
 		}
 		else if(currentState == STATE_THIRD)
 		{
 			// 첫번째 화면으로 변경
 			currentState = STATE_SECOND;
-			FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);
-			
-			LinearLayout layout = (LinearLayout)findViewById(R.id.view1_1_1);
-			layout.setVisibility(View.INVISIBLE);
-			
-			
-			//LinearLayout layout1 = (LinearLayout)findViewById(R.id.FirstView);
-			//layout.setVisibility(View.VISIBLE);
-			//LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			//View fView = inflater.inflate(R.layout.main, frameLayout);
-			//View fView = inflater.inflate(R.id.FirstView, frameLayout);
-			View fView2 = temp_View1_1;
-			fView2.setVisibility(View.VISIBLE);
-			
-			ImageButton btn1_1_1 = (ImageButton) fView2.findViewById(R.id.imgBtn1_1_1);
-			btn1_1_1.setTag(KOREA);
-	        btn1_1_1.setOnClickListener(this);
-	        
-
-			
-	        ImageButton btn1_1_2 = (ImageButton) fView2.findViewById(R.id.imgBtn1_1_2);
-			btn1_1_2.setTag(CHINA);
-	        btn1_1_2.setOnClickListener(this);
-	        
-	        
-	        ImageButton btn1_1_3 = (ImageButton) fView2.findViewById(R.id.imgBtn1_1_3);
-			btn1_1_3.setTag(JAPAN);
-	        btn1_1_3.setOnClickListener(this);
-			
-	        ImageButton btn1_1_4 = (ImageButton) fView2.findViewById(R.id.imgBtn1_1_4);
-			btn1_1_4.setTag(AMERICA);
-	        btn1_1_4.setOnClickListener(this);
-	        
-	        ImageButton btn1_1_5 = (ImageButton) fView2.findViewById(R.id.imgBtn1_1_4);
-			btn1_1_5.setTag(OTHER);
-	        btn1_1_5.setOnClickListener(this);
 	        
 		}
 	}
@@ -184,40 +222,9 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	public void onClick(View v) {
 		if(v.getTag()==FIRST_BUTTON){
 	        currentState = STATE_SECOND;			
-			FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);
 			
-			LinearLayout layout = (LinearLayout)findViewById(R.id.FirstView);
-			temp_First_view = layout;
-			layout.setVisibility(View.INVISIBLE);
-			
-			LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1 = inflater.inflate(R.layout.view1_1, frameLayout);
-
-			
-			ImageButton btn1_1_1 = (ImageButton) view1_1.findViewById(R.id.imgBtn1_1_1);
-			btn1_1_1.setTag(KOREA);
-	        btn1_1_1.setOnClickListener(this);
-	        
-	        View temp_view1_1 = view1_1;
-			
-	        ImageButton btn1_1_2 = (ImageButton) view1_1.findViewById(R.id.imgBtn1_1_2);
-			btn1_1_2.setTag(CHINA);
-	        btn1_1_2.setOnClickListener(this);
-	        
-	        
-	        ImageButton btn1_1_3 = (ImageButton) view1_1.findViewById(R.id.imgBtn1_1_3);
-			btn1_1_3.setTag(JAPAN);
-	        btn1_1_3.setOnClickListener(this);
-			
-	        ImageButton btn1_1_4 = (ImageButton) view1_1.findViewById(R.id.imgBtn1_1_4);
-			btn1_1_4.setTag(AMERICA);
-	        btn1_1_4.setOnClickListener(this);
-	        
-	        ImageButton btn1_1_5 = (ImageButton) view1_1.findViewById(R.id.imgBtn1_1_4);
-			btn1_1_5.setTag(OTHER);
-	        btn1_1_5.setOnClickListener(this);
-
-		}
+	        setViewAsVisible(view1_1);
+	    }
 		else if(v.getTag()==SECOND_BUTTON){
 			
 			
@@ -225,25 +232,22 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		}
 		if(v.getTag()==KOREA){ //btn1_1_1.setTag(korea);
 	        currentState = STATE_THIRD;
-			FrameLayout frameLayout1 = (FrameLayout)findViewById(R.id.tab1);
 
-			LinearLayout layout1_1 = (LinearLayout)findViewById(R.id.view1_1);
-			temp_View1_1 = layout1_1;
-			layout1_1.setVisibility(View.INVISIBLE);
-			
-			LayoutInflater inflater2 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-			View view1_1_1 = inflater2.inflate(R.layout.view1_1_1, frameLayout1);
-			//layout1_1 = (LinearLayout) findViewById(R.id.view1_1_1);
-			//layout1_1.setVisibility(View.VISIBLE);
-			
+	        setViewAsVisible(view1_1_1);
+	        
 			Array1_1_1 = new ArrayList<String>();
 			Array1_1_1.add(0, "된장국");
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.id.list1_1_1, Array1_1_1);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_1);
 			
 			ListView listview = (ListView) view1_1_1.findViewById(R.id.list1_1_1);
 			listview.setAdapter(adapter);
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				}
+			});
 			
 		}
 		
@@ -309,19 +313,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	}
 	
-	public void onTabChanged(String tabId){
-		if(tabId == "Tab1"){
-			
-		}
-		else if(tabId == "Tab2"){
-			
-		}
-		else if(tabId == "tab3"){
-			Intent intent = new Intent(this, MainTab1Activity.class);
-			startActivity(intent);
-		}
-		
-	}
+
 	
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
