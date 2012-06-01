@@ -48,7 +48,6 @@ public class TopTabActivity extends TabActivity implements TabHost.OnTabChangeLi
     }
 
 	public void onTabChanged(String tabId) {
-		Log.e("NHK", "TabTabTabTabTabTabTabTabTabTabTabTabTabTabTab");
 		if (tabId == "Tab1"){
 			Intent intent = new Intent(this, MainTab1Activity.class);
 			startActivity(intent);
