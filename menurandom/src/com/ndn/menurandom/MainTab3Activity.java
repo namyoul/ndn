@@ -45,15 +45,15 @@ public class MainTab3Activity extends NMapActivity {
 
 	// set your API key which is registered for MainTab3Activity library.
 	private static final String API_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
-	private static String STR_MENU = "갈비탕";
+	private static String STR_RESTAURANT = "갈비탕";
 
 	private MapContainerView mMapContainerView;
 
 	private NMapView mMapView;
 	private NMapController mMapController;
 
-	private static final NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
-	private static NGeoPoint NMAP_CURRENT_LOCATION = null;
+	private static final NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(
+			126.978371, 37.5666091);
 	private static final int NMAP_ZOOMLEVEL_DEFAULT = 11;
 	private static final int NMAP_VIEW_MODE_DEFAULT = NMapView.VIEW_MODE_VECTOR;
 	private static final boolean NMAP_TRAFFIC_MODE_DEFAULT = false;
@@ -78,21 +78,14 @@ public class MainTab3Activity extends NMapActivity {
 
 	private NMapPOIdataOverlay mFloatingPOIdataOverlay;
 	private NMapPOIitem mFloatingPOIitem;
-	
-	//////////////////////////////////////
-	//      Parcer Global Variable      //
-	//////////////////////////////////////
-	
-	private SearchMapParser mSearchMapParser = new SearchMapParser();
-	private static final int RESTAURANT_SEARCH_NUM = 5;			// 지도에 표시할 음식점 수
-	private static RestaurantData[] restaurantData = new RestaurantData[RESTAURANT_SEARCH_NUM];
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.e(LOG_TAG, "========================================================================================");
+		Log.e(LOG_TAG,
+				"========================================================================================");
 		Log.e(LOG_TAG, "onCreate!");
 
 		// create map view
@@ -113,17 +106,10 @@ public class MainTab3Activity extends NMapActivity {
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
 
-		Log.e(LOG_TAG, "smile");
 		// Display Restaurant
-		if(getCurrentLocation()){Log.e(LOG_TAG, "getCurrent");
-//			String str = "홍대 " + STR_MENU;
-			String str = STR_MENU;
-			int count = findRestaurant(str);
-			Log.e(LOG_TAG, String.valueOf(count));
-			displayResturantOverlay(count);
-		}
+		displayResturantOverlay();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -150,58 +136,25 @@ public class MainTab3Activity extends NMapActivity {
 		// save map view state such as map center position and zoom level.
 		saveInstanceState();
 
-		Log.e(LOG_TAG, "---------y!");
+		Log.e(LOG_TAG, "----------y!");
 		super.onDestroy();
 	}
-	
-	private int findRestaurant(String query){
-		// search Naver API
-		return mSearchMapParser.search(restaurantData, query, 1, 5);
-	}
 
-	private boolean getCurrentLocation() {
-		if (mMyLocationOverlay != null){
-			//find current location
-			if (mMapLocationManager.isMyLocationEnabled()){
-				// get current location data
-				NMAP_CURRENT_LOCATION = mMapLocationManager.getMyLocation();
-				
-			// 이상하게 자꾸만 위에것은 실행안되고 아래 구문에서 else 부분만 실행된다. 근데 크게 상관없는듯
-			} else {
-				// load the last saving location data
-				boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
-				if(!isMyLocationEnabled){
-					Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
-					Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-					startActivity(goToSettings);
-					return true;
-				}else{
-					NMAP_CURRENT_LOCATION = mMapLocationManager.getMyLocation();
-				}
-			}
-			return true;
-		}
-		return false;
-//		mMapContainerView.requestLayout();	// display current location
-	}
-	
 	// Overlay Item (Restaurant) display
-	private void displayResturantOverlay(int count) {
+	private void displayResturantOverlay() {
 		// Markers for POI item
 		int markerId = SearchMapPOIflagType.PIN;
 
 		// set POI data
-		NMapPOIdata poiData = new NMapPOIdata(count, mMapViewerResourceProvider);
-		poiData.beginPOIdata(count);
-		for (int i=0; i<count; i++) {
-			poiData.addPOIitem(restaurantData[i].nMapX, restaurantData[i].nMapY, "남훈짱", markerId, i);
-		}
-//		poiData.addPOIitem(127.0630205, 37.5091300, "갈비탕 777-111", markerId, 0);
-//		poiData.addPOIitem(127.061, 37.51, "갈비탕 123-456", markerId, 0);
+		NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
+		poiData.beginPOIdata(2);
+		poiData.addPOIitem(127.0630205, 37.5091300, "갈비탕 777-111", markerId, 0);
+		poiData.addPOIitem(127.061, 37.51, "갈비탕 123-456", markerId, 0);
 		poiData.endPOIdata();
 
 		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+		NMapPOIdataOverlay poiDataOverlay = mOverlayManager
+				.createPOIdataOverlay(poiData, null);
 
 		// set event listener to the overlay
 		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
@@ -303,11 +256,16 @@ public class MainTab3Activity extends NMapActivity {
 
 				mMapView.postInvalidate();
 			} else {
-				boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
+				boolean isMyLocationEnabled = mMapLocationManager
+						.enableMyLocation(false);
 				if (!isMyLocationEnabled) {
-					Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
+					Toast.makeText(
+							MainTab3Activity.this,
+							"Please enable a My Location source in system settings",
+							Toast.LENGTH_LONG).show();
 
-					Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					Intent goToSettings = new Intent(
+							Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					startActivity(goToSettings);
 
 					return;

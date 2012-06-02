@@ -319,8 +319,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	        setViewAsVisible(view1_1_1);
 	        
-			Array1_1_1 = new ArrayList<String>();
-			Array1_1_1.add(0, "된장국");
+	        Array_Korea();
 			
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_1);
 			
@@ -341,8 +340,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			setViewAsVisible(view1_1_2);
 			
 	        
-			Array1_1_2 = new ArrayList<String>();
-			Array1_1_2.add(0, "탕수육");
+			Array_China();
 			
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_2);
 			
@@ -364,8 +362,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			setViewAsVisible(view1_1_3);
 			
 	        
-			Array1_1_3 = new ArrayList<String>();
-			Array1_1_3.add(0, "오니기리");
+			Array_Japan();
 			
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_3);
 			
@@ -388,8 +385,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			setViewAsVisible(view1_1_4);
 			
 	        
-			Array1_1_4 = new ArrayList<String>();
-			Array1_1_4.add(0, "샐러드");
+			Array_America();
 			
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_4);
 			
@@ -410,8 +406,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			setViewAsVisible(view1_1_5);
 			
 	        
-			Array1_1_5 = new ArrayList<String>();
-			Array1_1_5.add(0, "김밥천국");
+			Array_Other();
 			
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_5);
 			
@@ -429,7 +424,130 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	}
 	
+	public void Array_Korea(){
+		Array1_1_1 = new ArrayList<String>();
+		Array1_1_1.add(0, "미역국");
+		Array1_1_1.add(1, "무우국");
+		Array1_1_1.add(2, "순대국");
+		Array1_1_1.add(3, "콩나물국");
+		Array1_1_1.add(4, "김치국");
+		Array1_1_1.add(5, "감자국");
+		Array1_1_1.add(6, "옫뎅국");
+		Array1_1_1.add(7, "만두국");
+		Array1_1_1.add(8, "북어국");
+		Array1_1_1.add(9, "해장국");
+		Array1_1_1.add(10, "청국장");
+		Array1_1_1.add(11, "김치찌개");
+		Array1_1_1.add(12, "육개장");
+		Array1_1_1.add(13, "된장찌개");
+		Array1_1_1.add(14, "순두부찌개");
+		Array1_1_1.add(15, "생태찌개");
+		Array1_1_1.add(16, "부대찌개");
+		Array1_1_1.add(17, "비지찌개");
+		Array1_1_1.add(18, "갈비탕");
+		Array1_1_1.add(19, "매운탕");
+		Array1_1_1.add(20, "해물탕");
+		Array1_1_1.add(21, "꽃게탕");
+		Array1_1_1.add(22, "알탕");
+		Array1_1_1.add(23, "비빔밥");
+		Array1_1_1.add(24, "영양밥");
+		Array1_1_1.add(25, "콩나물밥");
+		Array1_1_1.add(26, "볶음밥");
+		Array1_1_1.add(27, "국수장국");
+		Array1_1_1.add(28, "칼국수");
+		Array1_1_1.add(29, "비빔국수");
+		Array1_1_1.add(30, "냉면");
+		Array1_1_1.add(31, "비빔냉면");
+		Array1_1_1.add(32, "닭찜");
+		Array1_1_1.add(33, "돼지갈비찜");
+		Array1_1_1.add(34, "북어찜");
+		Array1_1_1.add(35, "알찜");
+		Array1_1_1.add(36, "생선구이");
+	}
+	public void Array_China(){
+		Array1_1_2 = new ArrayList<String>();
+		Array1_1_2.add(0, "짜장면");
+		Array1_1_2.add(1, "간짜장");
+		Array1_1_2.add(2, "쟁반짜장");
+		Array1_1_2.add(3, "사천짜장");
+		Array1_1_2.add(4, "삼선짜장");
+		Array1_1_2.add(5, "짬뽕");
+		Array1_1_2.add(6, "기스면");
+		Array1_1_2.add(7, "짬뽕밥");
+		Array1_1_2.add(8, "짜장밥");
+		Array1_1_2.add(9, "유산슬밥");
+		Array1_1_2.add(10, "새우덮밥");
+		Array1_1_2.add(11, "마파두부밥");
+		Array1_1_2.add(12, "탕수육");
+		Array1_1_2.add(13, "깐풍기");
+		Array1_1_2.add(14, "양장피");
+		Array1_1_2.add(15, "깐쇼새우");
+		Array1_1_2.add(16, "고추잡채");
+		Array1_1_2.add(17, "팔보채");
+		Array1_1_2.add(18, "양장피");
 
+	}
+	public void Array_Japan(){
+		Array1_1_3 = new ArrayList<String>();
+		Array1_1_3.add(0, "미소된장국");
+		Array1_1_3.add(1, "샤브샤브");
+		Array1_1_3.add(2, "스기야키");
+		Array1_1_3.add(3, "조개맑은국");
+		Array1_1_3.add(4, "가쓰동");
+		Array1_1_3.add(5, "볶음우동");
+		Array1_1_3.add(6, "우동");
+		Array1_1_3.add(7, "해물볶음우동");
+		Array1_1_3.add(8, "초밥");
+		Array1_1_3.add(9, "삼각김밥");
+		Array1_1_3.add(10, "알밥");
+		Array1_1_3.add(11, "오니기리");
+		Array1_1_3.add(12, "오차즈케");
+		Array1_1_3.add(13, "캘리포니아롤");
+		Array1_1_3.add(14, "오코노미야키");
+		Array1_1_3.add(15, "참치샐러드");
+		Array1_1_3.add(16, "타코야키");
+		Array1_1_3.add(17, "메로구이");
+		Array1_1_3.add(18, "돈가스");
+		Array1_1_3.add(19, "모듬튀김");
+	}
+	public void Array_America(){
+		Array1_1_4 = new ArrayList<String>();
+		Array1_1_4.add(0, "토스트");
+		Array1_1_4.add(1, "식빵");
+		Array1_1_4.add(2, "밤빵");
+		Array1_1_4.add(3, "롤케잌");
+		Array1_1_4.add(4, "케잌");
+		Array1_1_4.add(5, "크로켓");
+		Array1_1_4.add(6, "꽈배기");
+		Array1_1_4.add(7, "도넛");
+		Array1_1_4.add(8, "마늘빵");
+		Array1_1_4.add(9, "핫도그");
+		Array1_1_4.add(10, "브라우니");
+		Array1_1_4.add(11, "스테이크");
+		Array1_1_4.add(12, "바비큐폭챱");
+		Array1_1_4.add(13, "베이컨");
+		Array1_1_4.add(14, "치킨커틀릿");
+		Array1_1_4.add(15, "감자수프");
+		Array1_1_4.add(16, "브로콜리");
+		Array1_1_4.add(17, "비프스프");
+		Array1_1_4.add(18, "스튜");
+		Array1_1_4.add(19, "오트밀");
+		Array1_1_4.add(20, "옥수수스프");
+		Array1_1_4.add(21, "토마토수프");
+		Array1_1_4.add(22, "크림수프");
+		Array1_1_4.add(23, "스파게티");
+		Array1_1_4.add(24, "오믈렛");
+		Array1_1_4.add(25, "파스타");
+	}
+	public void Array_Other(){
+		Array1_1_5 = new ArrayList<String>();
+		Array1_1_5.add(0, "김밥");
+		Array1_1_5.add(1, "햄버거");
+		Array1_1_5.add(2, "떡볶이");
+		Array1_1_5.add(3, "튀김");
+		Array1_1_5.add(4, "어묵");
+		Array1_1_5.add(5, "순대");
+	}
 	
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
@@ -437,7 +555,12 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	}
 
 	public void onSensorChanged(SensorEvent event) {
-
+		Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));
+		float a = event.values[0];
+		if(a<12){
+			
+			
+		}
 		
 	}
 	
