@@ -11,6 +11,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) { 
+    	/*
         String table = 
             "CREATE TABLE menu (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " + 
@@ -25,11 +26,12 @@ public class DBHelper extends SQLiteOpenHelper {
         
         
         db.execSQL(table);
+        */
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {        
-        db.execSQL("DROP TABLE IF EXISTS menu");
+        //db.execSQL("DROP TABLE IF EXISTS menu");
         onCreate(db);
     }
 }
