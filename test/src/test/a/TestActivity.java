@@ -1,6 +1,7 @@
 package test.a;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -15,6 +16,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import test.a.DBHandler;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -82,11 +86,25 @@ public class TestActivity extends Activity implements OnClickListener {
 				
 			}// end 바깥쪽 for문
 			String resultMenu = menuSelection(map);
-			tv.setText(resultMenu);
+			
+			tv.setText(dataSelect());
+			
 		} catch (Exception e) {
 			tv.setText("오류" + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	private String dataSelect(){
+		DBHandler dbhandler = DBHandler.open(this);
+		
+		long cnt = dbhandler.insert("테스트 데이타 헤헤헤");
+		Cursor cursor = dbhandler.select(1);
+        startManagingCursor(cursor);
+        String result = cursor.getString(cursor.getColumnIndex("car_name"));
+		dbhandler.close();
+		
+		return result;
 	}
 	
 	private String dispName(String code){
