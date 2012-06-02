@@ -15,6 +15,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nhn.android.maps.NMapActivity;
@@ -84,8 +85,8 @@ public class MainTab3Activity extends NMapActivity {
 	//////////////////////////////////////
 	
 	private SearchMapParser mSearchMapParser = new SearchMapParser();
-	private static final int RESTAURANT_SEARCH_NUM = 5;			// 지도에 표시할 음식점 수
-	private static RestaurantData[] restaurantData = new RestaurantData[RESTAURANT_SEARCH_NUM];
+	private static final int RESTAURANT_SEARCH_NUM = 5;			// 지도에 표시할 음식점 개수
+	private RestaurantData[] restaurantData;					// 지도에 표시될 음식점 데이터
 
 	/** Called when the activity is first created. */
 	@Override
@@ -95,33 +96,23 @@ public class MainTab3Activity extends NMapActivity {
 		Log.e(LOG_TAG, "========================================================================================");
 		Log.e(LOG_TAG, "onCreate!");
 
-		// create map view
-		mMapView = new NMapView(this);
-
-		// set a registered API key for Open MapViewer Library
-		mMapView.setApiKey(API_KEY);
-
-		// create parent view to rotate map view
+		// initialize
 		mMapContainerView = new MapContainerView(this);
-
-		// init view
 		initMapContainerView(mMapContainerView);
-
-		// init NMap
 		initNMap();
+		initParcer();
 
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
 
-		Log.e(LOG_TAG, "smile");
-		// Display Restaurant
-		if(getCurrentLocation()){Log.e(LOG_TAG, "getCurrent");
-//			String str = "홍대 " + STR_MENU;
-			String str = STR_MENU;
-			int count = findRestaurant(str);
-			Log.e(LOG_TAG, String.valueOf(count));
-			displayResturantOverlay(count);
-		}
+//		// Display Restaurant
+//		if (getCurrentLocation()) {
+//			// String str = "홍대 " + STR_MENU;
+//			String str = STR_MENU;
+//			int count = findRestaurant(str);
+//			displayResturantOverlay(count);
+		displayResturantOverlay(0);
+//		}
 	}
 	
 	@Override
@@ -152,6 +143,13 @@ public class MainTab3Activity extends NMapActivity {
 
 		Log.e(LOG_TAG, "---------y!");
 		super.onDestroy();
+	}
+	
+	private void initParcer(){
+		restaurantData = new RestaurantData[RESTAURANT_SEARCH_NUM];
+		for(int i=0;i<RESTAURANT_SEARCH_NUM;i++){
+			restaurantData[i] = new RestaurantData();
+		}
 	}
 	
 	private int findRestaurant(String query){
@@ -192,12 +190,12 @@ public class MainTab3Activity extends NMapActivity {
 
 		// set POI data
 		NMapPOIdata poiData = new NMapPOIdata(count, mMapViewerResourceProvider);
-		poiData.beginPOIdata(count);
-		for (int i=0; i<count; i++) {
-			poiData.addPOIitem(restaurantData[i].nMapX, restaurantData[i].nMapY, "남훈짱", markerId, i);
-		}
-//		poiData.addPOIitem(127.0630205, 37.5091300, "갈비탕 777-111", markerId, 0);
-//		poiData.addPOIitem(127.061, 37.51, "갈비탕 123-456", markerId, 0);
+//		poiData.beginPOIdata(count);
+//		for (int i=0; i<count; i++) {
+//			poiData.addPOIitem(restaurantData[i].nMapX, restaurantData[i].nMapY, "남훈짱", markerId, 0);
+//		}
+		poiData.addPOIitem(127.0630205, 37.5091300, "갈비탕 777-111", markerId, 0);
+		poiData.addPOIitem(127.061, 37.51, "갈비탕 123-456", markerId, 0);
 		poiData.endPOIdata();
 
 		// create POI data overlay
@@ -215,19 +213,14 @@ public class MainTab3Activity extends NMapActivity {
 
 	// Initialize MapContainerView
 	private void initMapContainerView(MapContainerView view) {
+		// create map view
+		// set a registered API key for Open MapViewer Library
+		mMapView = new NMapView(this);
+		mMapView.setApiKey(API_KEY);
 		view.addView(mMapView);
 
-		// EditText edit = new EditText(this);
-		// edit.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-		// LayoutParams.WRAP_CONTENT));
-		// edit.setText("Hello World");
-		// view.addView(edit);
-
-		// Button button = new Button(this);
-		// button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-		// LayoutParams.WRAP_CONTENT));
-		// button.setText("TEST");
-		// view.addView(button);
+//		ListView v = new ListView(this);
+//		view.addView(v);
 	}
 
 	// initialize NMap view & listener & controller & etc.
@@ -244,8 +237,7 @@ public class MainTab3Activity extends NMapActivity {
 		mMapView.setOnMapViewTouchEventListener(onMapViewTouchEventListener);
 		mMapView.setOnMapViewDelegate(onMapViewTouchDelegate);
 
-		// use map controller to zoom in/out, pan and set map center, zoom level
-		// etc.
+		// use map controller to zoom in/out, pan and set map center, zoom level etc.
 		mMapController = mMapView.getMapController();
 
 		// use built in zoom controls
@@ -261,22 +253,19 @@ public class MainTab3Activity extends NMapActivity {
 		super.setMapDataProviderListener(onDataProviderListener);
 
 		// create overlay manager
-		mOverlayManager = new NMapOverlayManager(this, mMapView,
-				mMapViewerResourceProvider);
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
 		// register callout overlay listener to customize it.
 		mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
 
 		// location manager
 		mMapLocationManager = new NMapLocationManager(this);
-		mMapLocationManager
-				.setOnLocationChangeListener(onMyLocationChangeListener);
+		mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
 
 		// compass manager
 		mMapCompassManager = new NMapCompassManager(this);
 
 		// create my location overlay
-		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(
-				mMapLocationManager, mMapCompassManager);
+		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
 	}
 
 	/* Test Functions */
@@ -338,21 +327,18 @@ public class MainTab3Activity extends NMapActivity {
 		NMapPathData pathData = new NMapPathData(9);
 
 		pathData.initPathData();
-		pathData.addPathPoint(127.108099, 37.366034,
-				NMapPathLineStyle.TYPE_SOLID);
+		pathData.addPathPoint(127.108099, 37.366034, NMapPathLineStyle.TYPE_SOLID);
 		pathData.addPathPoint(127.108088, 37.366043, 0);
 		pathData.addPathPoint(127.108079, 37.365619, 0);
 		pathData.addPathPoint(127.107458, 37.365608, 0);
 		pathData.addPathPoint(127.107232, 37.365608, 0);
 		pathData.addPathPoint(127.106904, 37.365624, 0);
-		pathData.addPathPoint(127.105933, 37.365621,
-				NMapPathLineStyle.TYPE_DASH);
+		pathData.addPathPoint(127.105933, 37.365621, NMapPathLineStyle.TYPE_DASH);
 		pathData.addPathPoint(127.105929, 37.366378, 0);
 		pathData.addPathPoint(127.106279, 37.366380, 0);
 		pathData.endPathData();
 
-		NMapPathDataOverlay pathDataOverlay = mOverlayManager
-				.createPathDataOverlay(pathData);
+		NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(pathData);
 		if (pathDataOverlay != null) {
 			pathDataOverlay.showAllPathData(0);
 		}
@@ -426,13 +412,11 @@ public class MainTab3Activity extends NMapActivity {
 		public void onReverseGeocoderResponse(NMapPlacemark placeMark,
 				NMapError errInfo) {
 			if (DEBUG) {
-				Log.i(LOG_TAG, "onReverseGeocoderResponse: placeMark="
-						+ ((placeMark != null) ? placeMark.toString() : null));
+//				Log.i(LOG_TAG, "onReverseGeocoderResponse: placeMark=" + ((placeMark != null) ? placeMark.toString() : null));
 			}
 
 			if (errInfo != null) {
-				Log.e(LOG_TAG, "Failed to findPlacemarkAtLocation: error="
-						+ errInfo.toString());
+//				Log.e(LOG_TAG, "Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
 
 				Toast.makeText(MainTab3Activity.this, errInfo.toString(),
 						Toast.LENGTH_LONG).show();
@@ -515,20 +499,19 @@ public class MainTab3Activity extends NMapActivity {
 		public void onAnimationStateChange(NMapView mapView, int animType,
 				int animState) {
 			if (DEBUG) {
-				Log.i(LOG_TAG, "onAnimationStateChange: animType=" + animType
-						+ ", animState=" + animState);
+//				Log.i(LOG_TAG, "onAnimationStateChange: animType=" + animType + ", animState=" + animState);
 			}
 		}
 
 		public void onMapCenterChange(NMapView mapView, NGeoPoint center) {
 			if (DEBUG) {
-				Log.i(LOG_TAG, "onMapCenterChange: center=" + center.toString());
+//				Log.i(LOG_TAG, "onMapCenterChange: center=" + center.toString());
 			}
 		}
 
 		public void onZoomLevelChange(NMapView mapView, int level) {
 			if (DEBUG) {
-				Log.i(LOG_TAG, "onZoomLevelChange: level=" + level);
+//				Log.i(LOG_TAG, "onZoomLevelChange: level=" + level);
 			}
 		}
 
@@ -975,32 +958,7 @@ public class MainTab3Activity extends NMapActivity {
 		}
 
 		@Override
-		public void addView(View child, int index, LayoutParams params) {
-
-			super.addView(child, index, params);
-		}
-
-		@Override
-		public void addView(View child, int index) {
-
-			super.addView(child, index);
-		}
-
-		@Override
-		public void addView(View child, LayoutParams params) {
-
-			super.addView(child, params);
-		}
-
-		@Override
-		public void addView(View child) {
-
-			super.addView(child);
-		}
-
-		@Override
-		protected void onLayout(boolean changed, int left, int top, int right,
-				int bottom) {
+		protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 			final int width = getWidth();
 			final int height = getHeight();
 			final int count = getChildCount();
@@ -1012,17 +970,11 @@ public class MainTab3Activity extends NMapActivity {
 				final int childTop = (height - childHeight) / 2;
 
 				if (i == 0) {
-					view.layout(childLeft, childTop, childLeft + childWidth,
-							childTop + childHeight * 3 / 4);
+					view.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight * 3 / 4);
 				} else if (i == 1) {
-					view.layout(childLeft + 20,
-							childTop + childHeight / 2 + 20, childLeft
-									+ childWidth - 20, childTop + childHeight
-									* 3 / 4 - 20);
+					view.layout(childLeft + 20, childTop + childHeight / 2 + 20, childLeft + childWidth - 20, childTop + childHeight * 3 / 4 - 20);
 				} else if (i == 2) {
-					view.layout(childLeft + 20, childTop + childHeight * 3 / 4,
-							childLeft + childWidth - 20, childTop + childHeight
-									- 20);
+					view.layout(childLeft + 20, childTop + childHeight * 3 / 4,childLeft + childWidth - 20, childTop + childHeight-20);
 				}
 			}
 			// final View view = getChildAt(i);

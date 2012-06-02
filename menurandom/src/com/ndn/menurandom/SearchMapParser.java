@@ -17,7 +17,6 @@ public class SearchMapParser {
 	public int search(RestaurantData[] restaurantData, String query, int nWhenDidItStart, int nHowMany){
 		boolean inItem=false, inTitle=false, inAddress=false, inTelephone=false, inMapx=false, inMapy=false;
 		int count = 0;
-		
 		try {
 			URL url = new URL("http://openapi.naver.com/search?"
 					+ "key=" + NAVER_API_KEY
@@ -34,24 +33,23 @@ public class SearchMapParser {
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
 				switch (parserEvent) {
 				case XmlPullParser.START_TAG: // parser가 시작 태그를 만나면 실행
-					Log.e("NHK", "START_TAG");
 		            if(parser.getName().equals("item")){
 		                inItem = true;
 		            }
 					if (parser.getName().equals("title")) { // title 만나면
-						inTitle = true;Log.e("NHK", "title");
+						inTitle = true;
 					}
 					if (parser.getName().equals("address")) { // address 만나면
-						inAddress = true;Log.e("NHK", "address");
+						inAddress = true;
 					}
 					if (parser.getName().equals("telephone")) { // mapx 만나면
-						inTelephone = true;Log.e("NHK", "tel");
+						inTelephone = true;
 					}
 					if (parser.getName().equals("mapx")) { // mapx 만나면
-						inMapx = true;Log.e("NHK", "x");
+						inMapx = true;
 					}
 					if (parser.getName().equals("mapy")) { // mapy 만나면
-						inMapy = true;Log.e("NHK", "y");
+						inMapy = true;
 					}
 					if (parser.getName().equals("message")) { // message 태그를 만나면 에러 출력
 //						status1.setText(status1.getText()+"에러");
@@ -61,29 +59,28 @@ public class SearchMapParser {
 
 				case XmlPullParser.TEXT:// parser가 내용에 접근했을때
 					if (inTitle) { // isTitle이 true일 때 태그의 내용을 저장.
-						Log.e("NHK", String.valueOf(count));
-						restaurantData[count].sTitle = parser.getText();Log.e("NHK", "title");
+						restaurantData[count].sTitle = parser.getText();
 						inTitle = false;
 					}
 					if (inAddress) { // isAddress이 true일 때 태그의 내용을 저장.
-						restaurantData[count].sAddress = parser.getText();Log.e("NHK", "a");
+						restaurantData[count].sAddress = parser.getText();
 						inAddress = false;
 					}
 					if (inTelephone) { // isAddress이 true일 때 태그의 내용을 저장.
-						restaurantData[count].sTel = parser.getText();Log.e("NHK", "tel");
+						restaurantData[count].sTel = parser.getText();
 						inAddress = false;
 					}					
 					if (inMapx) { // isMapx이 true일 때 태그의 내용을 저장.
-						restaurantData[count].nMapX = Integer.parseInt(parser.getText());Log.e("NHK", "x");
+						restaurantData[count].nMapX = Integer.parseInt(parser.getText());
 						inMapx = false;
 					}
 					if (inMapy) { // isMapy이 true일 때 태그의 내용을 저장.
-						restaurantData[count].nMapY = Integer.parseInt(parser.getText());Log.e("NHK", "y");
+						restaurantData[count].nMapY = Integer.parseInt(parser.getText());
 						inMapy = false;
 					}
 					break;
 					
-				case XmlPullParser.END_TAG:Log.e("NHK", "end");
+				case XmlPullParser.END_TAG:
 					if (parser.getName().equals("item")) {
 						count++;
 						inItem = false;
@@ -95,68 +92,7 @@ public class SearchMapParser {
 		} catch (Exception e) {
 			Log.e("NHK", "SearchMapParser.search ERROR");
 		}
+		Log.i("NHK", " " + String.valueOf(count) + "개의 검색결과를 찾았습니다.");
 		return count;
 	}
-	
-//	private void Search(String search) {
-//		boolean IS_ITEM = false;
-//		try
-//		{
-//			URL url = new URL("http://openapi.naver.com/search?key=" + Naver_KEY + "&query=" + URLEncoder.encode(search, "UTF-8") + 
-//					"&target=local&start=1&display=10");
-//			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-//			XmlPullParser parser = factory.newPullParser();
-//	   
-//			parser.setInput(url.openStream(), null);
-//			int parserEvent = parser.getEventType();
-//			String Tag = "";
-//			XmlData xmlData = null;
-//	   while(parserEvent != XmlPullParser.END_DOCUMENT)
-//	   {
-//	    switch (parserEvent) {
-//	    case XmlPullParser.TEXT:
-//	     if (IS_ITEM)
-//	     {
-//	      if (Tag.equals("title"))
-//	       xmlData.Title = parser.getText();
-//	      else if (Tag.equals("link"))
-//	       xmlData.Link = parser.getText();
-//	      else if (Tag.equals("description"))
-//	       xmlData.Description = parser.getText();
-//	      else if (Tag.equals("telephone"))
-//	       xmlData.Tel = parser.getText();
-//	      else if (Tag.equals("address"))
-//	       xmlData.add = parser.getText();
-//	      else if (Tag.equals("mapx"))
-//	       xmlData.mapx =  parser.getText();
-//	      else if (Tag.equals("mapy"))
-//	       xmlData.mapy = parser.getText();
-//	     }
-//	     break;
-//	    case XmlPullParser.END_TAG:
-//	     Tag = parser.getName();
-//	     if (Tag.equals("item"))
-//	     {
-//	      IS_ITEM = false;
-//	      xmlList.add(xmlData);
-//	      xmlData = null;
-//	     }
-//	     break;
-//	    case XmlPullParser.START_TAG:
-//	     Tag = parser.getName();
-//	     if (Tag.equals("item"))
-//	     {
-//	      IS_ITEM = true;
-//	      xmlData = new XmlData();
-//	      xmlData.InitData();
-//	     }
-//	     break;
-//	    }
-//	    parserEvent = parser.next();
-//	   }
-//	   
-//	  }catch (Exception e) {
-//	   Log.e("SEARCH", "SEARCH_ERR");
-//	  }
-//	 }	
 }
