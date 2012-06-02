@@ -98,10 +98,10 @@ public class TestActivity extends Activity implements OnClickListener {
 	private String dataSelect(){
 		DBHandler dbhandler = DBHandler.open(this);
 		
-		long cnt = dbhandler.insert("테스트 데이타 헤헤헤");
-		Cursor cursor = dbhandler.select(1);
+		long cnt = dbhandler.insert("");
+		Cursor cursor = dbhandler.select(7);
         startManagingCursor(cursor);
-        String result = cursor.getString(cursor.getColumnIndex("car_name"));
+        String result = cursor.getString(cursor.getColumnIndex("menuName"));
 		dbhandler.close();
 		
 		return result;

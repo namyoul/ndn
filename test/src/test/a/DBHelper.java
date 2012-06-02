@@ -12,16 +12,24 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) { 
         String table = 
-            "CREATE TABLE cars (" +
-            "_id INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-            "car_name TEXT NOT NULL);";
+            "CREATE TABLE menu (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+            "code TEXT NOT NULL, " +
+            "detailCode TEXT , " +
+            "menuName TEXT NOT NULL, " +
+            "pictureName TEXT NOT NULL, " +
+            "snow TEXT NOT NULL, " +
+            "rain TEXT NOT NULL, " +
+            "hot TEXT NOT NULL, " +
+	        "cold TEXT NOT NULL);";
+        
         
         db.execSQL(table);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {        
-        db.execSQL("DROP TABLE IF EXISTS cars");
+        db.execSQL("DROP TABLE IF EXISTS menu");
         onCreate(db);
     }
 }
