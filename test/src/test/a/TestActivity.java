@@ -1,8 +1,5 @@
 package test.a;
 
-import android.app.Activity;
-import android.database.Cursor;
-import android.os.Bundle;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -13,23 +10,29 @@ import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import test.a.DBHandler;
-
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TestActivity extends Activity implements OnClickListener {
+	LinearLayout layout = null;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		findViewById(R.id.button1).setOnClickListener(this);
+		layout = (LinearLayout)findViewById(R.id.tLayout);
 	}
 
 	public void onClick(View v) {
@@ -86,8 +89,18 @@ public class TestActivity extends Activity implements OnClickListener {
 				
 			}// end 바깥쪽 for문
 			String resultMenu = menuSelection(map);
+			resultMenu += "\n 추천 메뉴는 : " + dataSelect();
+			tv.setText(resultMenu);
 			
-			tv.setText(dataSelect());
+			
+			int resId = getResources().getIdentifier("img1", "drawable", "test.a");
+			
+			ImageView image = new ImageView(this);
+			image.setImageResource(resId);
+			layout.removeAllViews();
+			layout.addView(image);
+			
+			
 			
 		} catch (Exception e) {
 			tv.setText("오류" + e.getMessage());
@@ -98,7 +111,7 @@ public class TestActivity extends Activity implements OnClickListener {
 	private String dataSelect(){
 		DBHandler dbhandler = DBHandler.open(this);
 		
-		Cursor cursor = dbhandler.select(3);
+		Cursor cursor = dbhandler.select(8);
         startManagingCursor(cursor);
         String result = cursor.getString(cursor.getColumnIndex("menuName"));
 		dbhandler.close();
