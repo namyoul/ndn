@@ -4,6 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+  <ImageButton
+      android:id="@+id/ImgBtntest"
+      android:layout_width="wrap_content"
+      android:layout_height="100dp"
+      android:layout_weight="0.30"
+      android:src="@drawable/ic_launcher" />
     
 
 </LinearLayout>

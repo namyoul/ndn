@@ -10,7 +10,7 @@ import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
 
 public class TopTabActivity extends TabActivity implements OnTabChangeListener {
-    /** Called when the activity is first created. */
+    /** Called when the activity is first created. */ 
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,19 @@ public class TopTabActivity extends TabActivity implements OnTabChangeListener {
         tabSpec3.setContent(R.id.tab3);
         tabHost.addTab(tabSpec3);
         
+        
+        Intent intent = getIntent(); // Intent 값 받기
+        
+        int tabNum = 0; //초기텝은 첫번째텝
+        
+        if( intent.hasExtra("tabNum")){ // Intent로 넘어온 텝번호 있으면 받기
+        	tabNum = intent.getExtras().getInt("tabNum");
+        }
+         
+        tabHost.setCurrentTab(tabNum);//텝 선택
+        
         tabHost.setOnTabChangedListener(this);
+        
     }
     
     protected void setSelectTab(int index)
@@ -51,16 +63,19 @@ public class TopTabActivity extends TabActivity implements OnTabChangeListener {
 		if (tabId == "Tab1"){			
 			Intent intent = new Intent(this, MainTab1Activity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			intent.putExtra("tabNum", 0);//첫번째 텝 설정
 			startActivity(intent);		
 		}
 		else if (tabId == "Tab2"){			
 			Intent intent = new Intent(this, MainTab2Activity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			intent.putExtra("tabNum", 1);//두번째 텝 설정
 			startActivity(intent);		
 		}
 		else if (tabId == "Tab3"){			
 			Intent intent = new Intent(this, MainTab3Activity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			intent.putExtra("tabNum", 2);//세번째 텝 설정
 			startActivity(intent);		
 		}	
 	}
