@@ -104,7 +104,7 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 			tv.setText(resultMenu);
 			
 			
-			int resId = getResources().getIdentifier("img1", "drawable", "test.a");
+			int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
 			
 			ImageView image = new ImageView(this);
 			image.setImageResource(resId);
