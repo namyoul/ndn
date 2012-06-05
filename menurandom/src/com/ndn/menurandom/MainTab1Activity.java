@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static ArrayList<String> Array1_1_3;
 	private static ArrayList<String> Array1_1_4;
 	private static ArrayList<String> Array1_1_5;
+	private static String PIC_TEXT;
 
 	private View view1;
 	private View view1_1;
@@ -57,7 +60,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private View view1_1_3;
 	private View view1_1_4;
 	private View view1_1_5;
-	
+	private View view_pic;
 		
     public void onCreate(Bundle savedInstanceState) {
 
@@ -101,14 +104,16 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		frameLayout.addView(view1_1_5);
 		view1_1_5.setVisibility(View.GONE);
 		
-
+		view_pic = createView_Pic();
+		frameLayout.addView(view_pic);
+		view_pic.setVisibility(View.GONE);
     }
     
     private void sensor_Initialize(){
          SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
          Sensor accelatorSensor= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
          
-         sensorManager.registerListener(this, accelatorSensor,  SensorManager.SENSOR_DELAY_FASTEST);
+         sensorManager.registerListener(this, accelatorSensor,  SensorManager.SENSOR_DELAY_UI);
     }
     private View createView1()
     {
@@ -218,6 +223,15 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
         return returnVal;
     }
     
+    private View createView_Pic()
+    {
+    	View returnVal;
+    	
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		returnVal = inflater.inflate(R.layout.view_pic, null);        
+
+        return returnVal;
+    }
     
     private void setViewAsVisible(View view)
     {
@@ -314,12 +328,25 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_2);
 			
-			ListView listview = (ListView) view1_2.findViewById(R.id.list1_2);
+			final ListView listview = (ListView) view1_2.findViewById(R.id.list1_2);
 			listview.setAdapter(adapter);
 			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+
+					
+					//PIC_TEXT = (String) listview.getSelectedItem();
+					PIC_TEXT = (String) ((TextView)view).getText();
+					Toast.makeText(getApplicationContext(),PIC_TEXT, Toast.LENGTH_LONG).show();
+					
+					ImageView imageView = (ImageView) findViewById(R.id.img_View);
+					int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
+					imageView.setImageResource(resId);
+					
+					
+					EditText editText = (EditText) findViewById(R.id.img_Txt);
+					editText.setText(PIC_TEXT);
+					setViewAsVisible(view_pic);
 				}
 			});
 			
@@ -340,6 +367,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+					setViewAsVisible(view_pic);
 				}
 			});
 			
@@ -361,6 +389,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+					setViewAsVisible(view_pic);
 				}
 			});
 			
@@ -383,6 +412,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+					setViewAsVisible(view_pic);
 				}
 			});
 			
@@ -406,6 +436,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+					setViewAsVisible(view_pic);
 				}
 			});
 			
@@ -427,6 +458,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+					setViewAsVisible(view_pic);
 				}
 			});
 			
