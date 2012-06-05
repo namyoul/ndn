@@ -5,27 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/view1_1" >
 
-<LinearLayout android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_horizontal"
-   >
-   <ImageButton
-            android:id="@+id/imgBtn1_1_9999"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            
-            android:src="@drawable/ic_launcher" />
-
-        <ImageButton
-            android:id="@+id/imgBtn1_1_99999"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_launcher" />
-    
-    
-</LinearLayout>    
-    	
+   	
 <TableLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -34,15 +14,15 @@
         <ImageButton
             android:id="@+id/imgBtn1_1_1"
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
             android:src="@drawable/ic_launcher" />
 
         <ImageButton
             android:id="@+id/imgBtn1_1_2"
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
             
             android:src="@drawable/ic_launcher" />
 	</TableRow>
@@ -50,8 +30,8 @@
         <ImageButton
             android:id="@+id/imgBtn1_1_3"
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
             
             android:src="@drawable/ic_launcher"
              />
@@ -59,21 +39,23 @@
         <ImageButton
             android:id="@+id/imgBtn1_1_4"
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
             android:src="@drawable/ic_launcher" />
     </TableRow>
     <TableRow>    
         <ImageButton
             android:id="@+id/imgBtn1_1_5"
             android:layout_width="50dp"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
             android:src="@drawable/ic_launcher" />
 
         <ImageButton
             android:id="@+id/imgBtn1_1_6"
             android:layout_width="50dp"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
             android:src="@drawable/ic_launcher" />
     </TableRow>
 </TableLayout>
