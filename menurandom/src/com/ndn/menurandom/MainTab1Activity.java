@@ -598,7 +598,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	}
 
 	public void onSensorChanged(SensorEvent event) {
-		Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));
+//		Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));
 		//float a1 = event.values[0];
 		//if(a1<12){
 			//System.out.print(a1);

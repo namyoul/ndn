@@ -31,41 +31,47 @@ public class SearchMapParser {
 			int parserEvent = parser.getEventType();
 			
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
-				switch (parserEvent) {
-				case XmlPullParser.START_TAG:
-					if (parser.getName().equals("title")) {	inTitle = true;	}
-					if (parser.getName().equals("address")) { inAddress = true;	}
-					if (parser.getName().equals("mapx")) { inMapx = true; }
-					if (parser.getName().equals("mapy")) { inMapy = true; }
-					if (parser.getName().equals("message")) {
-						Log.i("NHK", "SearchMapParser: Error");
-					}
-					break;
+				if ( parserEvent == XmlPullParser.START_TAG )
+					if ( !parser.getName().equals("item") )
+						continue;
 
-				case XmlPullParser.TEXT:
-					if (inTitle) { 
-						restaurantData[indexCount].sTitle = parser.getText();
-						inTitle = false;
+				while (parserEvent != XmlPullParser.END_DOCUMENT) {
+					switch (parserEvent) {
+					case XmlPullParser.START_TAG:
+						if (parser.getName().equals("title")) {	inTitle = true;	}
+						if (parser.getName().equals("address")) { inAddress = true;	}
+						if (parser.getName().equals("mapx")) { inMapx = true; }
+						if (parser.getName().equals("mapy")) { inMapy = true; }
+						if (parser.getName().equals("message")) {
+							Log.i("NHK", "SearchMapParser: Error");
+						}
+						break;
+	
+					case XmlPullParser.TEXT:
+						if (inTitle) { 
+							restaurantData[indexCount].sTitle = parser.getText();
+							inTitle = false;
+						}
+						if (inAddress) {
+							restaurantData[indexCount].sAddress = parser.getText();
+							inAddress = false;
+						}
+						if (inMapx) {
+							restaurantData[indexCount].nMapX = Integer.parseInt(parser.getText());
+							inMapx = false;
+						}
+						if (inMapy) {
+							restaurantData[indexCount].nMapY = Integer.parseInt(parser.getText());
+							inMapy = false;
+						}
+						break;
+						
+					case XmlPullParser.END_TAG:
+						indexCount++;
+						break;
 					}
-					if (inAddress) {
-						restaurantData[indexCount].sAddress = parser.getText();
-						inAddress = false;
-					}
-					if (inMapx) {
-						restaurantData[indexCount].nMapX = Integer.parseInt(parser.getText());
-						inMapx = false;
-					}
-					if (inMapy) {
-						restaurantData[indexCount].nMapY = Integer.parseInt(parser.getText());
-						inMapy = false;
-					}
-					break;
-					
-				case XmlPullParser.END_TAG:
-					indexCount++;
-					break;
+					parserEvent = parser.next();
 				}
-				parserEvent = parser.next();
 			}
 		} catch (Exception e) {
 			Log.e("NHK", "search ERROR");
