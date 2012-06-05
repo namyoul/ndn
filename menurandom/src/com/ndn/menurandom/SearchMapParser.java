@@ -37,7 +37,9 @@ public class SearchMapParser {
 					if (parser.getName().equals("address")) { inAddress = true;	}
 					if (parser.getName().equals("mapx")) { inMapx = true; }
 					if (parser.getName().equals("mapy")) { inMapy = true; }
-					if (parser.getName().equals("message")) {/* Error message*/}
+					if (parser.getName().equals("message")) {
+						Log.i("NHK", "SearchMapParser: Error");
+					}
 					break;
 
 				case XmlPullParser.TEXT:

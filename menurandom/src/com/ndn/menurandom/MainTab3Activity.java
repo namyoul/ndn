@@ -53,7 +53,7 @@ public class MainTab3Activity extends NMapActivity {
 	private NMapView mMapView;
 	private NMapController mMapController;
 
-	private static final NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
+	private static NGeoPoint NMAP_LOCATION_DEFAULT;
 	private static final int NMAP_ZOOMLEVEL_DEFAULT = 11;
 	private static final int NMAP_VIEW_MODE_DEFAULT = NMapView.VIEW_MODE_VECTOR;
 	private static final boolean NMAP_TRAFFIC_MODE_DEFAULT = false;
@@ -106,15 +106,17 @@ public class MainTab3Activity extends NMapActivity {
 		
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
-		
-		// search Restaurant
-		searchRestaurantInNaver();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		Log.e(LOG_TAG, "onStart!");
+		
+		// search Restaurant
+		getMyLocation();
+//		searchRestaurantInNaver();
+//		displayResturantOverlay();
 	}
 
 	@Override
@@ -135,7 +137,7 @@ public class MainTab3Activity extends NMapActivity {
 	protected void onDestroy() {
 		Log.e(LOG_TAG, "onDestro");
 		// save map view state such as map center position and zoom level.
-		saveInstanceState();
+//		saveInstanceState();
 
 		Log.e(LOG_TAG, "----------y!");
 		super.onDestroy();
@@ -161,13 +163,13 @@ public class MainTab3Activity extends NMapActivity {
 		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
 		// set event listener to the overlay
-		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+//		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
 		// select an item
 		poiDataOverlay.selectPOIitem(0, true);
 
 		// show all POI data
-		poiDataOverlay.showAllPOIdata(0);
+//		poiDataOverlay.showAllPOIdata(0);
 	}
 	
 	// Initialize Search
@@ -238,42 +240,29 @@ public class MainTab3Activity extends NMapActivity {
 
 		// create my location overlay
 		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
+		
+		// set up my location
+		NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
 	}
 
-	/* Test Functions */
-
-	private void startMyLocation() {
+	private void getMyLocation() {
 		if (mMyLocationOverlay != null) {
 			if (!mOverlayManager.hasOverlay(mMyLocationOverlay)) {
 				mOverlayManager.addOverlay(mMyLocationOverlay);
 			}
+			
+//			mMapContainerView.requestLayout();
+//			mMapView.postInvalidate();
 
-			if (mMapLocationManager.isMyLocationEnabled()) {
+			boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
+			
+			if (!isMyLocationEnabled) {
+				Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
 
-				if (!mMapView.isAutoRotateEnabled()) {
-					mMyLocationOverlay.setCompassHeadingVisible(true);
+				Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(goToSettings);
 
-					mMapCompassManager.enableCompass();
-
-					mMapView.setAutoRotateEnabled(true, false);
-
-					mMapContainerView.requestLayout();
-				} else {
-					stopMyLocation();
-				}
-
-				mMapView.postInvalidate();
-			} else {
-				boolean isMyLocationEnabled = mMapLocationManager
-						.enableMyLocation(false);
-				if (!isMyLocationEnabled) {
-					Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
-
-					Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-					startActivity(goToSettings);
-
-					return;
-				}
+				return;
 			}
 		}
 	}
@@ -281,16 +270,6 @@ public class MainTab3Activity extends NMapActivity {
 	private void stopMyLocation() {
 		if (mMyLocationOverlay != null) {
 			mMapLocationManager.disableMyLocation();
-
-			if (mMapView.isAutoRotateEnabled()) {
-				mMyLocationOverlay.setCompassHeadingVisible(false);
-
-				mMapCompassManager.disableCompass();
-
-				mMapView.setAutoRotateEnabled(false, false);
-
-				mMapContainerView.requestLayout();
-			}
 		}
 	}
 
@@ -341,14 +320,12 @@ public class MainTab3Activity extends NMapActivity {
 		// set POI data
 		NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
 		poiData.beginPOIdata(1);
-		NMapPOIitem item = poiData.addPOIitem(null, "Touch & Drag to Move",
-				marker1, 0);
+		NMapPOIitem item = poiData.addPOIitem(null, "Touch & Drag to Move",	marker1, 0);
 		if (item != null) {
 			// initialize location to the center of the map view.
 			item.setPoint(mMapController.getMapCenter());
 			// set floating mode
-			item.setFloatingMode(NMapPOIitem.FLOATING_TOUCH
-					| NMapPOIitem.FLOATING_DRAG);
+			item.setFloatingMode(NMapPOIitem.FLOATING_TOUCH	| NMapPOIitem.FLOATING_DRAG);
 			// show right button on callout
 			item.setRightButton(true);
 
@@ -357,15 +334,12 @@ public class MainTab3Activity extends NMapActivity {
 		poiData.endPOIdata();
 
 		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager
-				.createPOIdataOverlay(poiData, null);
+		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 		if (poiDataOverlay != null) {
-			poiDataOverlay
-					.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
+			poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
 
 			// set event listener to the overlay
-			poiDataOverlay
-					.setOnStateChangeListener(onPOIdataStateChangeListener);
+			poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
 			poiDataOverlay.selectPOIitem(0, false);
 
@@ -376,19 +350,16 @@ public class MainTab3Activity extends NMapActivity {
 	/* NMapDataProvider Listener */
 	private final NMapActivity.OnDataProviderListener onDataProviderListener = new NMapActivity.OnDataProviderListener() {
 
-		public void onReverseGeocoderResponse(NMapPlacemark placeMark,
-				NMapError errInfo) {
+		public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
 			if (DEBUG) {
 				Log.i(LOG_TAG, "onReverseGeocoderResponse: placeMark="
 						+ ((placeMark != null) ? placeMark.toString() : null));
 			}
 
 			if (errInfo != null) {
-				Log.e(LOG_TAG, "Failed to findPlacemarkAtLocation: error="
-						+ errInfo.toString());
+				Log.e(LOG_TAG, "Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
 
-				Toast.makeText(MainTab3Activity.this, errInfo.toString(),
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(MainTab3Activity.this, errInfo.toString(), Toast.LENGTH_LONG).show();
 				return;
 			}
 
@@ -398,9 +369,7 @@ public class MainTab3Activity extends NMapActivity {
 				if (placeMark != null) {
 					mFloatingPOIitem.setTitle(placeMark.toString());
 				}
-				mFloatingPOIdataOverlay.selectPOIitemBy(
-						mFloatingPOIitem.getId(), false);
-			}
+				mFloatingPOIdataOverlay.selectPOIitemBy(mFloatingPOIitem.getId(), false);			}
 		}
 
 	};
@@ -408,8 +377,7 @@ public class MainTab3Activity extends NMapActivity {
 	/* MyLocation Listener */
 	private final NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener = new NMapLocationManager.OnLocationChangeListener() {
 
-		public boolean onLocationChanged(NMapLocationManager locationManager,
-				NGeoPoint myLocation) {
+		public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
 
 			if (mMapController != null) {
 				mMapController.animateTo(myLocation);
@@ -433,12 +401,9 @@ public class MainTab3Activity extends NMapActivity {
 					Toast.LENGTH_LONG).show();
 		}
 
-		public void onLocationUnavailableArea(
-				NMapLocationManager locationManager, NGeoPoint myLocation) {
+		public void onLocationUnavailableArea(NMapLocationManager locationManager, NGeoPoint myLocation) {
 
-			Toast.makeText(MainTab3Activity.this,
-					"Your current location is unavailable area.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(MainTab3Activity.this, "Your current location is unavailable area.", Toast.LENGTH_LONG).show();
 
 			stopMyLocation();
 		}
@@ -453,7 +418,7 @@ public class MainTab3Activity extends NMapActivity {
 			if (errorInfo == null) { // success
 				// restore map view state such as map center position and zoom
 				// level.
-				restoreInstanceState();
+//				restoreInstanceState();
 
 			} else { // fail
 				Log.e(LOG_TAG,
@@ -665,7 +630,6 @@ public class MainTab3Activity extends NMapActivity {
 		edit.putBoolean(KEY_BICYCLE_MODE, bicycleMode);
 
 		edit.commit();
-
 	}
 
 	/* Menus */
@@ -849,10 +813,6 @@ public class MainTab3Activity extends NMapActivity {
 
 		case MENU_ITEM_ZOOM_CONTROLS:
 			mMapView.displayZoomControls(true);
-			return true;
-
-		case MENU_ITEM_MY_LOCATION:
-			startMyLocation();
 			return true;
 
 		case MENU_ITEM_TEST_PATH_DATA:
