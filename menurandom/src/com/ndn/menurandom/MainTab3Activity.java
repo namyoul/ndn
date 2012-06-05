@@ -45,7 +45,8 @@ public class MainTab3Activity extends NMapActivity {
 
 	// set your API key which is registered for MainTab3Activity library.
 	private static final String API_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
-	private static String STR_RESTAURANT = "갈비탕";
+	private static String SEARCH_MENU = "갈비탕";
+	private static final int SEARCH_INDEX = 5;
 
 	private MapContainerView mMapContainerView;
 
@@ -77,6 +78,13 @@ public class MainTab3Activity extends NMapActivity {
 
 	private NMapPOIdataOverlay mFloatingPOIdataOverlay;
 	private NMapPOIitem mFloatingPOIitem;
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Global variable with Searching restaurant
+	
+	private SearchMapParser mSearchMapParser;
+	private RestaurantData[] restaurantData = new RestaurantData[SEARCH_INDEX];
+	private int restaurantIndex;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -94,10 +102,12 @@ public class MainTab3Activity extends NMapActivity {
 		// initialize
 		initMapContainerView(mMapContainerView);
 		initNMap();
+		initSearch();
 
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
 		
+		// search Restaurant
 		searchRestaurantInNaver();
 	}
 
@@ -132,7 +142,8 @@ public class MainTab3Activity extends NMapActivity {
 	}
 
 	private void searchRestaurantInNaver() {
-		
+		restaurantIndex = mSearchMapParser.search(restaurantData, SEARCH_MENU, SEARCH_INDEX, 1);
+		Log.e("NHK", restaurantData[0].sTitle);
 	}
 	
 	// Overlay Item (Restaurant) display
@@ -148,8 +159,7 @@ public class MainTab3Activity extends NMapActivity {
 		poiData.endPOIdata();
 
 		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager
-				.createPOIdataOverlay(poiData, null);
+		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
 		// set event listener to the overlay
 		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
@@ -159,6 +169,15 @@ public class MainTab3Activity extends NMapActivity {
 
 		// show all POI data
 		poiDataOverlay.showAllPOIdata(0);
+	}
+	
+	// Initialize Search
+	private void initSearch(){
+		mSearchMapParser = new SearchMapParser();
+		for (int i = 0; i<SEARCH_INDEX; i++) {
+			restaurantData[i] = new RestaurantData();
+		}
+		restaurantIndex = 0;
 	}
 
 	// Initialize MapContainerView
@@ -197,9 +216,7 @@ public class MainTab3Activity extends NMapActivity {
 		mMapController = mMapView.getMapController();
 
 		// use built in zoom controls
-		NMapView.LayoutParams lp = new NMapView.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-				NMapView.LayoutParams.BOTTOM_RIGHT);
+		NMapView.LayoutParams lp = new NMapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, NMapView.LayoutParams.BOTTOM_RIGHT);
 		mMapView.setBuiltInZoomControls(true, lp);
 
 		// create resource provider
@@ -209,22 +226,19 @@ public class MainTab3Activity extends NMapActivity {
 		super.setMapDataProviderListener(onDataProviderListener);
 
 		// create overlay manager
-		mOverlayManager = new NMapOverlayManager(this, mMapView,
-				mMapViewerResourceProvider);
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
 		// register callout overlay listener to customize it.
 		mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
 
 		// location manager
 		mMapLocationManager = new NMapLocationManager(this);
-		mMapLocationManager
-				.setOnLocationChangeListener(onMyLocationChangeListener);
+		mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
 
 		// compass manager
 		mMapCompassManager = new NMapCompassManager(this);
 
 		// create my location overlay
-		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(
-				mMapLocationManager, mMapCompassManager);
+		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
 	}
 
 	/* Test Functions */

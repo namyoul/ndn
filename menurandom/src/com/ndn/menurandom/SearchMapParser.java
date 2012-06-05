@@ -6,103 +6,71 @@ import java.net.URLEncoder;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.TextView;
+import android.util.Log;
 
-public class SearchMapParser extends Activity {
-
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-
-		// TextView status = (TextView)findViewById(R.id.status);
-		// TextView status1 = (TextView)findViewById(R.id.status1);
-		// TextView status2 = (TextView)findViewById(R.id.status2);
-
-		boolean inItem = false, inTitle = false, inAddress = false, inMapx = false, inMapy = false;
-
-		String title = null, address = null, mapx = null, mapy = null;
-		String query = URLEncoder.encode("갈비탕");
+public class SearchMapParser {
+	private static final String NAVER_API_KEY = "a660ecea6bb6c3428aa623190f4b174d";
+	
+	public int search(RestaurantData[] restaurantData, String query, int nHowMany, int nStart) {
+		boolean inTitle = false, inAddress = false, inMapx = false, inMapy = false;
+		int indexCount = 0;
 
 		try {
 			URL url = new URL("http://openapi.naver.com/search?"
-									+ "key=a660ecea6bb6c3428aa623190f4b174d" + "&query="
-									+ query // 여기는 쿼리를 넣으세요(검색어)
-									+ "&target=local&start=1&display=4");
+									+ "key=" + NAVER_API_KEY
+									+ "&query=" + URLEncoder.encode(query)
+									+ "&target=local"
+									+ "&start=" + String.valueOf(nHowMany)
+									+ "display=" + String.valueOf(nStart)
+									);
 
 			XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
 			XmlPullParser parser = parserCreator.newPullParser();
-
 			parser.setInput(url.openStream(), null);
-
-			// status.setText("파싱 중이에요..");
-
+			
 			int parserEvent = parser.getEventType();
-
+			
+			for(int i=0; i<nHowMany; i++){
+				
+			}
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
 				switch (parserEvent) {
-				case XmlPullParser.START_TAG: // parser가 시작 태그를 만나면 실행
-					if (parser.getName().equals("item")) {
-						inItem = true;
-					}
-					if (parser.getName().equals("title")) { // title 만나면 내용을 받을수
-															// 있게 하자
-						inTitle = true;
-					}
-					if (parser.getName().equals("address")) { // address 만나면 내용을
-																// 받을수 있게 하자
-						inAddress = true;
-					}
-					if (parser.getName().equals("mapx")) { // mapx 만나면 내용을 받을수
-															// 있게 하자
-						inMapx = true;
-					}
-					if (parser.getName().equals("mapy")) { // mapy 만나면 내용을 받을수
-															// 있게 하자
-						inMapy = true;
-					}
-					if (parser.getName().equals("message")) { // message 태그를 만나면
-																// 에러 출력
-					// status1.setText(status1.getText()+"에러");
-						// 여기에 에러코드에 따라 다른 메세지를 출력하도록 할 수 있다.
-					}
+				case XmlPullParser.START_TAG:
+					if (parser.getName().equals("title")) {	inTitle = true;	}
+					if (parser.getName().equals("address")) { inAddress = true;	}
+					if (parser.getName().equals("mapx")) { inMapx = true; }
+					if (parser.getName().equals("mapy")) { inMapy = true; }
+					if (parser.getName().equals("message")) {/* Error message*/}
 					break;
 
-				case XmlPullParser.TEXT:// parser가 내용에 접근했을때
-					if (inTitle) { // isTitle이 true일 때 태그의 내용을 저장.
-						title = parser.getText();
+				case XmlPullParser.TEXT:
+					if (inTitle) { 
+						restaurantData[indexCount].sTitle = parser.getText(); 
 						inTitle = false;
 					}
-					if (inAddress) { // isAddress이 true일 때 태그의 내용을 저장.
-						address = parser.getText();
+					if (inAddress) {
+						restaurantData[indexCount].sAddress = parser.getText();
 						inAddress = false;
 					}
-					if (inMapx) { // isMapx이 true일 때 태그의 내용을 저장.
-						mapx = parser.getText();
+					if (inMapx) {
+						restaurantData[indexCount].nMapX = Integer.parseInt(parser.getText());
 						inMapx = false;
 					}
-					if (inMapy) { // isMapy이 true일 때 태그의 내용을 저장.
-						mapy = parser.getText();
+					if (inMapy) {
+						restaurantData[indexCount].nMapY = Integer.parseInt(parser.getText());
 						inMapy = false;
 					}
 					break;
+					
 				case XmlPullParser.END_TAG:
-					if (parser.getName().equals("item")) {
-						// status1.setText(status1.getText()+"상호 : "+ title
-						// +"\n주소 : "+ address +"\n좌표 : " + mapx + ", " +
-						// mapy+"\n\n");
-						inItem = false;
+						indexCount++;
 					}
 					break;
 				}
 				parserEvent = parser.next();
-			}
-			// status2.setText("파싱 끝!");
-		} catch (Exception e) {
-			// status1.setText("에러가..났습니다...");
+			} catch (Exception e) {
+				Log.e("NHK", "search ERROR");
 		}
+		return indexCount;
 	}
 }
