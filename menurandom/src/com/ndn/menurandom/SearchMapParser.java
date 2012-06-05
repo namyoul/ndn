@@ -30,9 +30,6 @@ public class SearchMapParser {
 			
 			int parserEvent = parser.getEventType();
 			
-			for(int i=0; i<nHowMany; i++){
-				
-			}
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
 				switch (parserEvent) {
 				case XmlPullParser.START_TAG:
@@ -45,7 +42,7 @@ public class SearchMapParser {
 
 				case XmlPullParser.TEXT:
 					if (inTitle) { 
-						restaurantData[indexCount].sTitle = parser.getText(); 
+						restaurantData[indexCount].sTitle = parser.getText();
 						inTitle = false;
 					}
 					if (inAddress) {
@@ -63,13 +60,13 @@ public class SearchMapParser {
 					break;
 					
 				case XmlPullParser.END_TAG:
-						indexCount++;
-					}
+					indexCount++;
 					break;
 				}
 				parserEvent = parser.next();
-			} catch (Exception e) {
-				Log.e("NHK", "search ERROR");
+			}
+		} catch (Exception e) {
+			Log.e("NHK", "search ERROR");
 		}
 		return indexCount;
 	}

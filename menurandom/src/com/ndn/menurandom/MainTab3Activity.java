@@ -90,20 +90,20 @@ public class MainTab3Activity extends NMapActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		Log.e(LOG_TAG, "========================================================================================");
 		Log.e(LOG_TAG, "onCreate!");
-
+		
 		// create map view
 		mMapView = new NMapView(this);
 		mMapView.setApiKey(API_KEY);
 		mMapContainerView = new MapContainerView(this);
-
+		
 		// initialize
 		initMapContainerView(mMapContainerView);
 		initNMap();
 		initSearch();
-
+		
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
 		
@@ -143,7 +143,6 @@ public class MainTab3Activity extends NMapActivity {
 
 	private void searchRestaurantInNaver() {
 		restaurantIndex = mSearchMapParser.search(restaurantData, SEARCH_MENU, SEARCH_INDEX, 1);
-		Log.e("NHK", restaurantData[0].sTitle);
 	}
 	
 	// Overlay Item (Restaurant) display
