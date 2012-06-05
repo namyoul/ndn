@@ -115,7 +115,7 @@ public class MainTab3Activity extends NMapActivity {
 		
 		// search Restaurant
 		getMyLocation();
-//		searchRestaurantInNaver();
+		searchRestaurantInNaver();
 //		displayResturantOverlay();
 	}
 
