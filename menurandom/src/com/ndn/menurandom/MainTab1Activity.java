@@ -1,9 +1,12 @@
 package com.ndn.menurandom;
 
 import java.util.ArrayList;
+
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +65,8 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
         super.onCreate(savedInstanceState);
         
         //setSelectTab(0);
-        
+		sensor_Initialize();
+		
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
 		
         view1 = createView1();
@@ -96,9 +100,16 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		view1_1_5 = createView1_1_5();
 		frameLayout.addView(view1_1_5);
 		view1_1_5.setVisibility(View.GONE);
+		
+
     }
     
-    
+    private void sensor_Initialize(){
+         SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+         Sensor accelatorSensor= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+         
+         sensorManager.registerListener(this, accelatorSensor,  SensorManager.SENSOR_DELAY_FASTEST);
+    }
     private View createView1()
     {
     	View returnVal;
@@ -556,11 +567,11 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	public void onSensorChanged(SensorEvent event) {
 		Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));
-		float a = event.values[0];
-		if(a<12){
+		//float a1 = event.values[0];
+		//if(a1<12){
+			//System.out.print(a1);
 			
-			
-		}
+		//}
 		
 	}
 	

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/view_pic" >
+
+	<TableLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:stretchColumns="*">
+		<TableRow>
+	    	<ImageView
+	        	android:id="@+id/img_View"
+	        	android:layout_width="110dp"
+	        	android:layout_height="280dp"
+	        	android:layout_margin="20dp"
+	        	android:src="@drawable/bg_speech" />
+	    </TableRow>
+	    <TableRow> 
+	        <TextView
+	            android:id="@+id/img_Txt"
+	            android:layout_width="110dp"
+	            android:layout_height="20dp"
+	            android:layout_margin="20dp" />
+	    </TableRow>
+	    <TableRow>    
+			<Button 
+			    android:id="@+id/btn_Search"
+	        	android:layout_width="110dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_margin="20dp"
+			    />
+	    </TableRow>
+	</TableLayout>
+</LinearLayout>
