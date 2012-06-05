@@ -52,8 +52,7 @@ public class MainTab3Activity extends NMapActivity {
 	private NMapView mMapView;
 	private NMapController mMapController;
 
-	private static final NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(
-			126.978371, 37.5666091);
+	private static final NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
 	private static final int NMAP_ZOOMLEVEL_DEFAULT = 11;
 	private static final int NMAP_VIEW_MODE_DEFAULT = NMapView.VIEW_MODE_VECTOR;
 	private static final boolean NMAP_TRAFFIC_MODE_DEFAULT = false;
@@ -84,30 +83,22 @@ public class MainTab3Activity extends NMapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.e(LOG_TAG,
-				"========================================================================================");
+		Log.e(LOG_TAG, "========================================================================================");
 		Log.e(LOG_TAG, "onCreate!");
 
 		// create map view
 		mMapView = new NMapView(this);
-
-		// set a registered API key for Open MapViewer Library
 		mMapView.setApiKey(API_KEY);
-
-		// create parent view to rotate map view
 		mMapContainerView = new MapContainerView(this);
 
-		// init view
+		// initialize
 		initMapContainerView(mMapContainerView);
-
-		// init NMap
 		initNMap();
 
 		// set the activity content to the parent view
 		setContentView(mMapContainerView);
-
-		// Display Restaurant
-		displayResturantOverlay();
+		
+		searchRestaurantInNaver();
 	}
 
 	@Override
@@ -140,6 +131,10 @@ public class MainTab3Activity extends NMapActivity {
 		super.onDestroy();
 	}
 
+	private void searchRestaurantInNaver() {
+		
+	}
+	
 	// Overlay Item (Restaurant) display
 	private void displayResturantOverlay() {
 		// Markers for POI item
@@ -259,13 +254,9 @@ public class MainTab3Activity extends NMapActivity {
 				boolean isMyLocationEnabled = mMapLocationManager
 						.enableMyLocation(false);
 				if (!isMyLocationEnabled) {
-					Toast.makeText(
-							MainTab3Activity.this,
-							"Please enable a My Location source in system settings",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
 
-					Intent goToSettings = new Intent(
-							Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					startActivity(goToSettings);
 
 					return;
@@ -296,21 +287,18 @@ public class MainTab3Activity extends NMapActivity {
 		NMapPathData pathData = new NMapPathData(9);
 
 		pathData.initPathData();
-		pathData.addPathPoint(127.108099, 37.366034,
-				NMapPathLineStyle.TYPE_SOLID);
+		pathData.addPathPoint(127.108099, 37.366034, NMapPathLineStyle.TYPE_SOLID);
 		pathData.addPathPoint(127.108088, 37.366043, 0);
 		pathData.addPathPoint(127.108079, 37.365619, 0);
 		pathData.addPathPoint(127.107458, 37.365608, 0);
 		pathData.addPathPoint(127.107232, 37.365608, 0);
 		pathData.addPathPoint(127.106904, 37.365624, 0);
-		pathData.addPathPoint(127.105933, 37.365621,
-				NMapPathLineStyle.TYPE_DASH);
+		pathData.addPathPoint(127.105933, 37.365621, NMapPathLineStyle.TYPE_DASH);
 		pathData.addPathPoint(127.105929, 37.366378, 0);
 		pathData.addPathPoint(127.106279, 37.366380, 0);
 		pathData.endPathData();
 
-		NMapPathDataOverlay pathDataOverlay = mOverlayManager
-				.createPathDataOverlay(pathData);
+		NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(pathData);
 		if (pathDataOverlay != null) {
 			pathDataOverlay.showAllPathData(0);
 		}
@@ -318,22 +306,16 @@ public class MainTab3Activity extends NMapActivity {
 
 	private void testPathPOIdataOverlay() {
 		// set POI data
-		NMapPOIdata poiData = new NMapPOIdata(4, mMapViewerResourceProvider,
-				true);
+		NMapPOIdata poiData = new NMapPOIdata(4, mMapViewerResourceProvider, true);
 		poiData.beginPOIdata(4);
-		poiData.addPOIitem(349652983, 149297368, "Pizza 124-456",
-				SearchMapPOIflagType.FROM, null);
-		poiData.addPOIitem(349652966, 149296906, null,
-				SearchMapPOIflagType.NUMBER_BASE + 1, null);
-		poiData.addPOIitem(349651062, 149296913, null,
-				SearchMapPOIflagType.NUMBER_BASE + 999, null);
-		poiData.addPOIitem(349651376, 149297750, "Pizza 000-999",
-				SearchMapPOIflagType.TO, null);
+		poiData.addPOIitem(349652983, 149297368, "Pizza 124-456", SearchMapPOIflagType.FROM, null);
+		poiData.addPOIitem(349652966, 149296906, null, SearchMapPOIflagType.NUMBER_BASE + 1, null);
+		poiData.addPOIitem(349651062, 149296913, null, SearchMapPOIflagType.NUMBER_BASE + 999, null);
+		poiData.addPOIitem(349651376, 149297750, "Pizza 000-999", SearchMapPOIflagType.TO, null);
 		poiData.endPOIdata();
 
 		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager
-				.createPOIdataOverlay(poiData, null);
+		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
 		// set event listener to the overlay
 		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
@@ -635,23 +617,17 @@ public class MainTab3Activity extends NMapActivity {
 		Log.e(LOG_TAG, "restoreInstanceState");
 		mPreferences = getPreferences(MODE_PRIVATE);
 
-		int longitudeE6 = mPreferences.getInt(KEY_CENTER_LONGITUDE,
-				NMAP_LOCATION_DEFAULT.getLongitudeE6());
-		int latitudeE6 = mPreferences.getInt(KEY_CENTER_LATITUDE,
-				NMAP_LOCATION_DEFAULT.getLatitudeE6());
+		int longitudeE6 = mPreferences.getInt(KEY_CENTER_LONGITUDE,	NMAP_LOCATION_DEFAULT.getLongitudeE6());
+		int latitudeE6 = mPreferences.getInt(KEY_CENTER_LATITUDE, NMAP_LOCATION_DEFAULT.getLatitudeE6());
 		int level = mPreferences.getInt(KEY_ZOOM_LEVEL, NMAP_ZOOMLEVEL_DEFAULT);
-		int viewMode = mPreferences.getInt(KEY_VIEW_MODE,
-				NMAP_VIEW_MODE_DEFAULT);
-		boolean trafficMode = mPreferences.getBoolean(KEY_TRAFFIC_MODE,
-				NMAP_TRAFFIC_MODE_DEFAULT);
-		boolean bicycleMode = mPreferences.getBoolean(KEY_BICYCLE_MODE,
-				NMAP_BICYCLE_MODE_DEFAULT);
+		int viewMode = mPreferences.getInt(KEY_VIEW_MODE, NMAP_VIEW_MODE_DEFAULT);
+		boolean trafficMode = mPreferences.getBoolean(KEY_TRAFFIC_MODE, NMAP_TRAFFIC_MODE_DEFAULT);
+		boolean bicycleMode = mPreferences.getBoolean(KEY_BICYCLE_MODE,	NMAP_BICYCLE_MODE_DEFAULT);
 
 		mMapController.setMapViewMode(viewMode);
 		mMapController.setMapViewTrafficMode(trafficMode);
 		mMapController.setMapViewBicycleMode(bicycleMode);
-		mMapController.setMapCenter(new NGeoPoint(longitudeE6, latitudeE6),
-				level);
+		mMapController.setMapCenter(new NGeoPoint(longitudeE6, latitudeE6),	level);
 	}
 
 	private void saveInstanceState() {
