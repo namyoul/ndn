@@ -45,7 +45,7 @@ public class MainTab3Activity extends NMapActivity {
 
 	// set your API key which is registered for MainTab3Activity library.
 	private static final String API_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
-	private static String SEARCH_MENU = "갈비탕";
+	private static String SEARCH_MENU = "마포구합정동갈비탕";
 	private static final int SEARCH_INDEX = 5;
 
 	private MapContainerView mMapContainerView;
@@ -84,7 +84,7 @@ public class MainTab3Activity extends NMapActivity {
 	private SearchMapParser mSearchMapParser;
 	private RestaurantData[] restaurantData = new RestaurantData[SEARCH_INDEX];
 	private int searchedRestaurantIndex;
-	private NMapPOIitem mMyPOIitem; 
+	private NGeoPoint mMyGeoPoint; 
 
 	/** Called when the activity is first created. */
 	@Override
@@ -116,7 +116,7 @@ public class MainTab3Activity extends NMapActivity {
 		// search Restaurant
 		getMyLocation();
 		searchRestaurantInNaver();
-//		displayResturantOverlay();
+		displayResturantOverlay();
 	}
 
 	@Override
@@ -162,81 +162,32 @@ public class MainTab3Activity extends NMapActivity {
 			}
 		}
 	}
-	/*
 
-			if (mMapLocationManager.isMyLocationEnabled()) {
-
-
-			} else {
-
-				boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
-				if (!isMyLocationEnabled) {
-					Toast.makeText(NMapViewer.this, "Please enable a My Location source in system settings",
-						Toast.LENGTH_LONG).show();
-
-					Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-					startActivity(goToSettings);
-
-					return;
-				}
-			}
-		}
-		
-	// Markers for POI item
-	int marker1 = SearchMapPOIflagType.PIN;
-
-	// set POI data
-	NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
-	poiData.beginPOIdata(1);
-	NMapPOIitem item = poiData.addPOIitem(null, "Touch & Drag to Move",	marker1, 0);
-	if (item != null) {
-		// initialize location to the center of the map view.
-		item.setPoint(mMapController.getMapCenter());
-		// set floating mode
-		item.setFloatingMode(NMapPOIitem.FLOATING_TOUCH	| NMapPOIitem.FLOATING_DRAG);
-		// show right button on callout
-		item.setRightButton(true);
-
-		mFloatingPOIitem = item;
-	}
-	poiData.endPOIdata();
-
-	// create POI data overlay
-	NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-	if (poiDataOverlay != null) {
-		poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
-
-		// set event listener to the overlay
-		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-		poiDataOverlay.selectPOIitem(0, false);
-
-		mFloatingPOIdataOverlay = poiDataOverlay;
-	}*/
-	
 	// Overlay Item (Restaurant) display
 	private void displayResturantOverlay() {
 		// Markers for POI item
 		int markerId = SearchMapPOIflagType.PIN;
 
 		// set POI data
-		NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-		poiData.beginPOIdata(2);
-		poiData.addPOIitem(127.0630205, 37.5091300, "갈비탕 777-111", markerId, 0);
-		poiData.addPOIitem(127.061, 37.51, "갈비탕 123-456", markerId, 0);
+		NMapPOIdata poiData = new NMapPOIdata(searchedRestaurantIndex+1, mMapViewerResourceProvider);
+		poiData.beginPOIdata(searchedRestaurantIndex+1);
+		for (int i=0; i<searchedRestaurantIndex; i++) 
+			poiData.addPOIitem(Double.parseDouble(restaurantData[i].sMapX), Double.parseDouble(restaurantData[i].sMapY), restaurantData[i].sTitle, markerId, 0);
+		if(mMyGeoPoint != null)
+			poiData.addPOIitem(mMyGeoPoint, "My Location",	markerId, 0);
 		poiData.endPOIdata();
 
 		// create POI data overlay
 		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
 		// set event listener to the overlay
-//		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
 		// select an item
-		poiDataOverlay.selectPOIitem(0, true);
+		poiDataOverlay.selectPOIitem(searchedRestaurantIndex, true);
 
 		// show all POI data
-//		poiDataOverlay.showAllPOIdata(0);
+		poiDataOverlay.showAllPOIdata(0);
 	}
 	
 	// Initialize Search
@@ -315,80 +266,6 @@ public class MainTab3Activity extends NMapActivity {
 		mMapLocationManager.disableMyLocation();
 	}
 
-	private void testPathDataOverlay() {
-
-		// set path data points
-		NMapPathData pathData = new NMapPathData(9);
-
-		pathData.initPathData();
-		pathData.addPathPoint(127.108099, 37.366034, NMapPathLineStyle.TYPE_SOLID);
-		pathData.addPathPoint(127.108088, 37.366043, 0);
-		pathData.addPathPoint(127.108079, 37.365619, 0);
-		pathData.addPathPoint(127.107458, 37.365608, 0);
-		pathData.addPathPoint(127.107232, 37.365608, 0);
-		pathData.addPathPoint(127.106904, 37.365624, 0);
-		pathData.addPathPoint(127.105933, 37.365621, NMapPathLineStyle.TYPE_DASH);
-		pathData.addPathPoint(127.105929, 37.366378, 0);
-		pathData.addPathPoint(127.106279, 37.366380, 0);
-		pathData.endPathData();
-
-		NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(pathData);
-		if (pathDataOverlay != null) {
-			pathDataOverlay.showAllPathData(0);
-		}
-	}
-
-	private void testPathPOIdataOverlay() {
-		// set POI data
-		NMapPOIdata poiData = new NMapPOIdata(4, mMapViewerResourceProvider, true);
-		poiData.beginPOIdata(4);
-		poiData.addPOIitem(349652983, 149297368, "Pizza 124-456", SearchMapPOIflagType.FROM, null);
-		poiData.addPOIitem(349652966, 149296906, null, SearchMapPOIflagType.NUMBER_BASE + 1, null);
-		poiData.addPOIitem(349651062, 149296913, null, SearchMapPOIflagType.NUMBER_BASE + 999, null);
-		poiData.addPOIitem(349651376, 149297750, "Pizza 000-999", SearchMapPOIflagType.TO, null);
-		poiData.endPOIdata();
-
-		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-
-		// set event listener to the overlay
-		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-	}
-
-	private void testFloatingPOIdataOverlay() {
-		// Markers for POI item
-		int marker1 = SearchMapPOIflagType.PIN;
-
-		// set POI data
-		NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
-		poiData.beginPOIdata(1);
-		NMapPOIitem item = poiData.addPOIitem(null, "Touch & Drag to Move",	marker1, 0);
-		if (item != null) {
-			// initialize location to the center of the map view.
-			item.setPoint(mMapController.getMapCenter());
-			// set floating mode
-			item.setFloatingMode(NMapPOIitem.FLOATING_TOUCH	| NMapPOIitem.FLOATING_DRAG);
-			// show right button on callout
-			item.setRightButton(true);
-
-			mFloatingPOIitem = item;
-		}
-		poiData.endPOIdata();
-
-		// create POI data overlay
-		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-		if (poiDataOverlay != null) {
-			poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
-
-			// set event listener to the overlay
-			poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-			poiDataOverlay.selectPOIitem(0, false);
-
-			mFloatingPOIdataOverlay = poiDataOverlay;
-		}
-	}
-
 	/* NMapDataProvider Listener */
 	private final NMapActivity.OnDataProviderListener onDataProviderListener = new NMapActivity.OnDataProviderListener() {
 
@@ -418,37 +295,8 @@ public class MainTab3Activity extends NMapActivity {
 
 		public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
 
-			// Markers for POI item
-			int marker1 = SearchMapPOIflagType.PIN;
+			mMyGeoPoint = myLocation;
 
-			// set POI data
-			NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
-			poiData.beginPOIdata(1);
-			mMyPOIitem = poiData.addPOIitem(null, "Current Location", marker1, 0);
-			if (mMyPOIitem != null) {
-				// initialize location to the center of the map view.
-				mMyPOIitem.setPoint(mMapLocationManager.getMyLocation());
-				NGeoPoint ngo = mMapLocationManager.getMyLocation();
-				if (mMapLocationManager.isMyLocationFixed())
-					mMapController.setMapCenter(ngo);
-				// set floating mode
-				mMyPOIitem.setFloatingMode(NMapPOIitem.FLOATING_FIXED);
-			}
-			poiData.endPOIdata();
-				
-			// create POI data overlay
-			NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-			if (poiDataOverlay != null) {
-				poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
-
-				// set event listener to the overlay
-				poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-				poiDataOverlay.selectPOIitem(0, false);
-
-				mFloatingPOIdataOverlay = poiDataOverlay;
-			}
-			
 			 stopMyLocation();
 			 return true;
 		}
@@ -697,13 +545,6 @@ public class MainTab3Activity extends NMapActivity {
 
 	private static final int MENU_ITEM_RETURN = 60;
 
-	/**
-	 * Invoked during init to give the Activity a chance to set up its Menu.
-	 * 
-	 * @param menu
-	 *            the Menu to which entries may be added
-	 * @return true
-	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -830,21 +671,6 @@ public class MainTab3Activity extends NMapActivity {
 
 		case MENU_ITEM_ZOOM_CONTROLS:
 			mMapView.displayZoomControls(true);
-			return true;
-
-		case MENU_ITEM_TEST_PATH_DATA:
-			mOverlayManager.clearOverlays();
-
-			// add path data overlay
-			testPathDataOverlay();
-
-			// add path POI data overlay
-			testPathPOIdataOverlay();
-			return true;
-
-		case MENU_ITEM_TEST_FLOATING_DATA:
-			mOverlayManager.clearOverlays();
-			testFloatingPOIdataOverlay();
 			return true;
 
 		case MENU_ITEM_TEST_AUTO_ROTATE:
