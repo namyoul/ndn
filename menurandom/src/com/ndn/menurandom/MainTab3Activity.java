@@ -148,56 +148,40 @@ public class MainTab3Activity extends NMapActivity {
 	}
 
 	private void getMyLocation() {
-//		if (mMyLocationOverlay != null) {
-//			if (!mOverlayManager.hasOverlay(mMyLocationOverlay)) {
-//				mOverlayManager.addOverlay(mMyLocationOverlay);
-//			}
+
+		if (mMapLocationManager.isMyLocationEnabled()) {
 			
-//			mMapContainerView.requestLayout();
-//			mMapView.postInvalidate();
-
-		if (mMapLocationManager.enableMyLocation(false)) {
-			// Markers for POI item
-			int marker1 = SearchMapPOIflagType.PIN;
-
-			// set POI data
-			NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
-			poiData.beginPOIdata(1);
-			mMyPOIitem = poiData.addPOIitem(null, "Current Location", marker1, 0);
-			if (mMyPOIitem != null) {
-				// initialize location to the center of the map view.
-				mMyPOIitem.setPoint(mMapLocationManager.getMyLocation());
-				boolean b = mMapLocationManager.isMyLocationFixed();
-				boolean c = mMapLocationManager.isMyLocationEnabled();
-				NGeoPoint ngo = mMapLocationManager.getMyLocation();
-				mMapController.animateTo(mMapLocationManager.getMyLocation());
-				// set floating mode
-				mMyPOIitem.setFloatingMode(NMapPOIitem.FLOATING_FIXED);
-			}
-			poiData.endPOIdata();
-			
-			// create POI data overlay
-			NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-			if (poiDataOverlay != null) {
-				poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
-
-				// set event listener to the overlay
-				poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-				poiDataOverlay.selectPOIitem(0, false);
-
-				mFloatingPOIdataOverlay = poiDataOverlay;
-			}
 		} else {
-			Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
-
-			Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-			startActivity(goToSettings);
-
-			return;
+			boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
+			
+			if ( !isMyLocationEnabled ) {
+				Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(goToSettings);
+				
+				return ;
+			}
 		}
 	}
 	/*
+
+			if (mMapLocationManager.isMyLocationEnabled()) {
+
+
+			} else {
+
+				boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
+				if (!isMyLocationEnabled) {
+					Toast.makeText(NMapViewer.this, "Please enable a My Location source in system settings",
+						Toast.LENGTH_LONG).show();
+
+					Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					startActivity(goToSettings);
+
+					return;
+				}
+			}
+		}
+		
 	// Markers for POI item
 	int marker1 = SearchMapPOIflagType.PIN;
 
@@ -328,9 +312,7 @@ public class MainTab3Activity extends NMapActivity {
 	}
 
 	private void stopMyLocation() {
-//		if (mMyLocationOverlay != null) {
-//			mMapLocationManager.disableMyLocation();
-//		}
+		mMapLocationManager.disableMyLocation();
 	}
 
 	private void testPathDataOverlay() {
@@ -436,24 +418,50 @@ public class MainTab3Activity extends NMapActivity {
 
 		public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
 
-			if (mMapController != null) {
-				mMapController.animateTo(myLocation);
-			}
+			// Markers for POI item
+			int marker1 = SearchMapPOIflagType.PIN;
 
-			return true;
+			// set POI data
+			NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
+			poiData.beginPOIdata(1);
+			mMyPOIitem = poiData.addPOIitem(null, "Current Location", marker1, 0);
+			if (mMyPOIitem != null) {
+				// initialize location to the center of the map view.
+				mMyPOIitem.setPoint(mMapLocationManager.getMyLocation());
+				NGeoPoint ngo = mMapLocationManager.getMyLocation();
+				if (mMapLocationManager.isMyLocationFixed())
+					mMapController.setMapCenter(ngo);
+				// set floating mode
+				mMyPOIitem.setFloatingMode(NMapPOIitem.FLOATING_FIXED);
+			}
+			poiData.endPOIdata();
+				
+			// create POI data overlay
+			NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+			if (poiDataOverlay != null) {
+				poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
+
+				// set event listener to the overlay
+				poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+
+				poiDataOverlay.selectPOIitem(0, false);
+
+				mFloatingPOIdataOverlay = poiDataOverlay;
+			}
+			
+			 stopMyLocation();
+			 return true;
 		}
 
 		public void onLocationUpdateTimeout(NMapLocationManager locationManager) {
+			 Runnable runnable = new Runnable() {
+				 public void run() {
+					 stopMyLocation();
+				 }
+			 };
+			 runnable.run();
 
-			// stop location updating
-			// Runnable runnable = new Runnable() {
-			// public void run() {
-			// stopMyLocation();
-			// }
-			// };
-			// runnable.run();
-
-			Toast.makeText(MainTab3Activity.this, "Your current location is temporarily unavailable.", Toast.LENGTH_LONG).show();
+			 Toast.makeText(MainTab3Activity.this, "Your current location is temporarily unavailable.", Toast.LENGTH_LONG).show();
 		}
 
 		public void onLocationUnavailableArea(NMapLocationManager locationManager, NGeoPoint myLocation) {
@@ -490,7 +498,7 @@ public class MainTab3Activity extends NMapActivity {
 
 		public void onMapCenterChange(NMapView mapView, NGeoPoint center) {
 			if (DEBUG) {
-				Log.i(LOG_TAG, "onMapCenterChange: center=" + center.toString());
+//				Log.i(LOG_TAG, "onMapCenterChange: center=" + center.toString());
 			}
 		}
 
