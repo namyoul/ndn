@@ -122,9 +122,10 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 	private String dataSelect(){
 		DBHandler dbhandler = DBHandler.open(this);
 		
-		Cursor cursor = dbhandler.select(8);
+		Cursor cursor = dbhandler.randomSelect("", "", "", "", "", "");
         startManagingCursor(cursor);
-        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+        String result = ""+cursor.getColumnCount()+":"+cursor.getCount()+cursor.getString(cursor.getColumnIndex("menuName"));
 		dbhandler.close();
 		
 		return result;
