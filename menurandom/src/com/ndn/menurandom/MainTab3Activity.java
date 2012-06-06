@@ -70,7 +70,6 @@ public class MainTab3Activity extends NMapActivity {
 
 	private NMapOverlayManager mOverlayManager;
 
-	private NMapMyLocationOverlay mMyLocationOverlay;
 	private NMapLocationManager mMapLocationManager;
 	private NMapCompassManager mMapCompassManager;
 
@@ -84,7 +83,8 @@ public class MainTab3Activity extends NMapActivity {
 	
 	private SearchMapParser mSearchMapParser;
 	private RestaurantData[] restaurantData = new RestaurantData[SEARCH_INDEX];
-	private int restaurantIndex;
+	private int searchedRestaurantIndex;
+	private NMapPOIitem mMyPOIitem; 
 
 	/** Called when the activity is first created. */
 	@Override
@@ -144,8 +144,91 @@ public class MainTab3Activity extends NMapActivity {
 	}
 
 	private void searchRestaurantInNaver() {
-		restaurantIndex = mSearchMapParser.search(restaurantData, SEARCH_MENU, SEARCH_INDEX, 1);
+		searchedRestaurantIndex = mSearchMapParser.search(restaurantData, SEARCH_MENU, SEARCH_INDEX, 1);
 	}
+
+	private void getMyLocation() {
+//		if (mMyLocationOverlay != null) {
+//			if (!mOverlayManager.hasOverlay(mMyLocationOverlay)) {
+//				mOverlayManager.addOverlay(mMyLocationOverlay);
+//			}
+			
+//			mMapContainerView.requestLayout();
+//			mMapView.postInvalidate();
+
+		if (mMapLocationManager.enableMyLocation(false)) {
+			// Markers for POI item
+			int marker1 = SearchMapPOIflagType.PIN;
+
+			// set POI data
+			NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
+			poiData.beginPOIdata(1);
+			mMyPOIitem = poiData.addPOIitem(null, "Current Location", marker1, 0);
+			if (mMyPOIitem != null) {
+				// initialize location to the center of the map view.
+				mMyPOIitem.setPoint(mMapLocationManager.getMyLocation());
+				boolean b = mMapLocationManager.isMyLocationFixed();
+				boolean c = mMapLocationManager.isMyLocationEnabled();
+				NGeoPoint ngo = mMapLocationManager.getMyLocation();
+				mMapController.animateTo(mMapLocationManager.getMyLocation());
+				// set floating mode
+				mMyPOIitem.setFloatingMode(NMapPOIitem.FLOATING_FIXED);
+			}
+			poiData.endPOIdata();
+			
+			// create POI data overlay
+			NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+			if (poiDataOverlay != null) {
+				poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
+
+				// set event listener to the overlay
+				poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+
+				poiDataOverlay.selectPOIitem(0, false);
+
+				mFloatingPOIdataOverlay = poiDataOverlay;
+			}
+		} else {
+			Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
+
+			Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			startActivity(goToSettings);
+
+			return;
+		}
+	}
+	/*
+	// Markers for POI item
+	int marker1 = SearchMapPOIflagType.PIN;
+
+	// set POI data
+	NMapPOIdata poiData = new NMapPOIdata(1, mMapViewerResourceProvider);
+	poiData.beginPOIdata(1);
+	NMapPOIitem item = poiData.addPOIitem(null, "Touch & Drag to Move",	marker1, 0);
+	if (item != null) {
+		// initialize location to the center of the map view.
+		item.setPoint(mMapController.getMapCenter());
+		// set floating mode
+		item.setFloatingMode(NMapPOIitem.FLOATING_TOUCH	| NMapPOIitem.FLOATING_DRAG);
+		// show right button on callout
+		item.setRightButton(true);
+
+		mFloatingPOIitem = item;
+	}
+	poiData.endPOIdata();
+
+	// create POI data overlay
+	NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+	if (poiDataOverlay != null) {
+		poiDataOverlay.setOnFloatingItemChangeListener(onPOIdataFloatingItemChangeListener);
+
+		// set event listener to the overlay
+		poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+
+		poiDataOverlay.selectPOIitem(0, false);
+
+		mFloatingPOIdataOverlay = poiDataOverlay;
+	}*/
 	
 	// Overlay Item (Restaurant) display
 	private void displayResturantOverlay() {
@@ -178,7 +261,6 @@ public class MainTab3Activity extends NMapActivity {
 		for (int i = 0; i<SEARCH_INDEX; i++) {
 			restaurantData[i] = new RestaurantData();
 		}
-		restaurantIndex = 0;
 	}
 
 	// Initialize MapContainerView
@@ -239,38 +321,16 @@ public class MainTab3Activity extends NMapActivity {
 		mMapCompassManager = new NMapCompassManager(this);
 
 		// create my location overlay
-		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
+//		mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
 		
 		// set up my location
 		NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
 	}
 
-	private void getMyLocation() {
-		if (mMyLocationOverlay != null) {
-			if (!mOverlayManager.hasOverlay(mMyLocationOverlay)) {
-				mOverlayManager.addOverlay(mMyLocationOverlay);
-			}
-			
-//			mMapContainerView.requestLayout();
-//			mMapView.postInvalidate();
-
-			boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(false);
-			
-			if (!isMyLocationEnabled) {
-				Toast.makeText(MainTab3Activity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
-
-				Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				startActivity(goToSettings);
-
-				return;
-			}
-		}
-	}
-
 	private void stopMyLocation() {
-		if (mMyLocationOverlay != null) {
-			mMapLocationManager.disableMyLocation();
-		}
+//		if (mMyLocationOverlay != null) {
+//			mMapLocationManager.disableMyLocation();
+//		}
 	}
 
 	private void testPathDataOverlay() {
@@ -351,10 +411,7 @@ public class MainTab3Activity extends NMapActivity {
 	private final NMapActivity.OnDataProviderListener onDataProviderListener = new NMapActivity.OnDataProviderListener() {
 
 		public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
-			if (DEBUG) {
-				Log.i(LOG_TAG, "onReverseGeocoderResponse: placeMark="
-						+ ((placeMark != null) ? placeMark.toString() : null));
-			}
+//			Log.i(LOG_TAG, "onReverseGeocoderResponse: placeMark=" + ((placeMark != null) ? placeMark.toString() : null));
 
 			if (errInfo != null) {
 				Log.e(LOG_TAG, "Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
@@ -396,9 +453,7 @@ public class MainTab3Activity extends NMapActivity {
 			// };
 			// runnable.run();
 
-			Toast.makeText(MainTab3Activity.this,
-					"Your current location is temporarily unavailable.",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(MainTab3Activity.this, "Your current location is temporarily unavailable.", Toast.LENGTH_LONG).show();
 		}
 
 		public void onLocationUnavailableArea(NMapLocationManager locationManager, NGeoPoint myLocation) {
@@ -421,20 +476,15 @@ public class MainTab3Activity extends NMapActivity {
 //				restoreInstanceState();
 
 			} else { // fail
-				Log.e(LOG_TAG,
-						"onFailedToInitializeWithError: "
-								+ errorInfo.toString());
+				Log.e(LOG_TAG, "onFailedToInitializeWithError: " + errorInfo.toString());
 
-				Toast.makeText(MainTab3Activity.this, errorInfo.toString(),
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(MainTab3Activity.this, errorInfo.toString(),	Toast.LENGTH_LONG).show();
 			}
 		}
 
-		public void onAnimationStateChange(NMapView mapView, int animType,
-				int animState) {
+		public void onAnimationStateChange(NMapView mapView, int animType, int animState) {
 			if (DEBUG) {
-				Log.i(LOG_TAG, "onAnimationStateChange: animType=" + animType
-						+ ", animState=" + animState);
+//				Log.i(LOG_TAG, "onAnimationStateChange: animType=" + animType + ", animState=" + animState);
 			}
 		}
 
@@ -494,20 +544,16 @@ public class MainTab3Activity extends NMapActivity {
 	/* POI data State Change Listener */
 	private final NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
 
-		public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay,
-				NMapPOIitem item) {
+		public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
 			if (DEBUG) {
 				Log.i(LOG_TAG, "onCalloutClick: title=" + item.getTitle());
 			}
 
 			// [[TEMP]] handle a click event of the callout
-			Toast.makeText(MainTab3Activity.this,
-					"onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(MainTab3Activity.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
 		}
 
-		public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay,
-				NMapPOIitem item) {
+		public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
 			if (DEBUG) {
 				if (item != null) {
 					// item selected
@@ -522,8 +568,7 @@ public class MainTab3Activity extends NMapActivity {
 
 	private final NMapPOIdataOverlay.OnFloatingItemChangeListener onPOIdataFloatingItemChangeListener = new NMapPOIdataOverlay.OnFloatingItemChangeListener() {
 
-		public void onPointChanged(NMapPOIdataOverlay poiDataOverlay,
-				NMapPOIitem item) {
+		public void onPointChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
 			NGeoPoint point = item.getPoint();
 
 			if (DEBUG) {
@@ -539,9 +584,7 @@ public class MainTab3Activity extends NMapActivity {
 
 	private final NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener = new NMapOverlayManager.OnCalloutOverlayListener() {
 
-		public NMapCalloutOverlay onCreateCalloutOverlay(
-				NMapOverlay itemOverlay, NMapOverlayItem overlayItem,
-				Rect itemBounds) {
+		public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay itemOverlay, NMapOverlayItem overlayItem, Rect itemBounds) {
 
 			// handle overlapped items
 			if (itemOverlay instanceof NMapPOIdataOverlay) {
@@ -561,18 +604,14 @@ public class MainTab3Activity extends NMapActivity {
 						}
 
 						// check if overlapped or not
-						if (Rect.intersects(poiItem.getBoundsInScreen(),
-								overlayItem.getBoundsInScreen())) {
+						if (Rect.intersects(poiItem.getBoundsInScreen(), overlayItem.getBoundsInScreen())) {
 							countOfOverlappedItems++;
 						}
 					}
 
 					if (countOfOverlappedItems > 1) {
-						String text = countOfOverlappedItems
-								+ " overlapped items for "
-								+ overlayItem.getTitle();
-						Toast.makeText(MainTab3Activity.this, text,
-								Toast.LENGTH_LONG).show();
+						String text = countOfOverlappedItems + " overlapped items for "	+ overlayItem.getTitle();
+						Toast.makeText(MainTab3Activity.this, text,	Toast.LENGTH_LONG).show();
 						return null;
 					}
 				}
@@ -664,73 +703,59 @@ public class MainTab3Activity extends NMapActivity {
 		MenuItem menuItem = null;
 		SubMenu subMenu = null;
 
-		menuItem = menu.add(Menu.NONE, MENU_ITEM_CLEAR_MAP,
-				Menu.CATEGORY_SECONDARY, "Clear Map");
+		menuItem = menu.add(Menu.NONE, MENU_ITEM_CLEAR_MAP, Menu.CATEGORY_SECONDARY, "Clear Map");
 		menuItem.setAlphabeticShortcut('c');
 		menuItem.setIcon(android.R.drawable.ic_menu_revert);
 
-		subMenu = menu.addSubMenu(Menu.NONE, MENU_ITEM_MAP_MODE,
-				Menu.CATEGORY_SECONDARY, "Map mode");
+		subMenu = menu.addSubMenu(Menu.NONE, MENU_ITEM_MAP_MODE, Menu.CATEGORY_SECONDARY, "Map mode");
 		subMenu.setIcon(android.R.drawable.ic_menu_mapmode);
 
-		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_VECTOR, Menu.NONE,
-				"Standard");
+		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_VECTOR, Menu.NONE, "Standard");
 		menuItem.setAlphabeticShortcut('m');
 		menuItem.setCheckable(true);
 		menuItem.setChecked(false);
 
-		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_SATELLITE, Menu.NONE,
-				"Satellite");
+		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_SATELLITE, Menu.NONE, "Satellite");
 		menuItem.setAlphabeticShortcut('s');
 		menuItem.setCheckable(true);
 		menuItem.setChecked(false);
 
-		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_HYBRID, Menu.NONE,
-				"Hybrid");
+		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_HYBRID, Menu.NONE, "Hybrid");
 		menuItem.setAlphabeticShortcut('h');
 		menuItem.setCheckable(true);
 		menuItem.setChecked(false);
 
-		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_TRAFFIC, Menu.NONE,
-				"Traffic");
+		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_TRAFFIC, Menu.NONE, "Traffic");
 		menuItem.setAlphabeticShortcut('t');
 		menuItem.setCheckable(true);
 		menuItem.setChecked(false);
 
-		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_BICYCLE, Menu.NONE,
-				"Bicycle");
+		menuItem = subMenu.add(0, MENU_ITEM_MAP_MODE_SUB_BICYCLE, Menu.NONE, "Bicycle");
 		menuItem.setAlphabeticShortcut('b');
 		menuItem.setCheckable(true);
 		menuItem.setChecked(false);
 
-		menuItem = menu.add(0, MENU_ITEM_ZOOM_CONTROLS,
-				Menu.CATEGORY_SECONDARY, "Zoom Controls");
+		menuItem = menu.add(0, MENU_ITEM_ZOOM_CONTROLS,	Menu.CATEGORY_SECONDARY, "Zoom Controls");
 		menuItem.setAlphabeticShortcut('z');
 		menuItem.setIcon(android.R.drawable.ic_menu_zoom);
 
-		menuItem = menu.add(0, MENU_ITEM_MY_LOCATION, Menu.CATEGORY_SECONDARY,
-				"My Location");
+		menuItem = menu.add(0, MENU_ITEM_MY_LOCATION, Menu.CATEGORY_SECONDARY, "My Location");
 		menuItem.setAlphabeticShortcut('l');
 		menuItem.setIcon(android.R.drawable.ic_menu_mylocation);
 
-		subMenu = menu.addSubMenu(Menu.NONE, MENU_ITEM_TEST_MODE,
-				Menu.CATEGORY_SECONDARY, "Test mode");
+		subMenu = menu.addSubMenu(Menu.NONE, MENU_ITEM_TEST_MODE, Menu.CATEGORY_SECONDARY, "Test mode");
 		subMenu.setIcon(android.R.drawable.ic_menu_more);
 
-		menuItem = subMenu.add(0, MENU_ITEM_TEST_PATH_DATA, Menu.NONE,
-				"Test Path data");
+		menuItem = subMenu.add(0, MENU_ITEM_TEST_PATH_DATA, Menu.NONE, "Test Path data");
 		menuItem.setAlphabeticShortcut('t');
 
-		menuItem = subMenu.add(0, MENU_ITEM_TEST_FLOATING_DATA, Menu.NONE,
-				"Test Floating data");
+		menuItem = subMenu.add(0, MENU_ITEM_TEST_FLOATING_DATA, Menu.NONE, "Test Floating data");
 		menuItem.setAlphabeticShortcut('f');
 
-		menuItem = subMenu.add(0, MENU_ITEM_TEST_AUTO_ROTATE, Menu.NONE,
-				"Test Auto Rotate");
+		menuItem = subMenu.add(0, MENU_ITEM_TEST_AUTO_ROTATE, Menu.NONE, "Test Auto Rotate");
 		menuItem.setAlphabeticShortcut('a');
 
-		menuItem = menu.add(0, MENU_ITEM_RETURN, Menu.CATEGORY_SECONDARY,
-				"RETURN APP");
+		menuItem = menu.add(0, MENU_ITEM_RETURN, Menu.CATEGORY_SECONDARY, "RETURN APP");
 		menuItem.setAlphabeticShortcut('r');
 
 		return true;
@@ -744,21 +769,12 @@ public class MainTab3Activity extends NMapActivity {
 		boolean isTraffic = mMapController.getMapViewTrafficMode();
 		boolean isBicycle = mMapController.getMapViewBicycleMode();
 
-		pMenu.findItem(MENU_ITEM_CLEAR_MAP).setEnabled(
-				(viewMode != NMapView.VIEW_MODE_VECTOR) || isTraffic
-						|| mOverlayManager.sizeofOverlays() > 0);
-		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_VECTOR).setChecked(
-				viewMode == NMapView.VIEW_MODE_VECTOR);
-		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_SATELLITE).setChecked(
-				viewMode == NMapView.VIEW_MODE_SATELLITE);
-		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_HYBRID).setChecked(
-				viewMode == NMapView.VIEW_MODE_HYBRID);
+		pMenu.findItem(MENU_ITEM_CLEAR_MAP).setEnabled((viewMode != NMapView.VIEW_MODE_VECTOR) || isTraffic || mOverlayManager.sizeofOverlays() > 0);
+		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_VECTOR).setChecked(viewMode == NMapView.VIEW_MODE_VECTOR);
+		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_SATELLITE).setChecked(viewMode == NMapView.VIEW_MODE_SATELLITE);
+		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_HYBRID).setChecked(viewMode == NMapView.VIEW_MODE_HYBRID);
 		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_TRAFFIC).setChecked(isTraffic);
 		pMenu.findItem(MENU_ITEM_MAP_MODE_SUB_BICYCLE).setChecked(isBicycle);
-
-		if (mMyLocationOverlay == null) {
-			pMenu.findItem(MENU_ITEM_MY_LOCATION).setEnabled(false);
-		}
 
 		return true;
 	}
@@ -776,11 +792,6 @@ public class MainTab3Activity extends NMapActivity {
 
 		switch (item.getItemId()) {
 		case MENU_ITEM_CLEAR_MAP:
-			if (mMyLocationOverlay != null) {
-				stopMyLocation();
-				mOverlayManager.removeOverlay(mMyLocationOverlay);
-			}
-
 			mMapController.setMapViewMode(NMapView.VIEW_MODE_VECTOR);
 			mMapController.setMapViewTrafficMode(false);
 			mMapController.setMapViewBicycleMode(false);
@@ -802,13 +813,11 @@ public class MainTab3Activity extends NMapActivity {
 			return true;
 
 		case MENU_ITEM_MAP_MODE_SUB_TRAFFIC:
-			mMapController.setMapViewTrafficMode(!mMapController
-					.getMapViewTrafficMode());
+			mMapController.setMapViewTrafficMode(!mMapController.getMapViewTrafficMode());
 			return true;
 
 		case MENU_ITEM_MAP_MODE_SUB_BICYCLE:
-			mMapController.setMapViewBicycleMode(!mMapController
-					.getMapViewBicycleMode());
+			mMapController.setMapViewBicycleMode(!mMapController.getMapViewBicycleMode());
 			return true;
 
 		case MENU_ITEM_ZOOM_CONTROLS:
