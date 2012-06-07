@@ -10,6 +10,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DBHandler {
     private DBHelper helper;
@@ -49,9 +50,9 @@ public class DBHandler {
     
 
     public static DBHandler open(Context ctx) throws SQLException {
-    	initialize(ctx);//assets ����� db ����� ����
+    	Log.v("", "디비오픈시작");
         DBHandler handler = new DBHandler(ctx);        
-
+        Log.v("", "디비오픈끝");
         return handler;    
     }
     
@@ -75,7 +76,7 @@ public class DBHandler {
      */
     public Cursor randomSelect(String code, String detailCode, String snow, String rain, String hot, String cold ) throws SQLException {
     	
-    	
+    	//Log.v("randomSelect","##################쿼리시작");
     	Cursor cursor = null;
     	
     	cursor=db.rawQuery(
@@ -132,7 +133,7 @@ public class DBHandler {
     					+" where c.rank = r.rdNumber      "//-- random 값과 같은 로우 가져오기
     			
                 ,null);
-
+    	//Log.v("randomSelect","##################쿼리끝");
         return cursor;
     }
 }

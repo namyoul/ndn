@@ -15,8 +15,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,11 +31,18 @@ import com.ndn.menurandom.db.DBHandler;
 public class MainTab2Activity extends TopTabActivity implements OnClickListener {
 
 	LinearLayout layout = null;
+	TextView tv = null;
+	HashMap<String, String> map = new HashMap<String, String>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		//ProgressDialog pDialog = ProgressDialog.show(this,"","기상청 날씨 데이터 받아 오는중.");
+		//Log.v("", "##################### initA");
+		
+		DBHandler.initialize(this);//assets ����� db ����� ����
+		
+		
 		LinearLayout frameLayout = (LinearLayout) findViewById(R.id.tab2);
 
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -41,13 +50,19 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		frameLayout.addView(view1);
 		
 		
+		tv = (TextView) findViewById(R.id.textView1);
+		
 		findViewById(R.id.button1).setOnClickListener(this);
 		layout = (LinearLayout)findViewById(R.id.tLayout);
 		
+		
+		loadKmaXmlRead();//기상청 xml 파싱
+		//pDialog.cancel();
+		//Log.v("", "##################### initE");
 	}
 	
-	public void onClick(View v) {
-		TextView tv = (TextView) findViewById(R.id.textView1);
+	public void loadKmaXmlRead(){
+
 		try {
 			String html = loadKmaData();
 
@@ -61,7 +76,7 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 			NodeList datas = parse.getElementsByTagName("data");
 
 			
-			HashMap<String, String> map = new HashMap<String, String>();
+			
 			// 17개의 data태그를 순차로 접근
 			for (int idx = 0; idx < 1; idx++) { //첫번째 로우만 가져옴
 				// 필요한 정보들을 담을 변수 생성
@@ -99,18 +114,34 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 				}// end 안쪽 for문
 				
 			}// end 바깥쪽 for문
-			String resultMenu = menuSelection(map);
-			resultMenu += "\n 추천 메뉴는 : " + dataSelect();
-			tv.setText(resultMenu);
 			
+			
+		} catch (Exception e) {
+			tv.setText("오류" + e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public void onClick(View v) {
+		
+		try {
+			Log.v("", "##################### initA");
+			String resultMenu = menuSelection(map);
+			Log.v("", "##################### initB");
+			resultMenu += "\n 추천 메뉴는 : " + dataSelect();
+			Log.v("", "##################### initC");
+			tv.setText(resultMenu);
+			Log.v("", "##################### initD");
 			
 			int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
 			
 			ImageView image = new ImageView(this);
+			
 			image.setImageResource(resId);
 			layout.removeAllViews();
 			layout.addView(image);
-			
 			
 			
 		} catch (Exception e) {
@@ -120,14 +151,19 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 	}
 	
 	private String dataSelect(){
+		Log.v("", "##################### initA22222222221");
 		DBHandler dbhandler = DBHandler.open(this);
-		
+		Log.v("", "##################### initA1");
 		Cursor cursor = dbhandler.randomSelect("", "", "", "", "", "");
+		Log.v("", "##################### initA2");
         startManagingCursor(cursor);
+        Log.v("", "##################### initA3");
         cursor.moveToFirst(); //커서 처음으로 이동 시킴
-        String result = ""+cursor.getColumnCount()+":"+cursor.getCount()+cursor.getString(cursor.getColumnIndex("menuName"));
+        Log.v("", "##################### initA4");
+        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+        Log.v("", "##################### initA5");
 		dbhandler.close();
-		
+		Log.v("", "##################### initA6");
 		return result;
 	}
 	
