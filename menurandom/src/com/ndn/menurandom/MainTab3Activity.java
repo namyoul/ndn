@@ -1,5 +1,6 @@
 package com.ndn.menurandom;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -91,6 +92,18 @@ public class MainTab3Activity extends NMapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		
+        Intent intent = getIntent(); // Intent 값 받기
+        
+        String menuName = null;
+        if( intent.hasExtra("menuName")){ // Intent로 넘어온 값 있으면 받기
+        	menuName = intent.getExtras().getString("menuName");
+        	this.SEARCH_MENU = menuName;
+        }
+        
+        
+         
+		
 		Log.e(LOG_TAG, "========================================================================================");
 		Log.e(LOG_TAG, "onCreate!");
 		
@@ -114,9 +127,11 @@ public class MainTab3Activity extends NMapActivity {
 		Log.e(LOG_TAG, "onStart!");
 		
 		// search Restaurant
+		ProgressDialog dialog = ProgressDialog.show(this, "", "기다려");
 		getMyLocation();
 		searchRestaurantInNaver();
 		displayResturantOverlay();
+		dialog.cancel();
 	}
 
 	@Override

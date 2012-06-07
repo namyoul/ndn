@@ -76,6 +76,7 @@ public class TopTabActivity extends TabActivity implements OnTabChangeListener {
 			Intent intent = new Intent(this, MainTab3Activity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			intent.putExtra("tabNum", 2);//세번째 텝 설정
+			intent.putExtra("menuName", "백숙");//메뉴명 넘기기
 			startActivity(intent);		
 		}	
 	}
