@@ -16,6 +16,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nhn.android.maps.NMapActivity;
@@ -172,7 +173,6 @@ public class MainTab3Activity extends NMapActivity {
 			if ( !isMyLocationEnabled ) {
 				Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 				startActivity(goToSettings);
-				
 				return ;
 			}
 		}

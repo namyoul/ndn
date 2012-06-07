@@ -1,7 +1,9 @@
 package com.ndn.menurandom;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import android.R.integer;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,7 +40,8 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static String STATE_FIRST = "0";
 	private static String STATE_SECOND = "1";
 	private static String STATE_THIRD = "2";
-	private static String STATE_FORTH = "3";
+	private static String STATE_DRINK = "3";
+	
 	
 	private int backPressedCount = 0;
 	private long backPressedStartTime = 0;
@@ -51,6 +54,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static ArrayList<String> Array1_1_4;
 	private static ArrayList<String> Array1_1_5;
 	private static String PIC_TEXT;
+	
 
 	private View view1;
 	private View view1_1;
@@ -115,6 +119,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
          
          sensorManager.registerListener(this, accelatorSensor,  SensorManager.SENSOR_DELAY_UI);
     }
+    
     private View createView1()
     {
     	View returnVal;
@@ -300,6 +305,13 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			
 			setViewAsVisible(view1);
 		}
+		else if(currentState == STATE_DRINK)
+		{
+			// 첫번째 화면으로 변경
+			currentState = STATE_FIRST;
+			
+			setViewAsVisible(view1);
+		}
 		else if(currentState == STATE_THIRD)
 		{
 			// 첫번째 화면으로 변경
@@ -319,7 +331,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	    }
 		else if(v.getTag()==SECOND_BUTTON){
 			
-			currentState = STATE_SECOND;			
+			currentState = STATE_DRINK;			
 			
 	        setViewAsVisible(view1_2);
 			
@@ -464,9 +476,9 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			
 
 		}
-
 	}
-	
+
+
 	public void Array_Korea(){
 		Array1_1_1 = new ArrayList<String>();
 		Array1_1_1.add(0, "미역국");
@@ -598,14 +610,86 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	}
 
 	public void onSensorChanged(SensorEvent event) {
-//		Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));
-		//float a1 = event.values[0];
-		//if(a1<12){
-			//System.out.print(a1);
+		//Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));		
+		String lock_Switch = "1";
+		int a = 0, b = 0, sum = 0;
+		if (lock_Switch=="1"){
+			a = (int)event.values[0];
+			lock_Switch="0";
+		}else{
+			b = (int)event.values[0];
+			lock_Switch="1";
+		}
+		if(a>b){
+			sum = a - b;
+		}else if(b>a){
+			sum = b - a;
+		}else{
 			
-		//}
-		
-	}
-	
+		}
 
+		if (sum > 10){
+			Random random = new Random();
+			int r = random.nextInt();
+			String temp_String2 = String.valueOf(r);
+			String dtemp_String = temp_String2.substring(temp_String2.length()-1);
+			int abc = Integer.parseInt(dtemp_String);
+			if(currentState==STATE_FIRST){
+				Toast toast = Toast.makeText(this, "흔들기는 첫번째 페이지는 안합니다", 2);
+				toast.show();
+			}
+			else if(currentState==STATE_SECOND){
+				if(abc==0 || abc==1){
+					Toast toast = Toast.makeText(this, "한국음식", 2);
+					toast.show();		
+					setViewAsVisible(view1_1_1);
+					
+					
+				}
+				if(abc==2 || abc==3){
+					Toast toast = Toast.makeText(this, "중국음식", 2);
+					toast.show();
+					setViewAsVisible(view1_1_2);
+				}
+				if(abc==4 || abc==5){
+					Toast toast = Toast.makeText(this, "일본음식", 2);
+					toast.show();
+					setViewAsVisible(view1_1_3);
+				}
+				if(abc==6 || abc==7){
+					Toast toast = Toast.makeText(this, "양식", 2);
+					toast.show();		
+					setViewAsVisible(view1_1_4);
+				}
+				if(abc==8 || abc==9){
+					Toast toast = Toast.makeText(this, "기타등등", 2);
+					toast.show();
+					setViewAsVisible(view1_1_5);
+				}
+			}
+			else if(currentState==STATE_THIRD){
+				Toast toast = Toast.makeText(this, "세번째 페이지", 2);
+				toast.show();
+			}
+			else if(currentState==STATE_DRINK){
+				Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
+				toast.show();
+			}
+			
+			
+			
+			
+			sum = 0;
+			a = 0;
+			b = 0;
+			
+			
+			
+			
+		}else{
+			sum = 0;
+			a = 0;
+			b = 0;
+		}
+	}
 }

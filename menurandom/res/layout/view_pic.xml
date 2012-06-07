@@ -35,5 +35,6 @@
 	        	android:text="위치검색"
 			    />
 	    </TableRow>
+
 	</TableLayout>
 </LinearLayout>
