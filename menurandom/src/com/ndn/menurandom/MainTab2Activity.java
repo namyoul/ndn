@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ndn.menurandom.db.DBHandler;
@@ -61,6 +63,30 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		//Log.v("", "##################### initE");
 		
 		DBHandler.initialize(this);//assets db 파일을 databases 폴더로 복사
+		
+		
+		
+		
+		
+		ArrayList<MyItem> arItem;
+		
+		 //데이터를 만듬(ac220v)
+        arItem = new ArrayList<MyItem>();
+        MyItem mi;
+        mi = new MyItem("1", "삼성 노트북", R.drawable.ic_launcher);
+        arItem.add(mi);
+        mi = new MyItem("2", "엘지 노트북", R.drawable.ic_launcher);
+        arItem.add(mi);
+        mi = new MyItem("3", "도시바 노트북", R.drawable.ic_launcher);
+        arItem.add(mi);
+       
+        //어댑터를 만듬
+        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
+       
+        ListView MyList;
+        MyList = (ListView)findViewById(R.id.list);
+        //어댑터와 데이터를 연결해서 원하는 리스트뷰에 뿌리게됨
+        MyList.setAdapter(MyAdapter);
 	}
 	
 	public void loadKmaXmlRead(){
@@ -228,5 +254,8 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		}// end if
 		return sb.toString();
 	}	
+	
+	
+	
 
 }
