@@ -3,6 +3,7 @@ package com.ndn.menurandom;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.R.anim;
 import android.R.integer;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -55,6 +56,9 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static ArrayList<String> Array1_1_5;
 	private static String PIC_TEXT;
 	
+	
+	private static String LOCK_SWITCH = "1";
+	private static int SENSOR_EVENT1 = 0, SENSOR_EVENT2 = 0, SENSOR_SUM = 0;
 
 	private View view1;
 	private View view1_1;
@@ -288,7 +292,8 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			{
 				//Log.d("Test", "double Clicked");
 				// 두번째 클릭한 것 처리
-				finish();
+				//finish();    완전종료
+				android.os.Process.killProcess(android.os.Process.myPid());
 				backPressedCount = 0;
 			}
 			else
@@ -618,24 +623,23 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	public void onSensorChanged(SensorEvent event) {
 		//Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));		
-		String lock_Switch = "1";
-		int a = 0, b = 0, sum = 0;
-		if (lock_Switch=="1"){
-			a = (int)event.values[0];
-			lock_Switch="0";
+
+		if (LOCK_SWITCH=="1"){
+			SENSOR_EVENT1 = Math.abs((int)event.values[0]);
+			LOCK_SWITCH="0";
 		}else{
-			b = (int)event.values[0];
-			lock_Switch="1";
+			SENSOR_EVENT2 = Math.abs((int)event.values[0]);
+			LOCK_SWITCH="1";
 		}
-		if(a>b){
-			sum = a - b;
-		}else if(b>a){
-			sum = b - a;
+		if(SENSOR_EVENT1>SENSOR_EVENT2){
+			SENSOR_SUM = SENSOR_EVENT1 + SENSOR_EVENT2;
+		}else if(SENSOR_EVENT2>SENSOR_EVENT1){
+			SENSOR_SUM = SENSOR_EVENT2 + SENSOR_EVENT1;
 		}else{
 			
 		}
 
-		if (sum > 10){
+		if (SENSOR_SUM > 18){
 			Random random = new Random();
 			int r = random.nextInt();
 			String temp_String2 = String.valueOf(r);
@@ -652,7 +656,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 					setViewAsVisible(view1_1_1);
 					
 					Array_Korea();
-					
+					currentState=STATE_THIRD;
 				}
 				if(abc==2 || abc==3){
 					Toast toast = Toast.makeText(this, "중국음식", 2);
@@ -660,6 +664,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 					setViewAsVisible(view1_1_2);
 					
 					Array_China();
+					currentState=STATE_THIRD;
 				}
 				if(abc==4 || abc==5){
 					Toast toast = Toast.makeText(this, "일본음식", 2);
@@ -667,6 +672,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 					setViewAsVisible(view1_1_3);
 					
 					Array_Japan();
+					currentState=STATE_THIRD;
 				}
 				if(abc==6 || abc==7){
 					Toast toast = Toast.makeText(this, "양식", 2);
@@ -674,6 +680,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 					setViewAsVisible(view1_1_4);
 					
 					Array_America();
+					currentState=STATE_THIRD;
 				}
 				if(abc==8 || abc==9){
 					Toast toast = Toast.makeText(this, "기타등등", 2);
@@ -681,6 +688,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 					setViewAsVisible(view1_1_5);
 					
 					Array_Other();
+					currentState=STATE_THIRD;
 				}
 			}
 			else if(currentState==STATE_THIRD){
@@ -695,17 +703,15 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			
 			
 			
-			sum = 0;
-			a = 0;
-			b = 0;
+			SENSOR_SUM = 0;
+			SENSOR_EVENT1 = 0;
+			SENSOR_EVENT2 = 0;
 			
 			
 			
 			
 		}else{
-			sum = 0;
-			a = 0;
-			b = 0;
+
 		}
 	}
 }
