@@ -371,18 +371,6 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	        
 	        Array_Korea();
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_1);
-			
-			ListView listview = (ListView) view1_1_1.findViewById(R.id.list1_1_1);
-			listview.setAdapter(adapter);
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-					setViewAsVisible(view_pic);
-				}
-			});
-			
 		}
 		
 		if(v.getTag()==CHINA){ //btn1_1_1.setTag(korea);
@@ -393,17 +381,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	        
 			Array_China();
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_2);
-			
-			ListView listview = (ListView) view1_1_2.findViewById(R.id.list1_1_2);
-			listview.setAdapter(adapter);
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-					setViewAsVisible(view_pic);
-				}
-			});
 			
 			
 		}
@@ -416,17 +394,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	        
 			Array_Japan();
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_3);
-			
-			ListView listview = (ListView) view1_1_3.findViewById(R.id.list1_1_3);
-			listview.setAdapter(adapter);
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-					setViewAsVisible(view_pic);
-				}
-			});
 			
 		}
 		
@@ -440,17 +408,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	        
 			Array_America();
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_4);
-			
-			ListView listview = (ListView) view1_1_4.findViewById(R.id.list1_1_4);
-			listview.setAdapter(adapter);
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-					setViewAsVisible(view_pic);
-				}
-			});
 			
 		}
 		if(v.getTag()==OTHER){ //btn1_1_1.setTag(korea);
@@ -462,17 +420,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	        
 			Array_Other();
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_5);
-			
-			ListView listview = (ListView) view1_1_5.findViewById(R.id.list1_1_5);
-			listview.setAdapter(adapter);
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-					setViewAsVisible(view_pic);
-				}
-			});
 			
 
 		}
@@ -518,6 +466,18 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		Array1_1_1.add(34, "북어찜");
 		Array1_1_1.add(35, "알찜");
 		Array1_1_1.add(36, "생선구이");
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_1);
+		
+		ListView listview = (ListView) view1_1_1.findViewById(R.id.list1_1_1);
+		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				setViewAsVisible(view_pic);
+			}
+		});
+		
 	}
 	public void Array_China(){
 		Array1_1_2 = new ArrayList<String>();
@@ -541,6 +501,17 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		Array1_1_2.add(17, "팔보채");
 		Array1_1_2.add(18, "양장피");
 
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_2);
+		
+		ListView listview = (ListView) view1_1_2.findViewById(R.id.list1_1_2);
+		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				setViewAsVisible(view_pic);
+			}
+		});
 	}
 	public void Array_Japan(){
 		Array1_1_3 = new ArrayList<String>();
@@ -564,6 +535,19 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		Array1_1_3.add(17, "메로구이");
 		Array1_1_3.add(18, "돈가스");
 		Array1_1_3.add(19, "모듬튀김");
+		
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_3);
+		
+		ListView listview = (ListView) view1_1_3.findViewById(R.id.list1_1_3);
+		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				setViewAsVisible(view_pic);
+			}
+		});
 	}
 	public void Array_America(){
 		Array1_1_4 = new ArrayList<String>();
@@ -593,6 +577,18 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		Array1_1_4.add(23, "스파게티");
 		Array1_1_4.add(24, "오믈렛");
 		Array1_1_4.add(25, "파스타");
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_4);
+		
+		ListView listview = (ListView) view1_1_4.findViewById(R.id.list1_1_4);
+		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				setViewAsVisible(view_pic);
+			}
+		});
 	}
 	public void Array_Other(){
 		Array1_1_5 = new ArrayList<String>();
@@ -602,6 +598,17 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		Array1_1_5.add(3, "튀김");
 		Array1_1_5.add(4, "어묵");
 		Array1_1_5.add(5, "순대");
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_5);
+		
+		ListView listview = (ListView) view1_1_5.findViewById(R.id.list1_1_5);
+		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+				setViewAsVisible(view_pic);
+			}
+		});
 	}
 	
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -644,27 +651,36 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 					toast.show();		
 					setViewAsVisible(view1_1_1);
 					
+					Array_Korea();
 					
 				}
 				if(abc==2 || abc==3){
 					Toast toast = Toast.makeText(this, "중국음식", 2);
 					toast.show();
 					setViewAsVisible(view1_1_2);
+					
+					Array_China();
 				}
 				if(abc==4 || abc==5){
 					Toast toast = Toast.makeText(this, "일본음식", 2);
 					toast.show();
 					setViewAsVisible(view1_1_3);
+					
+					Array_Japan();
 				}
 				if(abc==6 || abc==7){
 					Toast toast = Toast.makeText(this, "양식", 2);
 					toast.show();		
 					setViewAsVisible(view1_1_4);
+					
+					Array_America();
 				}
 				if(abc==8 || abc==9){
 					Toast toast = Toast.makeText(this, "기타등등", 2);
 					toast.show();
 					setViewAsVisible(view1_1_5);
+					
+					Array_Other();
 				}
 			}
 			else if(currentState==STATE_THIRD){
