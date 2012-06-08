@@ -17,8 +17,11 @@ public class DBHandler {
     private SQLiteDatabase db;
     
     private DBHandler(Context ctx) {
+    	//Log.v("", "################DBHelper(ctx) 시작");
         this.helper = new DBHelper(ctx);
+        //Log.v("", "################DBHelper(ctx) 중간");
         this.db = helper.getWritableDatabase();
+        //Log.v("", "################DBHelper(ctx) 끝");
     }
     
     public static final String ROOT_DIR = "/data/data/com.ndn.menurandom/";
@@ -74,70 +77,86 @@ public class DBHandler {
     /* 설명 : 넘어온 파라메터 조건에 맞게 검색하여 그중 랜덤 1건의 데이터를 리턴해 준다.
      * 호출방법 : randomSelect(code, detailCode, snow, rain, hot, cold); 
      */
-    
-    
-    
-    
     public Cursor randomSelect(String code, String detailCode, String snow, String rain, String hot, String cold ) throws SQLException {
     	
-    	//Log.v("randomSelect","##################쿼리시작");
     	Cursor cursor = null;
     	
-    	cursor=db.rawQuery(
-    			
-    			" select id,																											"																
-    					+"        code,                                                    "
-    					+"        detailCode,                                              "
-    					+"        menuName,                                                "
-    					+"        pictureName,                                             "
-    					+"        snow,                                                    "
-    					+"        rain,                                                    "
-    					+"        hot,                                                     "
-    					+"        cold,                                                    "
-    					+"        rank                                                     "
-    					+" from                                                            "
-    					+"     (                                                           "
-    					+"      select                                                     "
-    					+"     	    a.id,                                                 "
-    					+"             a.code,                                             "
-    					+"             a.detailCode,                                       "
-    					+"             a.menuName,                                         "
-    					+"             a.pictureName,                                      "
-    					+"             a.snow,                                             "
-    					+"             a.rain,                                             "
-    					+"             a.hot,                                              "
-    					+"             a.cold,                                             "
-    					+" 	    (select count(b.id)	                                      "
-    					+"                from menu b                                      "
-    					+"               where a.id <= b.id                                "
-    					+"                 and b.code like '%" + code + "%'                            "
-    					+"                 and b.detailCode like '%" + detailCode + "%'                      "
-    					+"                 and b.snow like '%" + snow + "%'                            "
-    					+"                 and b.rain like '%" + rain + "%'                            "
-    					+"                 and b.hot like '%" + hot + "%'                             "
-    					+"                 and b.cold like '%" + cold + "%') 'rank'   " //--로우번호 구하기
-    					+"      from menu a                                                "
-    					+"     where 1=1                                                   "
-    					+"       and a.code like '%" + code + "%'                                      "
-    					+"       and a.detailCode like '%" + detailCode + "%'                                "
-    					+"       and a.snow like '%" + snow + "%'                                      "
-    					+"       and a.rain like '%" + rain + "%'                                      "
-    					+"       and a.hot like '%" + hot + "%'                                       "
-    					+"       and a.cold like '%" + cold + "%'                                      "
-    					+"     )c,                                                         "
-    					+"     (select abs(random())% count(*) 'rdNumber'"  //--random 값 구하기
-    					+"        from menu                                                "
-    					+"       where 1=1                                                 "
-    					+"        and code like '%" + code + "%'                                       "
-    					+"        and detailCode like '%" + detailCode + "%'                                 "
-    					+"        and snow like '%" + snow + "%'                                       "
-    					+"        and rain like '%" + rain + "%'                                       "
-    					+"        and hot like '%" + hot + "%'                                        "
-    					+"        and cold like '%" + cold + "%') r                                    "
-    					+" where c.rank = r.rdNumber      "//-- random 값과 같은 로우 가져오기
-    			
-                ,null);
-    	//Log.v("randomSelect","##################쿼리끝");
+    	StringBuffer sb = new StringBuffer();
+    	
+		sb.append(" select id,																											\n");																
+		sb.append("        code,                                                    \n");
+		sb.append("        detailCode,                                              \n");
+		sb.append("        menuName,                                                \n");
+		sb.append("        pictureName,                                             \n");
+		sb.append("        snow,                                                    \n");
+		sb.append("        rain,                                                    \n");
+		sb.append("        hot,                                                     \n");
+		sb.append("        cold,                                                    \n");
+		sb.append("        rank                                                     \n");
+		sb.append(" from                                                            \n");
+		sb.append("     (                                                           \n");
+		sb.append("      select                                                     \n");
+		sb.append("     	    a.id,                                                 \n");
+		sb.append("             a.code,                                             \n");
+		sb.append("             a.detailCode,                                       \n");
+		sb.append("             a.menuName,                                         \n");
+		sb.append("             a.pictureName,                                      \n");
+		sb.append("             a.snow,                                             \n");
+		sb.append("             a.rain,                                             \n");
+		sb.append("             a.hot,                                              \n");
+		sb.append("             a.cold,                                             \n");
+		sb.append(" 	    (select count(b.id)	                                      \n");
+		sb.append("                from menu b                                      \n");
+		sb.append("               where a.id <= b.id                                \n");
+		if(code != null) 			
+			sb.append("                 and b.code = '" + code + "'                \n");
+		if(detailCode != null) 	
+			sb.append("                 and b.detailCode = '" + detailCode + "'    \n");
+		if(snow != null) 			
+			sb.append("                 and b.snow = '" + snow + "'                \n");
+		if(rain != null) 			
+			sb.append("                 and b.rain = '" + rain + "'                \n");
+		if(hot != null) 			
+			sb.append("                 and b.hot = '" + hot + "'                  \n");
+		if(cold != null) 			
+			sb.append("                 and b.cold = '" + cold + "'                 \n");
+		sb.append("                 		) 'rank'   								\n"); //--로우번호 구하기
+		sb.append("      from menu a                                                \n");
+		sb.append("     where 1=1                                                   \n");
+		if(code != null)
+			sb.append("       and a.code = '" + code + "'                          \n");
+		if(detailCode != null)
+			sb.append("       and a.detailCode = '" + detailCode + "'              \n");
+		if(snow != null)
+			sb.append("       and a.snow = '" + snow + "'                          \n");
+		if(rain != null)
+			sb.append("       and a.rain = '" + rain + "'                          \n");
+		if(hot != null)
+			sb.append("       and a.hot = '" + hot + "'                            \n");
+		if(cold != null)
+			sb.append("       and a.cold = '" + cold + "'                          \n");
+		sb.append("     )c,                                                         \n");
+		sb.append("     (select abs(random())% count(*) 'rdNumber'					\n");  //--random 값 구하기
+		sb.append("        from menu                                                \n");
+		sb.append("       where 1=1                                                	\n");
+		if(code != null)
+			sb.append("        and code = '" + code + "'                           \n");
+		if(detailCode != null)	
+			sb.append("        and detailCode = '" + detailCode + "'               \n");
+		if(snow != null)	
+			sb.append("        and snow = '" + snow + "'                           \n");
+		if(rain != null)	
+			sb.append("        and rain = '" + rain + "'                           \n");
+		if(hot != null)	
+			sb.append("        and hot = '" + hot + "'                             \n");
+		if(cold != null)	
+			sb.append("        and cold = '" + cold + "'                           \n");
+		sb.append("        								) r                        \n");			
+		sb.append(" where c.rank = r.rdNumber      									\n");//-- random 값과 같은 로우 가져오기
+    					
+ 		cursor=db.rawQuery(sb.toString() ,null);    	
+    	
+ 		//Log.v("", sb.toString());
         return cursor;
     }
 }

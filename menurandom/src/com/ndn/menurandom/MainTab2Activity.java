@@ -40,7 +40,7 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		//ProgressDialog pDialog = ProgressDialog.show(this,"","기상청 날씨 데이터 받아 오는중.");
 		//Log.v("", "##################### initA");
 		
-		DBHandler.initialize(this);//assets ����� db ����� ����
+		
 		
 		
 		LinearLayout frameLayout = (LinearLayout) findViewById(R.id.tab2);
@@ -59,6 +59,8 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		loadKmaXmlRead();//기상청 xml 파싱
 		//pDialog.cancel();
 		//Log.v("", "##################### initE");
+		
+		DBHandler.initialize(this);//assets db 파일을 databases 폴더로 복사
 	}
 	
 	public void loadKmaXmlRead(){
@@ -127,13 +129,13 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 	public void onClick(View v) {
 		
 		try {
-			Log.v("", "##################### initA");
+			//Log.v("", "##################### initA");
 			String resultMenu = menuSelection(map);
-			Log.v("", "##################### initB");
+			//Log.v("", "##################### initB");
 			resultMenu += "\n 추천 메뉴는 : " + dataSelect();
-			Log.v("", "##################### initC");
+			//Log.v("", "##################### initC");
 			tv.setText(resultMenu);
-			Log.v("", "##################### initD");
+			//Log.v("", "##################### initD");
 			
 			int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
 			
@@ -151,19 +153,19 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 	}
 	
 	private String dataSelect(){
-		Log.v("", "##################### initA22222222221");
+		//Log.v("", "##################### initA22222222221");
 		DBHandler dbhandler = DBHandler.open(this);
-		Log.v("", "##################### initA1");
-		Cursor cursor = dbhandler.randomSelect("", "", "", "", "", "");
-		Log.v("", "##################### initA2");
+		//Log.v("", "##################### initA1");
+		Cursor cursor = dbhandler.randomSelect("2", null, null, null, null, null); //2 : 안주메뉴
+		//Log.v("", "##################### initA2");
         startManagingCursor(cursor);
-        Log.v("", "##################### initA3");
+        //Log.v("", "##################### initA3");
         cursor.moveToFirst(); //커서 처음으로 이동 시킴
-        Log.v("", "##################### initA4");
-        String result = cursor.getString(cursor.getColumnIndex("menuName"));
-        Log.v("", "##################### initA5");
+        //Log.v("", "##################### initA4");
+        String result = cursor.getCount() +":" +cursor.getString(cursor.getColumnIndex("menuName"));
+        //Log.v("", "##################### initA5");
 		dbhandler.close();
-		Log.v("", "##################### initA6");
+		//Log.v("", "##################### initA6");
 		return result;
 	}
 	
