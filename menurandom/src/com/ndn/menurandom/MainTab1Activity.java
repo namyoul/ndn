@@ -57,8 +57,20 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 	private static String PIC_TEXT;
 	
 	
-	private static String LOCK_SWITCH = "1";
-	private static int SENSOR_EVENT1 = 0, SENSOR_EVENT2 = 0, SENSOR_SUM = 0;
+    private long lastTime;
+    private float speed;
+    private float lastX;
+    private float lastY;
+    private float lastZ;
+   
+    private float x, y, z;
+    private static final int SHAKE_THRESHOLD = 800;
+   
+    private static final int DATA_X = SensorManager.DATA_X;
+    private static final int DATA_Y = SensorManager.DATA_Y;
+    private static final int DATA_Z = SensorManager.DATA_Z;
+    
+    
 
 	private View view1;
 	private View view1_1;
@@ -623,23 +635,100 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 
 	public void onSensorChanged(SensorEvent event) {
 		//Log.i("Test", String.valueOf(event.values[0]) + " " + String.valueOf(event.values[1]) + " " + String.valueOf(event.values[2]));		
-
-		if (LOCK_SWITCH=="1"){
-			SENSOR_EVENT1 = Math.abs((int)event.values[0]);
-			LOCK_SWITCH="0";
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long currentTime = System.currentTimeMillis();
+            long gabOfTime = (currentTime - lastTime);
+   
+            if (gabOfTime > 100) {
+                lastTime = currentTime;
+   
+                x = event.values[SensorManager.DATA_X];
+                y = event.values[SensorManager.DATA_Y];
+                z = event.values[SensorManager.DATA_Z];
+   
+                speed = Math.abs(x + y + z - lastX - lastY - lastZ) /
+                        gabOfTime * 10000;
+   
+                if (speed > SHAKE_THRESHOLD) {
+        			Random random = new Random();
+        			int r = random.nextInt();
+        			String temp_String2 = String.valueOf(r);
+        			String dtemp_String = temp_String2.substring(temp_String2.length()-1);
+        			int abc = Integer.parseInt(dtemp_String);
+        			if(currentState==STATE_FIRST){
+        				Toast toast = Toast.makeText(this, "흔들기는 첫번째 페이지는 안합니다", 2);
+        				toast.show();
+        			}
+        			else if(currentState==STATE_SECOND){
+        				if(abc==0 || abc==1){
+        					Toast toast = Toast.makeText(this, "한국음식", 2);
+        					toast.show();		
+        					setViewAsVisible(view1_1_1);
+        					
+        					Array_Korea();
+        					currentState=STATE_THIRD;
+        				}
+        				if(abc==2 || abc==3){
+        					Toast toast = Toast.makeText(this, "중국음식", 2);
+        					toast.show();
+        					setViewAsVisible(view1_1_2);
+        					
+        					Array_China();
+        					currentState=STATE_THIRD;
+        				}
+        				if(abc==4 || abc==5){
+        					Toast toast = Toast.makeText(this, "일본음식", 2);
+        					toast.show();
+        					setViewAsVisible(view1_1_3);
+        					
+        					Array_Japan();
+        					currentState=STATE_THIRD;
+        				}
+        				if(abc==6 || abc==7){
+        					Toast toast = Toast.makeText(this, "양식", 2);
+        					toast.show();		
+        					setViewAsVisible(view1_1_4);
+        					
+        					Array_America();
+        					currentState=STATE_THIRD;
+        				}
+        				if(abc==8 || abc==9){
+        					Toast toast = Toast.makeText(this, "기타등등", 2);
+        					toast.show();
+        					setViewAsVisible(view1_1_5);
+        					
+        					Array_Other();
+        					currentState=STATE_THIRD;
+        				}
+        			}
+        			else if(currentState==STATE_THIRD){
+        				Toast toast = Toast.makeText(this, "세번째 페이지", 2);
+        				toast.show();
+        			}
+        			else if(currentState==STATE_DRINK){
+        				Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
+        				toast.show();
+        			}
+                }
+                lastX = event.values[DATA_X];
+                lastY = event.values[DATA_Y];
+                lastZ = event.values[DATA_Z];
+            }
+        }
+		
+		
+		
+		
+/*		if (lock_switch.equals("1")){
+			SENSOR_X = Math.abs((int)event.values[0]);
+			lock_switch="0";
 		}else{
-			SENSOR_EVENT2 = Math.abs((int)event.values[0]);
-			LOCK_SWITCH="1";
+			SENSOR_Y = Math.abs((int)event.values[0]);
+			lock_switch="1";
 		}
-		if(SENSOR_EVENT1>SENSOR_EVENT2){
-			SENSOR_SUM = SENSOR_EVENT1 + SENSOR_EVENT2;
-		}else if(SENSOR_EVENT2>SENSOR_EVENT1){
-			SENSOR_SUM = SENSOR_EVENT2 + SENSOR_EVENT1;
-		}else{
-			
-		}
+		SENSOR_Z = SENSOR_X + SENSOR_Y;
 
-		if (SENSOR_SUM > 18){
+		if (SENSOR_Z > 12){
 			Random random = new Random();
 			int r = random.nextInt();
 			String temp_String2 = String.valueOf(r);
@@ -703,15 +792,15 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			
 			
 			
-			SENSOR_SUM = 0;
-			SENSOR_EVENT1 = 0;
-			SENSOR_EVENT2 = 0;
+			SENSOR_Z = 0;
+			SENSOR_X = 0;
+			SENSOR_Y = 0;
 			
 			
 			
 			
 		}else{
 
-		}
+		}*/
 	}
 }
