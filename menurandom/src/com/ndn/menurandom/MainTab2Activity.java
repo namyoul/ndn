@@ -40,7 +40,6 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//ProgressDialog pDialog = ProgressDialog.show(this,"","기상청 날씨 데이터 받아 오는중.");
-		////Log.v("", "##################### initA");
 		
 		
 		
