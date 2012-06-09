@@ -73,7 +73,7 @@ public class DBHandler {
     	
     	return 1;
     } 
-
+    
     /* 설명 : 넘어온 파라메터 조건에 맞게 검색하여 그중 랜덤 1건의 데이터를 리턴해 준다.
      * 호출방법 : randomSelect(code, detailCode, snow, rain, hot, cold); 
      */
@@ -157,6 +157,29 @@ public class DBHandler {
  		cursor=db.rawQuery(sb.toString() ,null);    	
     	
  		//Log.v("", sb.toString());
+        return cursor;
+    }    
+
+    /* 설명 : ListView에 넣을 리스트 반환
+     * 호출방법 : getArrayList(code, detailCode); 
+     */
+    public Cursor getArrayList(String code, String detailCode ) throws SQLException {
+    	
+    	Cursor cursor = null;
+    	
+    	StringBuffer sb = new StringBuffer();
+    	
+		sb.append(" select id,                \n");                                              
+		sb.append("    menuName               \n");
+		sb.append(" from menu                 \n");                                            
+		sb.append(" where 1=1                 \n");                                                 
+	if(code != null)
+		sb.append(" and code = '" + code + "' \n");                    
+	if(detailCode != null)
+		sb.append(" and detailCode = '" + detailCode + "'  \n");
+    					
+ 		cursor=db.rawQuery(sb.toString() ,null);    	
+    	
         return cursor;
     }
 }

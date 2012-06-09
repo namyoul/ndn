@@ -304,7 +304,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 			{
 				//Log.d("Test", "double Clicked");
 				// 두번째 클릭한 것 처리
-				//finish();    완전종료
+				finish();   // 완전종료
 				android.os.Process.killProcess(android.os.Process.myPid());
 				backPressedCount = 0;
 			}

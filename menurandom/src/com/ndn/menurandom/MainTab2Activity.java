@@ -67,7 +67,7 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		
 		
 		
-		
+		/*
 		ArrayList<MyItem> arItem;
 		
 		 //데이터를 만듬(ac220v)
@@ -79,7 +79,9 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
         arItem.add(mi);
         mi = new MyItem("3", "도시바 노트북", R.drawable.ic_launcher);
         arItem.add(mi);
-       
+       */
+		
+		ArrayList arItem = getArrayList("1", "K");;
         //어댑터를 만듬
         MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
        
@@ -178,20 +180,38 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		}
 	}
 	
-	private String dataSelect(){
-		//Log.v("", "##################### initA22222222221");
+	private ArrayList getArrayList(String code, String detailCode){
 		DBHandler dbhandler = DBHandler.open(this);
-		//Log.v("", "##################### initA1");
-		Cursor cursor = dbhandler.randomSelect("2", null, null, null, null, null); //2 : 안주메뉴
-		//Log.v("", "##################### initA2");
+		Cursor cursor = dbhandler.getArrayList(code, detailCode);
         startManagingCursor(cursor);
-        //Log.v("", "##################### initA3");
-        cursor.moveToFirst(); //커서 처음으로 이동 시킴
-        //Log.v("", "##################### initA4");
-        String result = cursor.getCount() +":" +cursor.getString(cursor.getColumnIndex("menuName"));
-        //Log.v("", "##################### initA5");
+        
+		
+	   //데이터를 만듬(ac220v)
+	   ArrayList<MyItem> arItem = new ArrayList<MyItem>();
+       MyItem mi;
+        
+        if (cursor.moveToFirst()) {
+            do {
+	            String id = cursor.getString(cursor.getColumnIndex("id"));
+	            String menuName = cursor.getString(cursor.getColumnIndex("menuName"));
+	            
+	            mi = new MyItem(id, menuName, R.drawable.ic_launcher);
+	            arItem.add(mi);    
+            } while (cursor.moveToNext());
+        }
+        
 		dbhandler.close();
-		//Log.v("", "##################### initA6");
+		return arItem;
+	}	
+	
+	
+	private String dataSelect(){
+		DBHandler dbhandler = DBHandler.open(this);
+		Cursor cursor = dbhandler.randomSelect("2", null, null, null, null, null); //2 : 안주메뉴
+        startManagingCursor(cursor);
+        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+		dbhandler.close();
 		return result;
 	}
 	
