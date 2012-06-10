@@ -59,7 +59,6 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		//pDialog.cancel();
 		//Log.v("", "##################### initE");
 		
-		DBHandler.initialize(this);//assets db 파일을 databases 폴더로 복사
 		
 		ArrayList arItem = getArrayList("1", "K");;
         //어댑터를 만듬
@@ -69,6 +68,7 @@ public class MainTab2Activity extends Activity implements OnClickListener {
         MyList = (ListView)findViewById(R.id.list);
         //어댑터와 데이터를 연결해서 원하는 리스트뷰에 뿌리게됨
         MyList.setAdapter(MyAdapter);
+        
 	}
 	
 	public void loadKmaXmlRead(){

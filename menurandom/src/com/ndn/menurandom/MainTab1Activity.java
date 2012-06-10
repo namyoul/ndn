@@ -3,10 +3,11 @@ package com.ndn.menurandom;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.ndn.menurandom.db.DBHandler;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
+import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,7 +23,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -361,13 +361,16 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			
 	        setViewAsVisible(view1_2);
 			
-			Array1_2 = new ArrayList<String>();
-			Array1_2.add(0, "술마셔 베이베");
-			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_2);
-			
+			//Array1_2 = new ArrayList<String>();
+			//Array1_2.add(0, "술마셔 베이베");
+			//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_2);
+	        
+	        ArrayList arItem = getArrayList("2", "O");;
+	        //어댑터를 만듬
+	        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
+	       
 			final ListView listview = (ListView) view1_2.findViewById(R.id.list1_2);
-			listview.setAdapter(adapter);
+			listview.setAdapter(MyAdapter);
 			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -454,48 +457,14 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 
 	public void Array_Korea(){
-		Array1_1_1 = new ArrayList<String>();
-		Array1_1_1.add(0, "미역국");
-		Array1_1_1.add(1, "무우국");
-		Array1_1_1.add(2, "순대국");
-		Array1_1_1.add(3, "콩나물국");
-		Array1_1_1.add(4, "김치국");
-		Array1_1_1.add(5, "감자국");
-		Array1_1_1.add(6, "옫뎅국");
-		Array1_1_1.add(7, "만두국");
-		Array1_1_1.add(8, "북어국");
-		Array1_1_1.add(9, "해장국");
-		Array1_1_1.add(10, "청국장");
-		Array1_1_1.add(11, "김치찌개");
-		Array1_1_1.add(12, "육개장");
-		Array1_1_1.add(13, "된장찌개");
-		Array1_1_1.add(14, "순두부찌개");
-		Array1_1_1.add(15, "생태찌개");
-		Array1_1_1.add(16, "부대찌개");
-		Array1_1_1.add(17, "비지찌개");
-		Array1_1_1.add(18, "갈비탕");
-		Array1_1_1.add(19, "매운탕");
-		Array1_1_1.add(20, "해물탕");
-		Array1_1_1.add(21, "꽃게탕");
-		Array1_1_1.add(22, "알탕");
-		Array1_1_1.add(23, "비빔밥");
-		Array1_1_1.add(24, "영양밥");
-		Array1_1_1.add(25, "콩나물밥");
-		Array1_1_1.add(26, "볶음밥");
-		Array1_1_1.add(27, "국수장국");
-		Array1_1_1.add(28, "칼국수");
-		Array1_1_1.add(29, "비빔국수");
-		Array1_1_1.add(30, "냉면");
-		Array1_1_1.add(31, "비빔냉면");
-		Array1_1_1.add(32, "닭찜");
-		Array1_1_1.add(33, "돼지갈비찜");
-		Array1_1_1.add(34, "북어찜");
-		Array1_1_1.add(35, "알찜");
-		Array1_1_1.add(36, "생선구이");
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_1);
 		
+		ArrayList arItem = getArrayList("1", "K"); // 한식 데이터 가져오기
+        //어댑터를 만듬
+        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
+        
+        
 		ListView listview = (ListView) view1_1_1.findViewById(R.id.list1_1_1);
-		listview.setAdapter(adapter);
+		listview.setAdapter(MyAdapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -506,31 +475,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		
 	}
 	public void Array_China(){
-		Array1_1_2 = new ArrayList<String>();
-		Array1_1_2.add(0, "짜장면");
-		Array1_1_2.add(1, "간짜장");
-		Array1_1_2.add(2, "쟁반짜장");
-		Array1_1_2.add(3, "사천짜장");
-		Array1_1_2.add(4, "삼선짜장");
-		Array1_1_2.add(5, "짬뽕");
-		Array1_1_2.add(6, "기스면");
-		Array1_1_2.add(7, "짬뽕밥");
-		Array1_1_2.add(8, "짜장밥");
-		Array1_1_2.add(9, "유산슬밥");
-		Array1_1_2.add(10, "새우덮밥");
-		Array1_1_2.add(11, "마파두부밥");
-		Array1_1_2.add(12, "탕수육");
-		Array1_1_2.add(13, "깐풍기");
-		Array1_1_2.add(14, "양장피");
-		Array1_1_2.add(15, "깐쇼새우");
-		Array1_1_2.add(16, "고추잡채");
-		Array1_1_2.add(17, "팔보채");
-		Array1_1_2.add(18, "양장피");
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_2);
 		
+		ArrayList arItem = getArrayList("1", "C"); // 중식 데이터 가져오기
+        //어댑터를 만듬
+        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
+        
 		ListView listview = (ListView) view1_1_2.findViewById(R.id.list1_1_2);
-		listview.setAdapter(adapter);
+		listview.setAdapter(MyAdapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -540,33 +491,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		});
 	}
 	public void Array_Japan(){
-		Array1_1_3 = new ArrayList<String>();
-		Array1_1_3.add(0, "미소된장국");
-		Array1_1_3.add(1, "샤브샤브");
-		Array1_1_3.add(2, "스기야키");
-		Array1_1_3.add(3, "조개맑은국");
-		Array1_1_3.add(4, "가쓰동");
-		Array1_1_3.add(5, "볶음우동");
-		Array1_1_3.add(6, "우동");
-		Array1_1_3.add(7, "해물볶음우동");
-		Array1_1_3.add(8, "초밥");
-		Array1_1_3.add(9, "삼각김밥");
-		Array1_1_3.add(10, "알밥");
-		Array1_1_3.add(11, "오니기리");
-		Array1_1_3.add(12, "오차즈케");
-		Array1_1_3.add(13, "캘리포니아롤");
-		Array1_1_3.add(14, "오코노미야키");
-		Array1_1_3.add(15, "참치샐러드");
-		Array1_1_3.add(16, "타코야키");
-		Array1_1_3.add(17, "메로구이");
-		Array1_1_3.add(18, "돈가스");
-		Array1_1_3.add(19, "모듬튀김");
-		
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_3);
-		
+
+		ArrayList arItem = getArrayList("1", "J"); // 일식 데이터 가져오기
+        //어댑터를 만듬
+        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
+        
 		ListView listview = (ListView) view1_1_3.findViewById(R.id.list1_1_3);
-		listview.setAdapter(adapter);
+		listview.setAdapter(MyAdapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -576,38 +507,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		});
 	}
 	public void Array_America(){
-		Array1_1_4 = new ArrayList<String>();
-		Array1_1_4.add(0, "토스트");
-		Array1_1_4.add(1, "식빵");
-		Array1_1_4.add(2, "밤빵");
-		Array1_1_4.add(3, "롤케잌");
-		Array1_1_4.add(4, "케잌");
-		Array1_1_4.add(5, "크로켓");
-		Array1_1_4.add(6, "꽈배기");
-		Array1_1_4.add(7, "도넛");
-		Array1_1_4.add(8, "마늘빵");
-		Array1_1_4.add(9, "핫도그");
-		Array1_1_4.add(10, "브라우니");
-		Array1_1_4.add(11, "스테이크");
-		Array1_1_4.add(12, "바비큐폭챱");
-		Array1_1_4.add(13, "베이컨");
-		Array1_1_4.add(14, "치킨커틀릿");
-		Array1_1_4.add(15, "감자수프");
-		Array1_1_4.add(16, "브로콜리");
-		Array1_1_4.add(17, "비프스프");
-		Array1_1_4.add(18, "스튜");
-		Array1_1_4.add(19, "오트밀");
-		Array1_1_4.add(20, "옥수수스프");
-		Array1_1_4.add(21, "토마토수프");
-		Array1_1_4.add(22, "크림수프");
-		Array1_1_4.add(23, "스파게티");
-		Array1_1_4.add(24, "오믈렛");
-		Array1_1_4.add(25, "파스타");
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_4);
+
+		ArrayList arItem = getArrayList("1", "A"); // 양식 데이터 가져오기
+        //어댑터를 만듬
+        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
 		
 		ListView listview = (ListView) view1_1_4.findViewById(R.id.list1_1_4);
-		listview.setAdapter(adapter);
+		listview.setAdapter(MyAdapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -617,6 +523,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		});
 	}
 	public void Array_Other(){
+		/*
 		Array1_1_5 = new ArrayList<String>();
 		Array1_1_5.add(0, "김밥");
 		Array1_1_5.add(1, "햄버거");
@@ -625,9 +532,15 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		Array1_1_5.add(4, "어묵");
 		Array1_1_5.add(5, "순대");
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Array1_1_5);
+		*/
+
+		ArrayList arItem = getArrayList("1", "S"); // 분식 데이터 가져오기
+        //어댑터를 만듬
+        MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
+		
 		
 		ListView listview = (ListView) view1_1_5.findViewById(R.id.list1_1_5);
-		listview.setAdapter(adapter);
+		listview.setAdapter(MyAdapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -812,4 +725,28 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 		}*/
 	}
+	
+	private ArrayList getArrayList(String code, String detailCode){
+		DBHandler dbhandler = DBHandler.open(this);
+		Cursor cursor = dbhandler.getArrayList(code, detailCode);
+        startManagingCursor(cursor);
+        
+		
+	   //데이터를 만듬(ac220v)
+	   ArrayList<MyItem> arItem = new ArrayList<MyItem>();
+       MyItem mi;
+        
+        if (cursor.moveToFirst()) {
+            do {
+	            String id = cursor.getString(cursor.getColumnIndex("id"));
+	            String menuName = cursor.getString(cursor.getColumnIndex("menuName"));
+	            
+	            mi = new MyItem(id, menuName, R.drawable.ic_launcher);
+	            arItem.add(mi);    
+            } while (cursor.moveToNext());
+        }
+        
+		dbhandler.close();
+		return arItem;
+	}		
 }

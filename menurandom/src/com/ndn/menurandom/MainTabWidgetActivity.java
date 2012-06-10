@@ -1,5 +1,7 @@
 package com.ndn.menurandom;
 
+import com.ndn.menurandom.db.DBHandler;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,8 +12,12 @@ public class MainTabWidgetActivity extends TabActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		
+		DBHandler.initialize(this);//assets db 파일을 databases 폴더로 복사
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
 
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost(); // The activity TabHost
