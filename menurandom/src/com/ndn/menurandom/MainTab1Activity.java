@@ -3,15 +3,15 @@ package com.ndn.menurandom;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.R.anim;
-import android.R.integer;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,12 +22,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainTab1Activity extends TopTabActivity implements OnClickListener, SensorEventListener {
-    /** Called when the activity is first created... */
+public class MainTab1Activity extends Activity implements OnClickListener, SensorEventListener {
+    /** Called when the activity is first created. */
 	private static Integer FIRST_BUTTON = 1;
 	private static Integer SECOND_BUTTON = 2;
 	private static Integer KOREA = 3;
@@ -84,8 +85,9 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		
     public void onCreate(Bundle savedInstanceState) {
 
+    	super.onCreate(savedInstanceState);
+    	setContentView(R.layout.main);
 
-        super.onCreate(savedInstanceState);
         
         //setSelectTab(0);
 		sensor_Initialize();
@@ -93,8 +95,10 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
 		
         view1 = createView1();
+        
+        
         frameLayout.addView(view1);
-		
+        
         //viewList.add(view1);
         view1_1 = createView1_1();
 		frameLayout.addView(view1_1);
@@ -127,7 +131,11 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
 		view_pic = createView_Pic();
 		frameLayout.addView(view_pic);
 		view_pic.setVisibility(View.GONE);
+		
     }
+    
+    	
+    	
     
     private void sensor_Initialize(){
          SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -145,6 +153,7 @@ public class MainTab1Activity extends TopTabActivity implements OnClickListener,
         
 		ImageButton btn1_1 = (ImageButton)returnVal.findViewById(R.id.ImgBtn1_1 );
         btn1_1.setTag(FIRST_BUTTON);
+        
         btn1_1.setOnClickListener(this);
         
         ImageButton btn1_2 = (ImageButton)returnVal.findViewById(R.id.ImgBtn1_2);

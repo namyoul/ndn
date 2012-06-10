@@ -16,10 +16,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +29,7 @@ import android.widget.TextView;
 
 import com.ndn.menurandom.db.DBHandler;
 
-public class MainTab2Activity extends TopTabActivity implements OnClickListener {
+public class MainTab2Activity extends Activity implements OnClickListener {
 
 	LinearLayout layout = null;
 	TextView tv = null;
@@ -40,8 +39,7 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//ProgressDialog pDialog = ProgressDialog.show(this,"","기상청 날씨 데이터 받아 오는중.");
-		
-		
+		setContentView(R.layout.main);
 		
 		
 		LinearLayout frameLayout = (LinearLayout) findViewById(R.id.tab2);
@@ -62,23 +60,6 @@ public class MainTab2Activity extends TopTabActivity implements OnClickListener 
 		//Log.v("", "##################### initE");
 		
 		DBHandler.initialize(this);//assets db 파일을 databases 폴더로 복사
-		
-		
-		
-		
-		/*
-		ArrayList<MyItem> arItem;
-		
-		 //데이터를 만듬(ac220v)
-        arItem = new ArrayList<MyItem>();
-        MyItem mi;
-        mi = new MyItem("1", "삼성 노트북", R.drawable.ic_launcher);
-        arItem.add(mi);
-        mi = new MyItem("2", "엘지 노트북", R.drawable.ic_launcher);
-        arItem.add(mi);
-        mi = new MyItem("3", "도시바 노트북", R.drawable.ic_launcher);
-        arItem.add(mi);
-       */
 		
 		ArrayList arItem = getArrayList("1", "K");;
         //어댑터를 만듬
