@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 
 public class MainTab1Activity extends TopTabActivity implements OnClickListener, SensorEventListener {
-    /** Called when the activity is first created. */
+    /** Called when the activity is first created... */
 	private static Integer FIRST_BUTTON = 1;
 	private static Integer SECOND_BUTTON = 2;
 	private static Integer KOREA = 3;
