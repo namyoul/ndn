@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -77,7 +78,14 @@ public class DBHandler {
     /* 설명 : 넘어온 파라메터 조건에 맞게 검색하여 그중 랜덤 1건의 데이터를 리턴해 준다.
      * 호출방법 : randomSelect(code, detailCode, snow, rain, hot, cold); 
      */
-    public Cursor randomSelect(String code, String detailCode, String snow, String rain, String hot, String cold ) throws SQLException {
+    public Cursor randomSelect(HashMap itemMap) throws SQLException {
+    	
+    	String code =  (String)itemMap.get("code");
+    	String detailCode =  (String)itemMap.get("detailCode");
+    	String snow =  (String)itemMap.get("snow");
+    	String rain =  (String)itemMap.get("rain");
+    	String hot =  (String)itemMap.get("hot");
+    	String cold =  (String)itemMap.get("cold");
     	
     	Cursor cursor = null;
     	
@@ -112,14 +120,18 @@ public class DBHandler {
 			sb.append("                 and b.code = '" + code + "'                \n");
 		if(detailCode != null) 	
 			sb.append("                 and b.detailCode = '" + detailCode + "'    \n");
+		
+		sb.append("                 and ( 1 = 0    \n"); // OR 조건을 넣기 위해서 넣어줌..
+		
 		if(snow != null) 			
-			sb.append("                 and b.snow = '" + snow + "'                \n");
+			sb.append("                 or b.snow = '" + snow + "'                \n");
 		if(rain != null) 			
-			sb.append("                 and b.rain = '" + rain + "'                \n");
+			sb.append("                 or b.rain = '" + rain + "'                \n");
 		if(hot != null) 			
-			sb.append("                 and b.hot = '" + hot + "'                  \n");
+			sb.append("                 or b.hot = '" + hot + "'                  \n");
 		if(cold != null) 			
-			sb.append("                 and b.cold = '" + cold + "'                 \n");
+			sb.append("                 or b.cold = '" + cold + "'                 \n");
+		sb.append("                     )    \n");
 		sb.append("                 		) 'rank'   								\n"); //--로우번호 구하기
 		sb.append("      from menu a                                                \n");
 		sb.append("     where 1=1                                                   \n");
@@ -127,14 +139,16 @@ public class DBHandler {
 			sb.append("       and a.code = '" + code + "'                          \n");
 		if(detailCode != null)
 			sb.append("       and a.detailCode = '" + detailCode + "'              \n");
+		sb.append("           and ( 1 = 0    \n"); // OR 조건을 넣기 위해서 넣어줌..
 		if(snow != null)
-			sb.append("       and a.snow = '" + snow + "'                          \n");
+			sb.append("       or a.snow = '" + snow + "'                          \n");
 		if(rain != null)
-			sb.append("       and a.rain = '" + rain + "'                          \n");
+			sb.append("       or a.rain = '" + rain + "'                          \n");
 		if(hot != null)
-			sb.append("       and a.hot = '" + hot + "'                            \n");
+			sb.append("       or a.hot = '" + hot + "'                            \n");
 		if(cold != null)
-			sb.append("       and a.cold = '" + cold + "'                          \n");
+			sb.append("       or a.cold = '" + cold + "'                          \n");
+		sb.append("           )    \n");
 		sb.append("     )c,                                                         \n");
 		sb.append("     (select abs(random())% count(*) 'rdNumber'					\n");  //--random 값 구하기
 		sb.append("        from menu                                                \n");
@@ -143,14 +157,16 @@ public class DBHandler {
 			sb.append("        and code = '" + code + "'                           \n");
 		if(detailCode != null)	
 			sb.append("        and detailCode = '" + detailCode + "'               \n");
+		sb.append("            and ( 1 = 0    \n"); // OR 조건을 넣기 위해서 넣어줌..
 		if(snow != null)	
-			sb.append("        and snow = '" + snow + "'                           \n");
+			sb.append("        or snow = '" + snow + "'                           \n");
 		if(rain != null)	
-			sb.append("        and rain = '" + rain + "'                           \n");
+			sb.append("        or rain = '" + rain + "'                           \n");
 		if(hot != null)	
-			sb.append("        and hot = '" + hot + "'                             \n");
+			sb.append("        or hot = '" + hot + "'                             \n");
 		if(cold != null)	
-			sb.append("        and cold = '" + cold + "'                           \n");
+			sb.append("        or cold = '" + cold + "'                           \n");
+		sb.append("                )    \n");
 		sb.append("        								) r                        \n");			
 		sb.append(" where c.rank = r.rdNumber      									\n");//-- random 값과 같은 로우 가져오기
     					
