@@ -15,9 +15,12 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -71,7 +74,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     private static final int DATA_Y = SensorManager.DATA_Y;
     private static final int DATA_Z = SensorManager.DATA_Z;
     
-    
 
 	private View view1;
 	private View view1_1;
@@ -95,7 +97,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
 		
         view1 = createView1();
-        
         
         frameLayout.addView(view1);
         
@@ -133,8 +134,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		view_pic.setVisibility(View.GONE);
 		
     }
-    
-    	
     	
     
     private void sensor_Initialize(){
@@ -292,7 +291,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     	}*/
     }
     
-	
 	public void onBackPressed(){
 
 		if(currentState == STATE_FIRST){
@@ -347,8 +345,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	}
 
 
-
-
 	public void onClick(View v) {
 		if(v.getTag()==FIRST_BUTTON){
 	        currentState = STATE_SECOND;			
@@ -371,25 +367,26 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	       
 			final ListView listview = (ListView) view1_2.findViewById(R.id.list1_2);
 			listview.setAdapter(MyAdapter);
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-					
-					//PIC_TEXT = (String) listview.getSelectedItem();
-					PIC_TEXT = (String) ((TextView)view).getText();
-					Toast.makeText(getApplicationContext(),PIC_TEXT, Toast.LENGTH_LONG).show();
-					
-					ImageView imageView = (ImageView) findViewById(R.id.img_View);
-					int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
-					imageView.setImageResource(resId);
-					
-					
-					EditText editText = (EditText) findViewById(R.id.img_Txt);
-					editText.setText(PIC_TEXT);
-					setViewAsVisible(view_pic);
-				}
-			});
+//			
+//			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//					
+//					//PIC_TEXT = (String) listview.getSelectedItem();
+//					PIC_TEXT = (String) ((TextView)view).getText();
+//					Toast.makeText(getApplicationContext(),PIC_TEXT, Toast.LENGTH_LONG).show();
+//					
+//					ImageView imageView = (ImageView) findViewById(R.id.img_View);
+//					int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
+//					imageView.setImageResource(resId);
+//					
+//					
+//					EditText editText = (EditText) findViewById(R.id.img_Txt);
+//					editText.setText(PIC_TEXT);
+//					setViewAsVisible(view_pic);
+//				}
+//			});
 			
 			
 		}
@@ -409,10 +406,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			
 	        
 			Array_China();
-			
-
-			
-			
+		
 		}
 		if(v.getTag()==JAPAN){ //btn1_1_1.setTag(korea);
 
@@ -426,7 +420,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 			
 		}
-		
 		if(v.getTag()==AMERICA){ //btn1_1_1.setTag(korea);
 
 			
@@ -436,22 +429,14 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			
 	        
 			Array_America();
-			
-
-			
 		}
 		if(v.getTag()==OTHER){ //btn1_1_1.setTag(korea);
 
 			currentState = STATE_THIRD;
 			
 			setViewAsVisible(view1_1_5);
-			
 	        
 			Array_Other();
-			
-
-			
-
 		}
 	}
 
@@ -465,13 +450,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         
 		ListView listview = (ListView) view1_1_1.findViewById(R.id.list1_1_1);
 		listview.setAdapter(MyAdapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-				setViewAsVisible(view_pic);
-			}
-		});
+//		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+//				setViewAsVisible(view_pic);
+//			}
+//		});
 		
 	}
 	public void Array_China(){
@@ -482,13 +467,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         
 		ListView listview = (ListView) view1_1_2.findViewById(R.id.list1_1_2);
 		listview.setAdapter(MyAdapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-				setViewAsVisible(view_pic);
-			}
-		});
+//		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+//				setViewAsVisible(view_pic);
+//			}
+//		});
 	}
 	public void Array_Japan(){
 
@@ -498,13 +483,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         
 		ListView listview = (ListView) view1_1_3.findViewById(R.id.list1_1_3);
 		listview.setAdapter(MyAdapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-				setViewAsVisible(view_pic);
-			}
-		});
+//		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+//				setViewAsVisible(view_pic);
+//			}
+//		});
 	}
 	public void Array_America(){
 
@@ -514,13 +499,14 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		
 		ListView listview = (ListView) view1_1_4.findViewById(R.id.list1_1_4);
 		listview.setAdapter(MyAdapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
-				setViewAsVisible(view_pic);
-			}
-		});
+		
+//		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
+//				setViewAsVisible(view_pic);
+//			}
+//		});
 	}
 	public void Array_Other(){
 		/*
@@ -748,5 +734,99 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         
 		dbhandler.close();
 		return arItem;
-	}		
+	}
+	
+	
+	
+	//어댑터를 커스터마이징 해야됨
+	public class MyListAdapter extends BaseAdapter{
+	    Context maincon;
+	    LayoutInflater Inflater;
+	    ArrayList<MyItem> arSrc;
+	    int layout;
+	   
+	    //생성자
+	    public MyListAdapter(Context context, int alayout, ArrayList<MyItem> aarSrc){
+	          maincon = context;
+	          //생성시 인플레이트 준비를 미리해둠
+	          Inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	          arSrc = aarSrc;
+	          layout = alayout;//alayout은 메인에서보면 R.layout.icontext임 int타입이여서 이런식으로도 가능
+	    }
+	   
+	    //추상메소드를 구현해야됨
+	         public int getCount() {//getCount는 데이터의 사이즈를 리턴하면됨
+	                // TODO Auto-generated method stub
+	                return arSrc.size();
+	         }
+
+	         public Object getItem(int position) {
+	                // TODO Auto-generated method stub
+	                return arSrc.get(position).menuName;//getItem은 그 position의 값을 리턴하면됨
+	         }
+
+	         public long getItemId(int position) {//getItemId는 position을 리턴해주면됨
+	                // TODO Auto-generated method stub
+	                return position;
+	         }
+
+	        
+	         //이 부분은 리스트 각항목 하나하나를 만드는 부분임
+	          
+	         public View getView(int position, View convertView, ViewGroup parent) {
+	                // TODO Auto-generated method stub
+	                final int pos = position;
+	                //첫번째는 convertView가 null이여서 inflate를 통해서
+	                //마지막인자는 Whether the inflated hierarchy should be attached to the root parameter?
+	                //해석 못했음
+	                if(convertView == null){//layout은 R.layout.icontext parent는 뷰그룹인 리스트뷰를 뜻함
+	                       convertView = Inflater.inflate(layout, parent, false);
+	                      
+	                }
+
+	                //이미지뷰를 세팅하고
+	                ImageView img = (ImageView)convertView.findViewById(R.id.img);
+	                img.setImageResource(arSrc.get(position).Icon);
+	               
+	                
+	              //텍스브튜도 세팅
+	                TextView id = (TextView)convertView.findViewById(R.id.id);
+	                id.setText(arSrc.get(position).id);
+	               
+	              //텍스브튜도 세팅
+	                TextView txt = (TextView)convertView.findViewById(R.id.text);
+	                txt.setText(arSrc.get(position).menuName);
+	               
+	               
+	                //버튼도 세팅함
+	                Button btn = (Button)convertView.findViewById(R.id.btn);
+	                btn.setOnClickListener(new OnClickListener() {
+	                      
+	                       public void onClick(View v) {
+	                             // TODO Auto-generated method stub
+	                             String str = arSrc.get(pos).menuName + "(id : " + arSrc.get(pos).id + ")";
+	                             
+	                             moveShowPage(str);//메뉴 소개 페이지로 이동!
+	                       }
+	                });
+	               
+	                return convertView;//위 과정이 리스트뷰에 getCount만큼 반복됨
+	         }
+	}
+	
+	/*
+	 * 메뉴 소개 페이지로 이동!
+	 */
+	private void moveShowPage(String txt) {
+		
+		ImageView imageView = (ImageView) findViewById(R.id.img_View);
+		int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
+		imageView.setImageResource(resId);
+		
+		
+		EditText editText = (EditText) findViewById(R.id.img_Txt);
+		editText.setText(txt);
+		setViewAsVisible(view_pic);
+	}
+	 
 }
