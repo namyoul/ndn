@@ -1,6 +1,7 @@
 package com.ndn.menurandom;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.ndn.menurandom.db.DBHandler;
@@ -612,10 +613,35 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         			else if(currentState==STATE_THIRD){
         				Toast toast = Toast.makeText(this, "세번째 페이지", 2);
         				toast.show();
+        				
+        				DBHandler dbhandler = DBHandler.open(this);
+        				HashMap itemMap = new HashMap();
+        				itemMap.put("code", "1");//1 : 한식
+        				
+        				Cursor cursor = dbhandler.randomSelect(itemMap);
+        				startManagingCursor(cursor);
+        		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+        		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+        				dbhandler.close();
+        				
+        				moveShowPage(result);
+        				
         			}
         			else if(currentState==STATE_DRINK){
         				Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
         				toast.show();
+        				
+        				DBHandler dbhandler = DBHandler.open(this);
+        				HashMap itemMap = new HashMap();
+        				itemMap.put("code", "2");//1 : 한식
+        				
+        				Cursor cursor = dbhandler.randomSelect(itemMap);
+        				startManagingCursor(cursor);
+        		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+        		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+        				dbhandler.close();
+        				
+        				moveShowPage(result);
         			}
                 }
                 lastX = event.values[DATA_X];
@@ -739,7 +765,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	
 	
 	//어댑터를 커스터마이징 해야됨
-	public class MyListAdapter extends BaseAdapter{
+	class MyListAdapter extends BaseAdapter{
 	    Context maincon;
 	    LayoutInflater Inflater;
 	    ArrayList<MyItem> arSrc;

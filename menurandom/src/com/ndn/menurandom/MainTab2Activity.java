@@ -237,7 +237,7 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		itemMap.put("code", "2");//2 : 안주메뉴
 		itemMap.put("detailCode", "O");//O : 기타
 		
-		Cursor cursor = dbhandler.randomSelect(itemMap); 
+		Cursor cursor = dbhandler.randomRecommended(itemMap); 
         startManagingCursor(cursor);
         cursor.moveToFirst(); //커서 처음으로 이동 시킴
         String result = cursor.getString(cursor.getColumnIndex("menuName"));

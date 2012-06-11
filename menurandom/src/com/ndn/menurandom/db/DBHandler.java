@@ -78,7 +78,7 @@ public class DBHandler {
     /* 설명 : 넘어온 파라메터 조건에 맞게 검색하여 그중 랜덤 1건의 데이터를 리턴해 준다.
      * 호출방법 : randomSelect(code, detailCode, snow, rain, hot, cold); 
      */
-    public Cursor randomSelect(HashMap itemMap) throws SQLException {
+    public Cursor randomRecommended(HashMap itemMap) throws SQLException {
     	
     	String code =  (String)itemMap.get("code");
     	String detailCode =  (String)itemMap.get("detailCode");
@@ -172,7 +172,73 @@ public class DBHandler {
     					
  		cursor=db.rawQuery(sb.toString() ,null);    	
     	
- 		//Log.v("", sb.toString());
+ 		Log.v("", sb.toString());
+        return cursor;
+    }
+    
+    /* 설명 : 넘어온 파라메터 조건에 맞게 검색하여 그중 랜덤 1건의 데이터를 리턴해 준다.
+     * 호출방법 : randomSelect(map); 
+     */
+    public Cursor randomSelect(HashMap itemMap) throws SQLException {
+    	
+    	String code =  (String)itemMap.get("code");
+    	String detailCode =  (String)itemMap.get("detailCode");
+    	
+    	Cursor cursor = null;
+    	
+    	StringBuffer sb = new StringBuffer();
+    	
+		sb.append(" select id,																											\n");																
+		sb.append("        code,                                                    \n");
+		sb.append("        detailCode,                                              \n");
+		sb.append("        menuName,                                                \n");
+		sb.append("        pictureName,                                             \n");
+		sb.append("        snow,                                                    \n");
+		sb.append("        rain,                                                    \n");
+		sb.append("        hot,                                                     \n");
+		sb.append("        cold,                                                    \n");
+		sb.append("        rank                                                     \n");
+		sb.append(" from                                                            \n");
+		sb.append("     (                                                           \n");
+		sb.append("      select                                                     \n");
+		sb.append("     	    a.id,                                                 \n");
+		sb.append("             a.code,                                             \n");
+		sb.append("             a.detailCode,                                       \n");
+		sb.append("             a.menuName,                                         \n");
+		sb.append("             a.pictureName,                                      \n");
+		sb.append("             a.snow,                                             \n");
+		sb.append("             a.rain,                                             \n");
+		sb.append("             a.hot,                                              \n");
+		sb.append("             a.cold,                                             \n");
+		sb.append(" 	    (select count(b.id)	                                      \n");
+		sb.append("                from menu b                                      \n");
+		sb.append("               where a.id <= b.id                                \n");
+		if(code != null) 			
+			sb.append("                 and b.code = '" + code + "'                \n");
+		if(detailCode != null) 	
+			sb.append("                 and b.detailCode = '" + detailCode + "'    \n");
+		
+		sb.append("                 		) 'rank'   								\n"); //--로우번호 구하기
+		sb.append("      from menu a                                                \n");
+		sb.append("     where 1=1                                                   \n");
+		if(code != null)
+			sb.append("       and a.code = '" + code + "'                          \n");
+		if(detailCode != null)
+			sb.append("       and a.detailCode = '" + detailCode + "'              \n");
+		sb.append("     )c,                                                         \n");
+		sb.append("     (select abs(random())% count(*) 'rdNumber'					\n");  //--random 값 구하기
+		sb.append("        from menu                                                \n");
+		sb.append("       where 1=1                                                	\n");
+		if(code != null)
+			sb.append("        and code = '" + code + "'                           \n");
+		if(detailCode != null)	
+			sb.append("        and detailCode = '" + detailCode + "'               \n");
+		sb.append("        								) r                        \n");			
+		sb.append(" where c.rank = r.rdNumber      									\n");//-- random 값과 같은 로우 가져오기
+    					
+ 		cursor=db.rawQuery(sb.toString() ,null);    	
+    	
+ 		Log.v("", sb.toString());
         return cursor;
     }    
 
