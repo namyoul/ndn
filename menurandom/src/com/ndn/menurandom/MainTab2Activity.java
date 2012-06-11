@@ -17,25 +17,23 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ndn.menurandom.db.DBHandler;
 
 public class MainTab2Activity extends Activity implements OnClickListener {
-	private String currentState = STATE_FIRST;
-	private static String STATE_FIRST = "0";
-	private int backPressedCount = 0;
-	private long backPressedStartTime = 0;
-	private int doublePressedTimeThresHold = 300;
+
 	LinearLayout layout = null;
 	TextView tv = null;
 	HashMap<String, String> map = new HashMap<String, String>();
@@ -43,9 +41,9 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//ProgressDialog pDialog = ProgressDialog.show(this,"","기상청 날씨 데이터 받아 오는중.");
 		setContentView(R.layout.main);
 		
+		//checkGps();//GPS 상태체크 //일단 보류 
 		
 		LinearLayout frameLayout = (LinearLayout) findViewById(R.id.tab2);
 
@@ -59,23 +57,22 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		findViewById(R.id.button1).setOnClickListener(this);
 		layout = (LinearLayout)findViewById(R.id.tLayout);
 		
-		
 		loadKmaXmlRead();//기상청 xml 파싱
-		//pDialog.cancel();
-		//Log.v("", "##################### initE");
 		
+		recommendedMenu();//메뉴추천
 		
+		/*
 		ArrayList arItem = getArrayList("1", "K");;
         //어댑터를 만듬
         MyListAdapter MyAdapter = new MyListAdapter(this, R.layout.mylist, arItem);
        
-        ListView MyList;
-        MyList = (ListView)findViewById(R.id.list);
+        ListView MyList = (ListView)findViewById(R.id.list);
         //어댑터와 데이터를 연결해서 원하는 리스트뷰에 뿌리게됨
         MyList.setAdapter(MyAdapter);
+        */
         
 	}
-	
+
 	public void loadKmaXmlRead(){
 
 		try {
@@ -141,14 +138,23 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	
 	public void onClick(View v) {
 		
+		recommendedMenu();
+	}
+	
+	/*
+	 * 메뉴추천
+	 */
+	public void recommendedMenu(){
 		try {
-			//Log.v("", "##################### initA");
 			String resultMenu = menuSelection(map);
-			//Log.v("", "##################### initB");
-			resultMenu += "\n 추천 메뉴는 : " + dataSelect();
-			//Log.v("", "##################### initC");
+			resultMenu += " 추천 메뉴는 : " + dataSelect();
+			HashMap itemMap = getRecommendedItem();
+			resultMenu += "\n snow : " +  itemMap.get("snow");
+			resultMenu += " rain : " +  itemMap.get("rain");
+			resultMenu += " hot : " +  itemMap.get("hot");
+			resultMenu += " cold : " +  itemMap.get("cold");
+			
 			tv.setText(resultMenu);
-			//Log.v("", "##################### initD");
 			
 			int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
 			
@@ -158,11 +164,40 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 			layout.removeAllViews();
 			layout.addView(image);
 			
-			
 		} catch (Exception e) {
 			tv.setText("오류" + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	/*
+	 * 추천 메뉴를 조회식 검색조건 만들어서 Map으로 넘겨줌
+	 */
+	public HashMap getRecommendedItem(){
+		HashMap<String, String> itemMap = new HashMap<String, String>();
+		
+		int  temp = (int)Math.round(Double.parseDouble(map.get("temp")));
+		int  pty = (int)Integer.parseInt((map.get("pty")));
+		
+		if(temp >= 20){ //20도 이상인지 체크
+			itemMap.put("hot", "1");
+		}
+		
+		if(temp < 20){ //20도 미만인지 체크
+			itemMap.put("cold", "1");
+		}
+		
+		//pty코드값 == 0:없음, 1:비, 2:비/눈, 3:눈/비, 4:눈
+		if(pty == 1 || pty == 2 || pty == 3){ //pty 값이 1,2,3 이면 비옴.
+			itemMap.put("rain", "1");
+		}		
+		
+		//pty코드값 == 0:없음, 1:비, 2:비/눈, 3:눈/비, 4:눈
+		if(pty == 2 || pty == 3|| pty == 4){ //pty 값이 2,3,4 이면 비옴.
+			itemMap.put("snow", "1");
+		}				
+		
+		return itemMap;
 	}
 	
 	private ArrayList getArrayList(String code, String detailCode){
@@ -192,7 +227,12 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	
 	private String dataSelect(){
 		DBHandler dbhandler = DBHandler.open(this);
-		Cursor cursor = dbhandler.randomSelect("2", null, null, null, null, null); //2 : 안주메뉴
+		
+		HashMap itemMap = getRecommendedItem();
+		itemMap.put("code", "2");//2 : 안주메뉴
+		itemMap.put("detailCode", "O");//O : 기타
+		
+		Cursor cursor = dbhandler.randomSelect(itemMap); 
         startManagingCursor(cursor);
         cursor.moveToFirst(); //커서 처음으로 이동 시킴
         String result = cursor.getString(cursor.getColumnIndex("menuName"));
@@ -260,36 +300,37 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		return sb.toString();
 	}	
 	
-	public void onBackPressed(){
-
-		if(currentState == STATE_FIRST){
-		
-		// 첫번째 버튼을 클릭하면, 
-		// 1. 시간을 측정한다.
-		// 2. 뒤로 가기 버튼 클릭 횟수를 증가시킨다.
-			long currentTime = System.currentTimeMillis();
-			if(backPressedCount == 0)
-			{
-				Toast toast = Toast.makeText(this, "한번 더 누르면 종료됩니다", 200);
-				toast.show();
-				backPressedStartTime = currentTime;
-				backPressedCount++;
-				//Log.d("Test", "currentTime : " + currentTime);
+	/*
+	 * GPS 상태 체크하여 꺼져 있으면 켜는 페이지로 이동
+	 */
+	private void checkGps(){
+		String gpsSettings = android.provider.Settings.Secure.getString( getContentResolver(), android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+		if(gpsSettings.indexOf("gps", 0) < 0){
+			
+			/*
+			//GSP 켜는 환경 설정 페이지로 보내기
+			Intent intent = new Intent(	android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			intent.addCategory(Intent.CATEGORY_DEFAULT);
+			startActivity(intent);
+			*/
+			
+			
+			LocationManager mgr = (LocationManager)getSystemService(LOCATION_SERVICE);
+			Location loc = mgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			
+			String locStr = null;
+			if(loc != null){
+				locStr = "위도 : " + loc.getLatitude() + "\n경도 : " + loc.getLongitude();
+			}else{
+				locStr =  "GPS 정보 없음.";
 			}
-			else if(backPressedCount == 1 && (currentTime - backPressedStartTime) < doublePressedTimeThresHold)
-			{
-				//Log.d("Test", "double Clicked");
-				// 두번째 클릭한 것 처리
-				finish();   // 완전종료
-				android.os.Process.killProcess(android.os.Process.myPid());
-				backPressedCount = 0;
-			}
-			else
-			{
-				//Log.d("Test", "Over");
-				// 시간을 초과했을 경우
-				backPressedStartTime = currentTime;
-			}
+				
+				
+			Toast.makeText(this, "마지막 GPS 위치 : " + locStr, Toast.LENGTH_SHORT).show();
+			
+		}else{
+			
+			Toast.makeText(this, "GPS 이미 켜져 있음.", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
