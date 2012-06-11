@@ -42,6 +42,13 @@ import com.nhn.android.mapviewer.overlay.NMapPathDataOverlay;
 
 //public class MainTab3Activity extends NMapActivity {
 public class MainTab3Activity extends NMapActivity {
+	private String currentState = STATE_FIRST;
+	private static String STATE_FIRST = "0";
+	private int backPressedCount = 0;
+	private long backPressedStartTime = 0;
+	private int doublePressedTimeThresHold = 300;
+	
+	
 	private static final String LOG_TAG = "NHK";
 	private static final boolean DEBUG = true;
 
@@ -89,6 +96,42 @@ public class MainTab3Activity extends NMapActivity {
 	private NGeoPoint mMyGeoPoint; 
 
 	/** Called when the activity is first created. */
+	public void onBackPressed(){
+
+		if(currentState == STATE_FIRST){
+		
+		// 첫번째 버튼을 클릭하면, 
+		// 1. 시간을 측정한다.
+		// 2. 뒤로 가기 버튼 클릭 횟수를 증가시킨다.
+			long currentTime = System.currentTimeMillis();
+			if(backPressedCount == 0)
+			{
+				Toast toast1 = Toast.makeText(this, "한번 더 누르면 종료됩니다", 200);
+				
+				toast1.show();
+				backPressedStartTime = currentTime;
+				backPressedCount++;
+				//Log.d("Test", "currentTime : " + currentTime);
+			}
+			else if(backPressedCount == 1 && (currentTime - backPressedStartTime) < doublePressedTimeThresHold)
+			{
+				//Log.d("Test", "double Clicked");
+				// 두번째 클릭한 것 처리
+				finish();   // 완전종료
+				android.os.Process.killProcess(android.os.Process.myPid());
+				backPressedCount = 0;
+			}
+			else
+			{
+				//Log.d("Test", "Over");
+				// 시간을 초과했을 경우
+				backPressedStartTime = currentTime;
+			}
+		}
+	}
+	
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -833,3 +876,6 @@ public class MainTab3Activity extends NMapActivity {
 		}
 	}
 }
+
+
+
