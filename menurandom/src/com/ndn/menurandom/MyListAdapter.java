@@ -82,6 +82,7 @@ public class MyListAdapter extends BaseAdapter{
                              // TODO Auto-generated method stub
                              String str = "id : " + arSrc.get(pos).id + " 를 주문합니다.";
                              Toast.makeText(maincon, str, Toast.LENGTH_SHORT).show();
+                             
                        }
                 });
                
