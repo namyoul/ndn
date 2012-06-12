@@ -42,12 +42,21 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private static Integer OTHER = 7;
 	
 	private String currentState = STATE_FIRST;
+	private String currentFourth_View = F_View1;
 	
 	private static String STATE_FIRST = "0";
 	private static String STATE_SECOND = "1";
 	private static String STATE_THIRD = "2";
-	private static String STATE_DRINK = "3";
+	private static String STATE_FOURTH = "3";
+	private static String STATE_DRINK = "4";
 	
+	private static String F_View0 = "0";
+	private static String F_View1 = "1";
+	private static String F_View2 = "2";
+	private static String F_View3 = "3";
+	private static String F_View4 = "4";
+	private static String F_View5 = "5";
+
 	
 	private int backPressedCount = 0;
 	private long backPressedStartTime = 0;
@@ -343,6 +352,38 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			currentState = STATE_SECOND;
 			setViewAsVisible(view1_1);
 		}
+		else if(currentState == STATE_FOURTH)
+		{
+			if (currentFourth_View==F_View0){
+				currentState = STATE_SECOND;
+				setViewAsVisible(view1_1);
+			}
+			if (currentFourth_View==F_View1){
+				currentState = STATE_THIRD;
+				setViewAsVisible(view1_1_1);
+				Array_Korea();
+			}
+			else if(currentFourth_View==F_View2){
+				currentState = STATE_THIRD;
+				setViewAsVisible(view1_1_2);
+				Array_China();
+			}
+			else if(currentFourth_View==F_View3){
+				currentState = STATE_THIRD;
+				setViewAsVisible(view1_1_3);
+				Array_Japan();
+			}
+			else if(currentFourth_View==F_View4){
+				currentState = STATE_THIRD;
+				setViewAsVisible(view1_1_4);
+				Array_America();
+			}
+			else if(currentFourth_View==F_View5){
+				currentState = STATE_THIRD;
+				setViewAsVisible(view1_1_5);
+				Array_Other();
+			}
+		}
 	}
 
 
@@ -548,7 +589,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
             long currentTime = System.currentTimeMillis();
             long gabOfTime = (currentTime - lastTime);
    
-            if (gabOfTime > 100) {
+            if (gabOfTime > 150) {
                 lastTime = currentTime;
    
                 x = event.values[SensorManager.DATA_X];
@@ -568,65 +609,122 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         				Toast toast = Toast.makeText(this, "흔들기는 첫번째 페이지는 안합니다", 2);
         				toast.show();
         			}
-        			else if(currentState==STATE_SECOND){
-        				if(abc==0 || abc==1){
-        					Toast toast = Toast.makeText(this, "한국음식", 2);
-        					toast.show();		
-        					setViewAsVisible(view1_1_1);
-        					
-        					Array_Korea();
-        					currentState=STATE_THIRD;
-        				}
-        				if(abc==2 || abc==3){
-        					Toast toast = Toast.makeText(this, "중국음식", 2);
-        					toast.show();
-        					setViewAsVisible(view1_1_2);
-        					
-        					Array_China();
-        					currentState=STATE_THIRD;
-        				}
-        				if(abc==4 || abc==5){
-        					Toast toast = Toast.makeText(this, "일본음식", 2);
-        					toast.show();
-        					setViewAsVisible(view1_1_3);
-        					
-        					Array_Japan();
-        					currentState=STATE_THIRD;
-        				}
-        				if(abc==6 || abc==7){
-        					Toast toast = Toast.makeText(this, "양식", 2);
-        					toast.show();		
-        					setViewAsVisible(view1_1_4);
-        					
-        					Array_America();
-        					currentState=STATE_THIRD;
-        				}
-        				if(abc==8 || abc==9){
-        					Toast toast = Toast.makeText(this, "기타등등", 2);
-        					toast.show();
-        					setViewAsVisible(view1_1_5);
-        					
-        					Array_Other();
-        					currentState=STATE_THIRD;
-        				}
-        			}
-        			else if(currentState==STATE_THIRD){
-        				Toast toast = Toast.makeText(this, "세번째 페이지", 2);
-        				toast.show();
-        				
-        				DBHandler dbhandler = DBHandler.open(this);
-        				HashMap itemMap = new HashMap();
-        				itemMap.put("code", "1");//1 : 한식
-        				
-        				Cursor cursor = dbhandler.randomSelect(itemMap);
-        				startManagingCursor(cursor);
-        		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
-        		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
-        				dbhandler.close();
-        				
-        				moveShowPage(result);
-        				
-        			}
+	    			else if(currentState==STATE_THIRD){
+	    				if(abc==0 || abc==1){
+	    					Toast toast = Toast.makeText(this, "한국음식", 2);
+	    					toast.show();
+	    					
+		    				DBHandler dbhandler = DBHandler.open(this);
+		    				HashMap itemMap = new HashMap();
+		    				itemMap.put("code", "1");//1 : 식사
+		    				itemMap.put("detailcode", "K");//K : 한식
+		    				Cursor cursor = dbhandler.randomSelect(itemMap);
+		    				startManagingCursor(cursor);
+		    		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+		    		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+		    				dbhandler.close();
+		    				moveShowPage(result);
+		    				
+	    					currentState=STATE_FOURTH;
+	    					currentFourth_View=F_View1;
+	    				}
+	    				if(abc==2 || abc==3){
+	    					Toast toast = Toast.makeText(this, "중국음식", 2);
+	    					toast.show();
+
+	    					DBHandler dbhandler = DBHandler.open(this);
+		    				HashMap itemMap = new HashMap();
+		    				itemMap.put("code", "1");//1 : 식사
+		    				itemMap.put("detailcode", "C");//C : 중식
+		    				Cursor cursor = dbhandler.randomSelect(itemMap);
+		    				startManagingCursor(cursor);
+		    		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+		    		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+		    				dbhandler.close();
+		    				moveShowPage(result);
+	    					
+	    					currentState=STATE_FOURTH;
+	    					currentFourth_View=F_View2;
+	    				}
+	    				if(abc==4 || abc==5){
+	    					Toast toast = Toast.makeText(this, "일본음식", 2);
+	    					toast.show();
+
+	    					DBHandler dbhandler = DBHandler.open(this);
+		    				HashMap itemMap = new HashMap();
+		    				itemMap.put("code", "1");//1 : 식사
+		    				itemMap.put("detailcode", "J");//J : 일식
+		    				Cursor cursor = dbhandler.randomSelect(itemMap);
+		    				startManagingCursor(cursor);
+		    		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+		    		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+		    				dbhandler.close();
+		    				moveShowPage(result);
+	    					
+	    					currentState=STATE_FOURTH;
+	    					currentFourth_View=F_View3;
+	    				}
+	    				if(abc==6 || abc==7){
+	    					Toast toast = Toast.makeText(this, "양식", 2);
+	    					toast.show();		
+
+	    					DBHandler dbhandler = DBHandler.open(this);
+		    				HashMap itemMap = new HashMap();
+		    				itemMap.put("code", "1");//1 : 식사
+		    				itemMap.put("detailcode", "A");//A : 양식
+		    				Cursor cursor = dbhandler.randomSelect(itemMap);
+		    				startManagingCursor(cursor);
+		    		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+		    		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+		    				dbhandler.close();
+		    				moveShowPage(result);
+	    					
+	    					currentState=STATE_FOURTH;
+	    					currentFourth_View=F_View4;
+	    				}
+	    				if(abc==8 || abc==9){
+	    					Toast toast = Toast.makeText(this, "기타등등", 2);
+	    					toast.show();
+
+	    					DBHandler dbhandler = DBHandler.open(this);
+		    				HashMap itemMap = new HashMap();
+		    				itemMap.put("code", "1");//1 : 식사
+		    				itemMap.put("detailcode", "S");//S : 기타
+		    				Cursor cursor = dbhandler.randomSelect(itemMap);
+		    				startManagingCursor(cursor);
+		    		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+		    		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+		    				dbhandler.close();
+		    				moveShowPage(result);
+	    					
+	    					currentState=STATE_FOURTH;
+	    					currentFourth_View=F_View5;
+	    				}
+	    				
+	    				Toast toast = Toast.makeText(this, "세번째 페이지", 2);
+	    				toast.show();
+	    				
+	    				
+	    			}
+	    			else if(currentState==STATE_SECOND){
+	    				DBHandler dbhandler = DBHandler.open(this);
+	    				HashMap itemMap = new HashMap();
+	    				itemMap.put("code", "1");//1 : 식사
+	    				
+	    				Cursor cursor = dbhandler.randomSelect(itemMap);
+	    				startManagingCursor(cursor);
+	    		        cursor.moveToFirst(); //커서 처음으로 이동 시킴
+	    		        String result = cursor.getString(cursor.getColumnIndex("menuName"));
+	    				dbhandler.close();
+	    				
+	    				currentState=STATE_THIRD;
+	    				currentFourth_View=F_View0;
+	    				moveShowPage(result);
+	    			}        			
+        			
+        			
+        			
+        			
         			else if(currentState==STATE_DRINK){
         				Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
         				toast.show();
