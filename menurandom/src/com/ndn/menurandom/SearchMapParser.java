@@ -93,7 +93,7 @@ public class SearchMapParser {
 
 				case XmlPullParser.TEXT:
 					if (inTitle) { 
-						restaurantData[indexCount].sTitle = parser.getText();
+						restaurantData[indexCount].sTitle = filter(parser.getText());
 						inTitle = false;
 					}
 					if (inAddress) {
@@ -127,5 +127,12 @@ public class SearchMapParser {
 			Log.e("NHK", "search ERROR");
 		}
 		return indexCount;
+	}
+	
+	// remove <b> or </b> from string
+	private String filter(String str) {
+		str = str.replace("<b>", "");
+		str = str.replace("</b>", "");
+		return str;
 	}
 }
