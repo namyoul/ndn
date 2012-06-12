@@ -745,6 +745,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
                 lastX = event.values[DATA_X];
                 lastY = event.values[DATA_Y];
                 lastZ = event.values[DATA_Z];
+                
             }
         }
 		
