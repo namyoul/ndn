@@ -51,6 +51,7 @@ public class MainTab3Activity extends NMapActivity {
 	
 	private static final String LOG_TAG = "NHK";
 	private static final boolean DEBUG = true;
+	private static final boolean TEST = true;
 
 	// set your API key which is registered for MainTab3Activity library.
 	private static final String API_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
