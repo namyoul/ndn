@@ -60,7 +60,6 @@ public class SearchMapActivity extends NMapActivity {
 	
 	////////////////////////////////////////////////////////////////////////////
 	// for POIitem
-	private NMapPOIdataOverlay mPOIdataOverlay;
 //	private NMapPOIitem mPOIitem;
 //	private SlidingDrawer mSlidingDrawer;
 	
@@ -217,11 +216,10 @@ public class SearchMapActivity extends NMapActivity {
 		for(int i=0; i<searchedRestaurantIndex; i++)
 			poiData.addPOIitem(Double.parseDouble(restaurantData[i].sMapX), Double.parseDouble(restaurantData[i].sMapY), restaurantData[i].sTitle, markerId, 0);
 		poiData.endPOIdata();
+
 		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-		Log.e("NHK", "1");
-		poiDataOverlay.selectPOIitem(0, true);
-//		poiDataOverlay.showAllPOIdata(0);
-		Log.e("NHK", "2");
+		
+		poiDataOverlay.showAllPOIdata(0);
 	}
 	
 	private void searchRestaurant() {
