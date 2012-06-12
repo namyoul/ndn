@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/default_gesture"
+        android:layout_width="320dip"
+        android:layout_height="fill_parent"
+        android:src="@drawable/ic_launcher"
+        android:background="#C0E0FF" />
+
+    <ImageView
+        android:id="@+id/custom_gesture"
+        android:layout_width="320dip"
+        android:layout_height="fill_parent"
+        android:src="@drawable/ic_launcher" 
+        android:background="#F0C0FF"/>
+
+</LinearLayout>

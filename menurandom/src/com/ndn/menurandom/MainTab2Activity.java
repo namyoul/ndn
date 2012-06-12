@@ -31,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ndn.menurandom.db.DBHandler;
+import com.ndn.menurandom.MenuSlideView;
+import com.ndn.menurandom.R;
 
 public class MainTab2Activity extends Activity implements OnClickListener {
 	private String currentState = STATE_FIRST;
@@ -42,6 +44,7 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	LinearLayout layout = null;
 	TextView tv = null;
 	HashMap<String, String> map = new HashMap<String, String>();
+	private MenuSlideView mSlideView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class MainTab2Activity extends Activity implements OnClickListener {
         //어댑터와 데이터를 연결해서 원하는 리스트뷰에 뿌리게됨
         MyList.setAdapter(MyAdapter);
         */
+		mSlideView= (MenuSlideView)findViewById(R.id.menu_slide);
         
 	}
 
