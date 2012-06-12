@@ -101,11 +101,12 @@ public class MenuSlideView extends HorizontalScrollView {
 		//get screen size
 		Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		mScreenWidth = display.getWidth();
+		int height = display.getHeight();
 		
 		//set sub layout
 		LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.menu_layout, null);
-		ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, 250);
+		ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, height/4);
 		addView(v,params);
 		
 	}
