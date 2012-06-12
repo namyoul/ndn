@@ -1,10 +1,3 @@
-/* 
- * NMapViewerResourceProvider.java $version 2010. 1. 1
- * 
- * Copyright 2010 NHN Corp. All rights Reserved. 
- * NHN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. 
- */
-
 package com.ndn.menurandom;
 
 import android.content.Context;
@@ -24,21 +17,12 @@ import com.nhn.android.maps.NMapOverlayItem;
 import com.nhn.android.maps.overlay.NMapPOIitem;
 import com.nhn.android.mapviewer.overlay.NMapResourceProvider;
 
-/**
- * Wrapper class to provider resources on map view.
- * 
- * @author kyjkim
- */
 public class SearchMapResourceProvider extends NMapResourceProvider {
 	private static final String LOG_TAG = "NMapViewerResourceProvider";
 	private static final boolean DEBUG = false;
 
 	private static final Bitmap.Config BITMAP_CONFIG_DEFAULT = Bitmap.Config.ARGB_8888;
 
-	private static final int POI_FONT_COLOR_NUMBER = 0xFF909090;
-	private static final float POI_FONT_SIZE_NUMBER = 10.0F;
-
-	private static final int POI_FONT_COLOR_ALPHABET = 0xFFFFFFFF;
 	private static final float POI_FONT_OFFSET_ALPHABET = 6.0F;
 	private static final Typeface POI_FONT_TYPEFACE = null;//Typeface.DEFAULT_BOLD;
 
@@ -159,10 +143,6 @@ public class SearchMapResourceProvider extends NMapResourceProvider {
 		// Spot, Pin icons
 		new ResourceIdsOnMap(SearchMapPOIflagType.PIN, R.drawable.ic_pin_01, R.drawable.ic_pin_02),
 		new ResourceIdsOnMap(SearchMapPOIflagType.SPOT, R.drawable.ic_pin_01, R.drawable.ic_pin_02),
-
-		// Direction POI icons: From, To
-		new ResourceIdsOnMap(SearchMapPOIflagType.FROM, R.drawable.ic_map_start, R.drawable.ic_map_start_over),
-		new ResourceIdsOnMap(SearchMapPOIflagType.TO, R.drawable.ic_map_arrive, R.drawable.ic_map_arrive_over),
 	};
 
 	/**
@@ -227,6 +207,7 @@ public class SearchMapResourceProvider extends NMapResourceProvider {
 		}
 	}
 
+
 	public Drawable[] getLocationDot() {
 		Drawable[] drawable = new Drawable[2];
 
@@ -238,20 +219,6 @@ public class SearchMapResourceProvider extends NMapResourceProvider {
 			int h = drawable[i].getIntrinsicHeight() / 2;
 
 			drawable[i].setBounds(-w, -h, w, h);
-		}
-
-		return drawable;
-	}
-
-	public Drawable getDirectionArrow() {
-
-		Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_angle);
-
-		if (drawable != null) {
-			int w = drawable.getIntrinsicWidth() / 2;
-			int h = drawable.getIntrinsicHeight() / 2;
-
-			drawable.setBounds(-w, -h, w, h);
 		}
 
 		return drawable;
@@ -287,22 +254,8 @@ public class SearchMapResourceProvider extends NMapResourceProvider {
 		return marker;
 	}
 
-	@Override
 	protected Drawable getDrawableForMarker(int markerId, boolean focused) {
-		Drawable drawable = null;
-
-		if (markerId >= SearchMapPOIflagType.NUMBER_BASE && markerId < SearchMapPOIflagType.NUMBER_END) { // Direction Number icons
-			int resourceId = (focused) ? R.drawable.ic_map_no_02 : R.drawable.ic_map_no_01;
-			int fontColor = (focused) ? POI_FONT_COLOR_ALPHABET : POI_FONT_COLOR_NUMBER;
-
-			String strNumber = String.valueOf(markerId - SearchMapPOIflagType.NUMBER_BASE);
-
-			drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
-		} else if (markerId >= SearchMapPOIflagType.CUSTOM_BASE && markerId < SearchMapPOIflagType.CUSTOM_END) { // Custom POI icons
-
-		}
-
-		return drawable;
+		return null;
 	}
 
 	private Bitmap getBitmapWithText(int resourceId, String strNumber, int fontColor, float fontSize, float offsetY) {
@@ -353,55 +306,14 @@ public class SearchMapResourceProvider extends NMapResourceProvider {
 	}
 
 	public String getCalloutRightButtonText(NMapOverlayItem item) {
-		if (item instanceof NMapPOIitem) {
-			NMapPOIitem poiItem = (NMapPOIitem)item;
-
-			if (poiItem.showRightButton()) {
-//				return mContext.getResources().getString(R.string.str_done);
-				return new String("done");
-			}
-		}
-
 		return null;
 	}
 
 	public Drawable[] getCalloutRightButton(NMapOverlayItem item) {
-		if (item instanceof NMapPOIitem) {
-			NMapPOIitem poiItem = (NMapPOIitem)item;
-
-			if (poiItem.showRightButton()) {
-				Drawable[] drawable = new Drawable[3];
-
-				drawable[0] = mContext.getResources().getDrawable(R.drawable.btn_green_normal);
-				drawable[1] = mContext.getResources().getDrawable(R.drawable.btn_green_pressed);
-				drawable[2] = mContext.getResources().getDrawable(R.drawable.btn_green_highlight);
-
-				return drawable;
-			}
-		}
-
 		return null;
 	}
 
 	public Drawable[] getCalloutRightAccessory(NMapOverlayItem item) {
-		if (item instanceof NMapPOIitem) {
-			NMapPOIitem poiItem = (NMapPOIitem)item;
-
-			if (poiItem.hasRightAccessory() && (poiItem.getRightAccessoryId() > 0)) {
-				Drawable[] drawable = new Drawable[3];
-
-				switch (poiItem.getRightAccessoryId()) {
-					case SearchMapPOIflagType.PANORAMA:
-						drawable[0] = mContext.getResources().getDrawable(R.drawable.bt_panorama_normal);
-						drawable[1] = mContext.getResources().getDrawable(R.drawable.bt_panorama_pressed);
-						drawable[2] = mContext.getResources().getDrawable(R.drawable.bt_panorama_highlight);
-						break;
-				}
-
-				return drawable;
-			}
-		}
-
 		return null;
 	}
 
@@ -459,5 +371,9 @@ public class SearchMapResourceProvider extends NMapResourceProvider {
 		}
 
 		return resourceId;
+	}
+
+	public Drawable getDirectionArrow() {
+		return null;
 	}
 }
