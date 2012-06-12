@@ -3,9 +3,7 @@ package com.ndn.menurandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
 import com.ndn.menurandom.db.DBHandler;
-
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;

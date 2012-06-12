@@ -43,10 +43,10 @@
                  <action android:name="android.intent.action.VIEW" /> 
             </intent-filter>
 		</activity>
-		        
-        <activity
-            android:name=".AlbumsActivity"/>
-        <activity
-            android:name=".SongsActivity"/>
+        <activity android:name=".MainTabSearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
