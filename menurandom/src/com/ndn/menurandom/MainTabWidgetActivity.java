@@ -42,7 +42,7 @@ public class MainTabWidgetActivity extends TabActivity {
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, MainTabSearchActivity.class);
+		intent = new Intent().setClass(this, MainTab3Activity.class);
 		spec = tabHost
 				.newTabSpec("Map")
 				.setIndicator("Map", res.getDrawable(R.drawable.ic_tab3_state))

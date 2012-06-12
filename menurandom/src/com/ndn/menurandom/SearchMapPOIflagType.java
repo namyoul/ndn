@@ -7,11 +7,6 @@
 
 package com.ndn.menurandom;
 
-/**
- * Wrapper class representing POI flag types on map view.
- * 
- * @author kyjkim
- */
 public class SearchMapPOIflagType {
 	public static final int UNKNOWN = 0x0000;
 
@@ -21,14 +16,6 @@ public class SearchMapPOIflagType {
 	// Spot, Pin icons
 	public static final int SPOT = SINGLE_POI_BASE + 1;
 	public static final int PIN = SPOT + 1;
-
-	// Panorama icons
-	public static final int PANORAMA = PIN + 1;
-
-	// Direction POI icons: From, To
-	private static final int DIRECTION_POI_BASE = 0x0200;
-	public static final int FROM = DIRECTION_POI_BASE + 1;
-	public static final int TO = FROM + 1;
 
 	// end of single marker icon
 	public static final int SINGLE_MARKER_END = 0x04FF;
