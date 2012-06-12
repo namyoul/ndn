@@ -32,7 +32,7 @@ import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 public class SearchMapActivity extends NMapActivity {
 	// set my API key which is registered for com.ndn.menurandom package
 	private static final String NAVER_MAP_KEY = "749a7f89c8934b5d50a24f3a9ca8af01";
-	private static String SEARCH_MENU = "";
+	private String SEARCH_MENU = "";
 	private static final int SEARCH_INDEX = 3;
 	
 	private MapContainerView mMapContainerView;
@@ -60,7 +60,7 @@ public class SearchMapActivity extends NMapActivity {
 	
 	////////////////////////////////////////////////////////////////////////////
 	// for POIitem
-//	private NMapPOIdataOverlay mPOIdataOverlay;
+	private NMapPOIdataOverlay mPOIdataOverlay;
 //	private NMapPOIitem mPOIitem;
 //	private SlidingDrawer mSlidingDrawer;
 	
@@ -81,7 +81,7 @@ public class SearchMapActivity extends NMapActivity {
 		Log.e("NHK", "========================================================================================");
 		Log.e("NHK", "onCreate!");
 		
-		// 넘어온 값 받기
+		// retrieve menu value
 		Intent intent = getIntent();
         if( intent.hasExtra("search_menu"))
         	SEARCH_MENU = intent.getExtras().getString("search_menu");
@@ -189,7 +189,6 @@ public class SearchMapActivity extends NMapActivity {
 				mMyGeoPoint = myLocation;
 //				mMapController.setMapCenter(myLocation);
 				findPlacemarkAtLocation(mMyGeoPoint.getLongitude(), mMyGeoPoint.getLatitude());
-
 				stopMyLocation();
 				return true;
 			}
@@ -218,9 +217,11 @@ public class SearchMapActivity extends NMapActivity {
 		for(int i=0; i<searchedRestaurantIndex; i++)
 			poiData.addPOIitem(Double.parseDouble(restaurantData[i].sMapX), Double.parseDouble(restaurantData[i].sMapY), restaurantData[i].sTitle, markerId, 0);
 		poiData.endPOIdata();
-		
 		NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+		Log.e("NHK", "1");
 		poiDataOverlay.selectPOIitem(0, true);
+//		poiDataOverlay.showAllPOIdata(0);
+		Log.e("NHK", "2");
 	}
 	
 	private void searchRestaurant() {
@@ -232,7 +233,7 @@ public class SearchMapActivity extends NMapActivity {
 					} catch (Exception e) {
 					}
 				}
-				searchedRestaurantIndex = mSearchMapParser.search(restaurantData, currentAddress+"+"+SEARCH_MENU, SEARCH_INDEX, 1);
+				searchedRestaurantIndex = mSearchMapParser.search(restaurantData, currentAddress+" "+SEARCH_MENU, SEARCH_INDEX, 1);
 				displayRestaurantItem();
 			}
 		}).start();
@@ -283,7 +284,7 @@ public class SearchMapActivity extends NMapActivity {
 	private final NMapActivity.OnDataProviderListener onDataProviderListener = new NMapActivity.OnDataProviderListener() {
 		
 		public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
-			currentAddress = placeMark.doName + "+" + placeMark.siName + "+" + placeMark.dongName;
+			currentAddress = placeMark.doName + " " + placeMark.siName + " " + placeMark.dongName;
 
 			if (errInfo != null) {
 				Log.e("NHK", "Failed to findPlacemarkAtLocation: error=" + errInfo.toString());

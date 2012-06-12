@@ -33,7 +33,7 @@ public class MainTab3Activity extends Activity implements Button.OnClickListener
 
 	public void onClick(View arg0) {
 		Intent intent = new Intent(this, SearchMapActivity.class);
-		intent.putExtra("search_menu", searchText.getText());
+		intent.putExtra("search_menu", searchText.getText().toString());
 		startActivity(intent); // 두번째 액티비티를 실행합니다.
 		}
 }
