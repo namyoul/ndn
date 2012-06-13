@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.SlidingDrawer;
+import android.widget.SlidingDrawer.OnDrawerCloseListener;
+import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.Toast;
 
 import com.nhn.android.maps.NMapActivity;
@@ -48,7 +51,7 @@ public class SearchMapActivity extends NMapActivity {
 	
 	////////////////////////////////////////////////////////////////////////////
 	// for restoreInstance & saveInstance 
-	private static NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
+	private static final NGeoPoint NMAP_LOCATION_DEFAULT = new NGeoPoint(126.978371, 37.5666091);
 	private static final int NMAP_ZOOMLEVEL_DEFAULT = 10;
 	private static final String KEY_ZOOM_LEVEL = "MainTab3Activity.zoomLevel";
 	private static final String KEY_CENTER_LONGITUDE = "MainTab3Activity.centerLongitudeE6";
@@ -61,7 +64,7 @@ public class SearchMapActivity extends NMapActivity {
 	////////////////////////////////////////////////////////////////////////////
 	// for POIitem
 //	private NMapPOIitem mPOIitem;
-//	private SlidingDrawer mSlidingDrawer;
+	private SlidingDrawer mSlidingDrawer;
 	
 	
 	
@@ -111,7 +114,6 @@ public class SearchMapActivity extends NMapActivity {
 		restoreInstanceState();
 	}
 	
-	@Override
 	protected void onDestroy() {
 		Log.e("NHK", "onDestroy");
 		// save map view state such as map center position and zoom level.
@@ -124,8 +126,7 @@ public class SearchMapActivity extends NMapActivity {
 		// add NMapView
 		mMapContainerView.addView(mMapView);
 		
-//		mSlidingDrawer = new SlidingDrawer(this, new AttributeSet()
-//		mMapContainerView.addView(mSlidingDrawer);
+		// add SlidingDrawer
 	}
 	
 	private void initializeNMap() {
