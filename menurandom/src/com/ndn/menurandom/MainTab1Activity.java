@@ -603,23 +603,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 					return;
 				}
 				if (currentState == STATE_SECOND) {
-					DBHandler dbhandler = DBHandler.open(this);
-					HashMap itemMap = new HashMap();
-					itemMap.put("code", "1");// 1 : 식사
 
-					Cursor cursor = dbhandler.randomSelect(itemMap);
-					startManagingCursor(cursor);
-					cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-					String result = cursor.getString(cursor
-							.getColumnIndex("menuName"));
-					dbhandler.close();
+					select_food("1", "", STATE_FOURTH, F_View0);
 
-					currentState = STATE_FOURTH;
-					currentFourth_View = F_View0;
-					moveShowPage(result);
-					
 				} else if (currentState == STATE_THIRD) {
-					if (abc == 0 || abc == 1) {
+					
+					
+/*					if (abc == 0 || abc == 1) {
 						Toast toast = Toast.makeText(this, "한국음식", 2);
 						toast.show();
 
@@ -713,27 +703,18 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 						currentState = STATE_FOURTH;
 						currentFourth_View = F_View5;
-					}
+					}*/
 
 					Toast toast = Toast.makeText(this, "세번째 페이지", 2);
 					toast.show();
 
-				} else if (currentState == STATE_DRINK) {
+				} 
+				else if (currentState == STATE_DRINK) {
 					Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
 					toast.show();
 
-					DBHandler dbhandler = DBHandler.open(this);
-					HashMap itemMap = new HashMap();
-					itemMap.put("code", "2");// 1 : 한식
+					select_food("2", "", STATE_DRINK, "");
 
-					Cursor cursor = dbhandler.randomSelect(itemMap);
-					startManagingCursor(cursor);
-					cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-					String result = cursor.getString(cursor
-							.getColumnIndex("menuName"));
-					dbhandler.close();
-
-					moveShowPage(result);
 				}
 			}
 			lastX = event.values[DATA_X];
@@ -743,6 +724,26 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		}
 
 
+	}
+	private void select_food(String code, String detailCode, String state, String f_view){
+		DBHandler dbhandler = DBHandler.open(this);
+		HashMap itemMap = new HashMap();
+		itemMap.put("code", code);// 1 : 식사
+		if(detailCode!=""){
+			itemMap.put("detailCode", detailCode);// C : 중식
+		}
+		Cursor cursor = dbhandler.randomSelect(itemMap);
+		startManagingCursor(cursor);
+		cursor.moveToFirst(); // 커서 처음으로 이동 시킴
+		String result = cursor.getString(cursor
+				.getColumnIndex("menuName"));
+		dbhandler.close();
+		moveShowPage(result);
+
+		currentState = state;
+		if(f_view!=""){
+			currentFourth_View = f_view;
+		}
 	}
 	
 	private ArrayList getArrayList(String code, String detailCode){
