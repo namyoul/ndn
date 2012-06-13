@@ -39,7 +39,9 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private static Integer OTHER = 7;
 	
 	private String currentState = STATE_FIRST;
+	private String currentThird_View = T_View1;
 	private String currentFourth_View = F_View1;
+	
 	
 	private static String STATE_FIRST = "0";
 	private static String STATE_SECOND = "1";
@@ -53,7 +55,12 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private static String F_View3 = "3";
 	private static String F_View4 = "4";
 	private static String F_View5 = "5";
-
+	private static String T_View1 = "1";
+	private static String T_View2 = "2";
+	private static String T_View3 = "3";
+	private static String T_View4 = "4";
+	private static String T_View5 = "5";
+	
 	
 	private int backPressedCount = 0;
 	private long backPressedStartTime = 0;
@@ -209,7 +216,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     	
     	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		returnVal = inflater.inflate(R.layout.view1_1_1, null);        
-           
+    
         return returnVal;
     }
     
@@ -219,7 +226,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     	
     	LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		returnVal = inflater.inflate(R.layout.view1_1_2, null);        
-           
         return returnVal;
     }
 
@@ -483,6 +489,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         
 		ListView listview = (ListView) view1_1_1.findViewById(R.id.list1_1_1);
 		listview.setAdapter(MyAdapter);
+		currentThird_View=T_View1;
 //		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //
 //			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -507,6 +514,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 //				setViewAsVisible(view_pic);
 //			}
 //		});
+		currentThird_View=T_View2;
 	}
 	public void Array_Japan(){
 
@@ -523,6 +531,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 //				setViewAsVisible(view_pic);
 //			}
 //		});
+		currentThird_View=T_View3;
 	}
 	public void Array_America(){
 
@@ -540,6 +549,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 //				setViewAsVisible(view_pic);
 //			}
 //		});
+		currentThird_View=T_View4;
 	}
 	public void Array_Other(){
 		/*
@@ -567,6 +577,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 				setViewAsVisible(view_pic);
 			}
 		});
+		currentThird_View=T_View5;
 	}
 	
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -588,12 +599,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
 
 			if (speed > SHAKE_THRESHOLD) {
-				Random random = new Random(System.nanoTime());
+				
+				/*Random random = new Random(System.nanoTime());
 				int r = random.nextInt();
 				String temp_String2 = String.valueOf(r);
 				String dtemp_String = temp_String2.substring(temp_String2
 						.length() - 1);
-				int abc = Integer.parseInt(dtemp_String);
+				int abc = Integer.parseInt(dtemp_String);*/
 				
 //				1 shake pass 
 //				2 shake 4th -b 2p
@@ -606,7 +618,30 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 					select_food("1", "", STATE_FOURTH, F_View0);
 
-				} else if (currentState == STATE_THIRD) {
+				} 
+				else if (currentState == STATE_THIRD) 
+				{
+					if(currentThird_View==T_View1)
+					{
+						select_food("1", "K", STATE_FOURTH, F_View1);
+					}
+					else if(currentThird_View==T_View2)
+					{
+						select_food("1", "C", STATE_FOURTH, F_View2);
+					}
+					else if(currentThird_View==T_View3)
+					{
+						select_food("1", "J", STATE_FOURTH, F_View3);
+					}
+					else if(currentThird_View==T_View4)
+					{
+						select_food("1", "A", STATE_FOURTH, F_View4);
+					}
+					else if(currentThird_View==T_View5)
+					{
+						select_food("1", "S", STATE_FOURTH, F_View5);
+					}
+				
 					
 					
 /*					if (abc == 0 || abc == 1) {
