@@ -4,18 +4,100 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
-    <ImageView
+    <TableLayout
         android:id="@+id/default_gesture"
         android:layout_width="320dip"
         android:layout_height="fill_parent"
-        android:src="@drawable/ic_launcher"
-        android:background="#C0E0FF" />
+        android:stretchColumns="1" >
 
-    <ImageView
+        <TableRow>
+
+            <TextView
+                android:id="@+id/siksaTitleTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="식사 추천메뉴"
+                android:textSize="25dip" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/siksaTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/siksaImageView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dip"
+                android:src="@drawable/img1" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal" >
+
+            <Button
+                android:id="@+id/siksaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="안주 다시추천 " />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
         android:id="@+id/custom_gesture"
         android:layout_width="320dip"
         android:layout_height="fill_parent"
-        android:src="@drawable/ic_launcher" 
-        android:background="#F0C0FF"/>
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/anjuTitleTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="안주 추천메뉴"
+                android:textSize="25dip" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/anjuTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/anjuImageView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dip"
+                android:src="@drawable/img1" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal" >
+
+            <Button
+                android:id="@+id/anjuButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="식사 다시추천 " />
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

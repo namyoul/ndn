@@ -41,8 +41,11 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	private int backPressedCount = 0;
 	private long backPressedStartTime = 0;
 	private int doublePressedTimeThresHold = 300;
-	LinearLayout layout = null;
-	TextView tv = null;
+	//LinearLayout layout = null;
+	TextView anjuTextView = null;
+	TextView siksaTextView = null;
+	View anjuButton;
+	View siksaButton;
 	HashMap<String, String> map = new HashMap<String, String>();
 	private MenuSlideView mSlideView;
 	
@@ -60,14 +63,21 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		frameLayout.addView(view1);
 		
 		
-		tv = (TextView) findViewById(R.id.textView1);
+		anjuTextView = (TextView) findViewById(R.id.anjuTextView);
+		siksaTextView = (TextView) findViewById(R.id.siksaTextView);
 		
-		findViewById(R.id.button1).setOnClickListener(this);
-		layout = (LinearLayout)findViewById(R.id.tLayout);
+		anjuButton = findViewById(R.id.anjuButton);
+		siksaButton = findViewById(R.id.siksaButton);
+		
+		anjuButton.setOnClickListener(this);
+		siksaButton.setOnClickListener(this);
+		
+		//layout = (LinearLayout)findViewById(R.id.tLayout);
 		
 		loadKmaXmlRead();//기상청 xml 파싱
 		
-		recommendedMenu();//메뉴추천
+		recommendedAnjuMenu();//안주메뉴추천
+		recommendedSiksaMenu();//안주메뉴추천
 		
 		/*
 		ArrayList arItem = getArrayList("1", "K");;
@@ -138,7 +148,7 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 			
 			
 		} catch (Exception e) {
-			tv.setText("오류" + e.getMessage());
+			siksaTextView.setText("오류" + e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -147,37 +157,62 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	
 	public void onClick(View v) {
 		
-		recommendedMenu();
+		if(v.equals(anjuButton))//안주버튼 클릭시 실행
+			recommendedAnjuMenu();
+		
+		if(v.equals(siksaButton))//식사버튼 클릭시 실행
+			recommendedSiksaMenu();
 	}
 	
 	/*
-	 * 메뉴추천
+	 * 안주 메뉴추천
 	 */
-	public void recommendedMenu(){
+	public void recommendedAnjuMenu(){
 		try {
-			String resultMenu = menuSelection(map);
-			resultMenu += " 추천 메뉴는 : " + dataSelect();
+			String resultMenu = menuSelection(map);//날씨상태 파라메터 설정
+			resultMenu += " 추천 메뉴는 : " + dataSelect("2");//1:식사, 2:안주
 			HashMap itemMap = getRecommendedItem();
 			resultMenu += "\n snow : " +  itemMap.get("snow");
 			resultMenu += " rain : " +  itemMap.get("rain");
 			resultMenu += " hot : " +  itemMap.get("hot");
 			resultMenu += " cold : " +  itemMap.get("cold");
 			
-			tv.setText(resultMenu);
+			anjuTextView.setText(resultMenu);
 			
-			int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
+			//int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
 			
-			ImageView image = new ImageView(this);
+			//ImageView image = new ImageView(this);
 			
-			image.setImageResource(resId);
-			layout.removeAllViews();
-			layout.addView(image);
+			//image.setImageResource(resId);
+			//layout.removeAllViews();
+			//layout.addView(image);
 			
 		} catch (Exception e) {
-			tv.setText("오류" + e.getMessage());
+			anjuTextView.setText("오류" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	 * 식사 메뉴추천
+	 */
+	public void recommendedSiksaMenu(){
+		try {
+			String resultMenu = menuSelection(map); //날씨상태 파라메터 설정
+			resultMenu += " 추천 메뉴는 : " + dataSelect("1");//1:식사, 2:안주
+			HashMap itemMap = getRecommendedItem();
+			resultMenu += "\n snow : " +  itemMap.get("snow");
+			resultMenu += " rain : " +  itemMap.get("rain");
+			resultMenu += " hot : " +  itemMap.get("hot");
+			resultMenu += " cold : " +  itemMap.get("cold");
+			
+			siksaTextView.setText(resultMenu);
+			
+		} catch (Exception e) {
+			siksaTextView.setText("오류" + e.getMessage());
+			e.printStackTrace();
+		}
+	}	
 	
 	/*
 	 * 추천 메뉴를 조회식 검색조건 만들어서 Map으로 넘겨줌
@@ -234,12 +269,11 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	}	
 	
 	
-	private String dataSelect(){
+	private String dataSelect(String code){
 		DBHandler dbhandler = DBHandler.open(this);
 		
 		HashMap itemMap = getRecommendedItem();
-		itemMap.put("code", "2");//2 : 안주메뉴
-		itemMap.put("detailCode", "O");//O : 기타
+		itemMap.put("code", code);
 		
 		Cursor cursor = dbhandler.randomRecommended(itemMap); 
         startManagingCursor(cursor);
