@@ -22,7 +22,7 @@ public class MainTab3Activity extends Activity implements Button.OnClickListener
 		LinearLayout frameLayout = (LinearLayout) findViewById(R.id.tab3);	
 	
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View view1 = inflater.inflate(R.layout.search_browser, null);
+		View view1 = inflater.inflate(R.layout.tab_3, null);
 		frameLayout.addView(view1);
 		
 		searchText = (EditText) findViewById(R.id.searchText);
