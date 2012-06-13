@@ -117,7 +117,7 @@ public class DBHandler {
 		sb.append("                from menu b                                      \n");
 		sb.append("               where a.id <= b.id                                \n");
 		if(code != null) 			
-			sb.append("                 and b.code = '" + code + "'                \n");
+			sb.append("                 and b.code in ('0','" + code + "')           \n"); //0:식사/술안주, 1:식사, :2:술안주
 		if(detailCode != null) 	
 			sb.append("                 and b.detailCode = '" + detailCode + "'    \n");
 		
@@ -136,7 +136,7 @@ public class DBHandler {
 		sb.append("      from menu a                                                \n");
 		sb.append("     where 1=1                                                   \n");
 		if(code != null)
-			sb.append("       and a.code = '" + code + "'                          \n");
+			sb.append("       and a.code in ('0','" + code + "')                   \n"); //0:식사/술안주, 1:식사, :2:술안주
 		if(detailCode != null)
 			sb.append("       and a.detailCode = '" + detailCode + "'              \n");
 		sb.append("           and ( 1 = 0    \n"); // OR 조건을 넣기 위해서 넣어줌..
@@ -154,7 +154,7 @@ public class DBHandler {
 		sb.append("        from menu                                                \n");
 		sb.append("       where 1=1                                                	\n");
 		if(code != null)
-			sb.append("        and code = '" + code + "'                           \n");
+			sb.append("        and code in ('0','" + code + "')                    \n"); //0:식사/술안주, 1:식사, :2:술안주
 		if(detailCode != null)	
 			sb.append("        and detailCode = '" + detailCode + "'               \n");
 		sb.append("            and ( 1 = 0    \n"); // OR 조건을 넣기 위해서 넣어줌..
@@ -214,7 +214,7 @@ public class DBHandler {
 		sb.append("                from menu b                                      \n");
 		sb.append("               where a.id <= b.id                                \n");
 		if(code != null) 			
-			sb.append("                 and b.code = '" + code + "'                \n");
+			sb.append("                 and b.code in ('0','" + code + "') \n"); //0:식사/술안주, 1:식사, :2:술안주
 		if(detailCode != null) 	
 			sb.append("                 and b.detailCode = '" + detailCode + "'    \n");
 		
@@ -222,7 +222,7 @@ public class DBHandler {
 		sb.append("      from menu a                                                \n");
 		sb.append("     where 1=1                                                   \n");
 		if(code != null)
-			sb.append("       and a.code = '" + code + "'                          \n");
+			sb.append("       and a.code in ('0','" + code + "')                   \n"); //0:식사/술안주, 1:식사, :2:술안주
 		if(detailCode != null)
 			sb.append("       and a.detailCode = '" + detailCode + "'              \n");
 		sb.append("     )c,                                                         \n");
@@ -230,7 +230,7 @@ public class DBHandler {
 		sb.append("        from menu                                                \n");
 		sb.append("       where 1=1                                                	\n");
 		if(code != null)
-			sb.append("        and code = '" + code + "'                           \n");
+			sb.append("        and code in ('0','" + code + "')                    \n"); //0:식사/술안주, 1:식사, :2:술안주
 		if(detailCode != null)	
 			sb.append("        and detailCode = '" + detailCode + "'               \n");
 		sb.append("        								) r                        \n");			
@@ -256,7 +256,7 @@ public class DBHandler {
 		sb.append(" from menu                 \n");                                            
 		sb.append(" where 1=1                 \n");                                                 
 	if(code != null)
-		sb.append(" and code = '" + code + "' \n");                    
+		sb.append(" and code in ('0','" + code + "') \n"); //0:식사/술안주, 1:식사, :2:술안주                   
 	if(detailCode != null)
 		sb.append(" and detailCode = '" + detailCode + "'  \n");
     					
