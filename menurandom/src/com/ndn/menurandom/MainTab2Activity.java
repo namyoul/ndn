@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	TextView siksaTextView = null;
 	View anjuButton;
 	View siksaButton;
+	EditText anjuNameEditText;
+	EditText siksaNameEditText;
 	HashMap<String, String> map = new HashMap<String, String>();
 	private MenuSlideView mSlideView;
 	
@@ -65,6 +68,9 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		
 		anjuTextView = (TextView) findViewById(R.id.anjuTextView);
 		siksaTextView = (TextView) findViewById(R.id.siksaTextView);
+		
+		anjuNameEditText = (EditText) findViewById(R.id.anjuNameEditText);
+		siksaNameEditText = (EditText) findViewById(R.id.siksaNameEditText);
 		
 		anjuButton = findViewById(R.id.anjuButton);
 		siksaButton = findViewById(R.id.siksaButton);
@@ -157,11 +163,17 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	
 	public void onClick(View v) {
 		
-		if(v.equals(anjuButton))//안주버튼 클릭시 실행
-			recommendedAnjuMenu();
+		if(v.equals(anjuButton)){//안주버튼 클릭시 실행
+			Intent intent = new Intent(this, SearchMapActivity.class); //지도 검색 Class 설정
+			intent.putExtra("search_menu", anjuNameEditText.getText().toString());
+			startActivity(intent); // 액티비티를 실행합니다.
+		}
 		
-		if(v.equals(siksaButton))//식사버튼 클릭시 실행
-			recommendedSiksaMenu();
+		if(v.equals(siksaButton)){//식사버튼 클릭시 실행
+			Intent intent = new Intent(this, SearchMapActivity.class); //지도 검색 Class 설정
+			intent.putExtra("search_menu", siksaNameEditText.getText().toString());
+			startActivity(intent); // 액티비티를 실행합니다.
+		}
 	}
 	
 	/*
@@ -170,14 +182,18 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	public void recommendedAnjuMenu(){
 		try {
 			String resultMenu = menuSelection(map);//날씨상태 파라메터 설정
+			/*
 			resultMenu += " 추천 메뉴는 : " + dataSelect("2");//1:식사, 2:안주
 			HashMap itemMap = getRecommendedItem();
 			resultMenu += "\n snow : " +  itemMap.get("snow");
 			resultMenu += " rain : " +  itemMap.get("rain");
 			resultMenu += " hot : " +  itemMap.get("hot");
 			resultMenu += " cold : " +  itemMap.get("cold");
+			*/
 			
 			anjuTextView.setText(resultMenu);
+			anjuNameEditText.setText(dataSelect("2"));//1:식사, 2:안주
+			
 			
 			//int resId = getResources().getIdentifier("img1", "drawable", "com.ndn.menurandom");
 			
@@ -199,14 +215,16 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 	public void recommendedSiksaMenu(){
 		try {
 			String resultMenu = menuSelection(map); //날씨상태 파라메터 설정
+			/*
 			resultMenu += " 추천 메뉴는 : " + dataSelect("1");//1:식사, 2:안주
 			HashMap itemMap = getRecommendedItem();
 			resultMenu += "\n snow : " +  itemMap.get("snow");
 			resultMenu += " rain : " +  itemMap.get("rain");
 			resultMenu += " hot : " +  itemMap.get("hot");
 			resultMenu += " cold : " +  itemMap.get("cold");
-			
+			*/
 			siksaTextView.setText(resultMenu);
+			siksaNameEditText.setText(dataSelect("1"));//1:식사, 2:안주
 			
 		} catch (Exception e) {
 			siksaTextView.setText("오류" + e.getMessage());
@@ -310,7 +328,7 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		result = "날씨 : " + map.get("wfKor") + "\n";
 		result += "온도 : " + map.get("temp") + "도\n"; 
 		result += "습도 : " + map.get("reh") + "%\n";
-		result += dispName(map.get("pty").toString()) + "%\n";
+		result += dispName(map.get("pty").toString()) + "%";
 		
 		return result;
 	

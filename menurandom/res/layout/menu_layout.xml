@@ -43,12 +43,22 @@
 
         <TableRow android:gravity="center_horizontal" >
 
+            <EditText
+                android:id="@+id/siksaNameEditText"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal" >
+
             <Button
                 android:id="@+id/siksaButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dip"
-                android:text="안주 다시추천 " />
+                android:text="주변검색 " />
         </TableRow>
     </TableLayout>
 
@@ -91,12 +101,22 @@
 
         <TableRow android:gravity="center_horizontal" >
 
+            <EditText
+                android:id="@+id/anjuNameEditText"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal" >
+
             <Button
                 android:id="@+id/anjuButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dip"
-                android:text="식사 다시추천 " />
+                android:text="주변검색" />
         </TableRow>
     </TableLayout>
 
