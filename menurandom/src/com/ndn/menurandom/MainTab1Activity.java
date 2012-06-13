@@ -2,6 +2,7 @@ package com.ndn.menurandom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import com.ndn.menurandom.db.DBHandler;
 import android.app.Activity;
@@ -41,7 +42,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private String currentState = STATE_FIRST;
 	private String currentThird_View = T_View1;
 	private String currentFourth_View = F_View1;
-	
+	SensorManager sensorManager = null;
 	
 	private static String STATE_FIRST = "0";
 	private static String STATE_SECOND = "1";
@@ -98,9 +99,9 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
 
-        
+        sensor_Initialize();
         //setSelectTab(0);
-		sensor_Initialize();
+
 		
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
 		
@@ -144,13 +145,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     }
     	
     
-    private void sensor_Initialize(){
-         SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-         Sensor accelatorSensor= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-         
-         sensorManager.registerListener(this, accelatorSensor,  SensorManager.SENSOR_DELAY_UI);
-    }
-    
+
     private View createView1()
     {
     	View returnVal;
@@ -580,6 +575,36 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		currentThird_View=T_View5;
 	}
 	
+	private void sensor_Initialize(){
+		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+		/*SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        Sensor accelatorSensor= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        
+        sensorManager.registerListener(this, accelatorSensor,  SensorManager.SENSOR_DELAY_UI);*/
+	}
+	@Override
+    protected void onResume() {
+        super.onResume();
+        
+        List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER)  ; //
+        sensorManager.registerListener(this, sensors.get(0),        //
+          SensorManager.SENSOR_ACCELEROMETER|
+             SensorManager.SENSOR_DELAY_NORMAL
+        );
+        sensorManager.registerListener(this, sensors.get(0),        //
+          SensorManager.SENSOR_ORIENTATION |
+          SensorManager.SENSOR_DELAY_NORMAL
+        );
+    }
+
+    
+   @Override
+    protected void onStop() {
+	   sensorManager.unregisterListener(this);
+        super.onStop();
+    }
+	
+	
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
 		
@@ -596,6 +621,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			z = event.values[SensorManager.DATA_Z];
 
 			long gabOfTime = 150;
+			
 			speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
 
 			if (speed > SHAKE_THRESHOLD) {
@@ -624,6 +650,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 					if(currentThird_View==T_View1)
 					{
 						select_food("1", "K", STATE_FOURTH, F_View1);
+						
 					}
 					else if(currentThird_View==T_View2)
 					{
@@ -641,104 +668,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 					{
 						select_food("1", "S", STATE_FOURTH, F_View5);
 					}
-				
-					
-					
-/*					if (abc == 0 || abc == 1) {
-						Toast toast = Toast.makeText(this, "한국음식", 2);
-						toast.show();
-
-						DBHandler dbhandler = DBHandler.open(this);
-						HashMap itemMap = new HashMap();
-						itemMap.put("code", "1");// 1 : 식사
-						itemMap.put("detailCode", "K");// K : 한식
-						Cursor cursor = dbhandler.randomSelect(itemMap);
-						startManagingCursor(cursor);
-						cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-						String result = cursor.getString(cursor
-								.getColumnIndex("menuName"));
-						dbhandler.close();
-						moveShowPage(result);
-
-						currentState = STATE_FOURTH;
-						currentFourth_View = F_View1;
-					}
-					if (abc == 2 || abc == 3) {
-						Toast toast = Toast.makeText(this, "중국음식", 2);
-						toast.show();
-
-						DBHandler dbhandler = DBHandler.open(this);
-						HashMap itemMap = new HashMap();
-						itemMap.put("code", "1");// 1 : 식사
-						itemMap.put("detailCode", "C");// C : 중식
-						Cursor cursor = dbhandler.randomSelect(itemMap);
-						startManagingCursor(cursor);
-						cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-						String result = cursor.getString(cursor
-								.getColumnIndex("menuName"));
-						dbhandler.close();
-						moveShowPage(result);
-
-						currentState = STATE_FOURTH;
-						currentFourth_View = F_View2;
-					}
-					if (abc == 4 || abc == 5) {
-						Toast toast = Toast.makeText(this, "일본음식", 2);
-						toast.show();
-
-						DBHandler dbhandler = DBHandler.open(this);
-						HashMap itemMap = new HashMap();
-						itemMap.put("code", "1");// 1 : 식사
-						itemMap.put("detailCode", "J");// J : 일식
-						Cursor cursor = dbhandler.randomSelect(itemMap);
-						startManagingCursor(cursor);
-						cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-						String result = cursor.getString(cursor
-								.getColumnIndex("menuName"));
-						dbhandler.close();
-						moveShowPage(result);
-
-						currentState = STATE_FOURTH;
-						currentFourth_View = F_View3;
-					}
-					if (abc == 6 || abc == 7) {
-						Toast toast = Toast.makeText(this, "양식", 2);
-						toast.show();
-
-						DBHandler dbhandler = DBHandler.open(this);
-						HashMap itemMap = new HashMap();
-						itemMap.put("code", "1");// 1 : 식사
-						itemMap.put("detailCode", "A");// A : 양식
-						Cursor cursor = dbhandler.randomSelect(itemMap);
-						startManagingCursor(cursor);
-						cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-						String result = cursor.getString(cursor
-								.getColumnIndex("menuName"));
-						dbhandler.close();
-						moveShowPage(result);
-
-						currentState = STATE_FOURTH;
-						currentFourth_View = F_View4;
-					}
-					if (abc == 8 || abc == 9) {
-						Toast toast = Toast.makeText(this, "기타등등", 2);
-						toast.show();
-
-						DBHandler dbhandler = DBHandler.open(this);
-						HashMap itemMap = new HashMap();
-						itemMap.put("code", "1");// 1 : 식사
-						itemMap.put("detailCode", "S");// S : 기타
-						Cursor cursor = dbhandler.randomSelect(itemMap);
-						startManagingCursor(cursor);
-						cursor.moveToFirst(); // 커서 처음으로 이동 시킴
-						String result = cursor.getString(cursor
-								.getColumnIndex("menuName"));
-						dbhandler.close();
-						moveShowPage(result);
-
-						currentState = STATE_FOURTH;
-						currentFourth_View = F_View5;
-					}*/
 
 					Toast toast = Toast.makeText(this, "세번째 페이지", 2);
 					toast.show();
@@ -760,6 +689,8 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 
 	}
+	
+
 	private void select_food(String code, String detailCode, String state, String f_view){
 		DBHandler dbhandler = DBHandler.open(this);
 		HashMap itemMap = new HashMap();
@@ -897,5 +828,5 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		editText.setText(txt);
 		setViewAsVisible(view_pic);
 	}
-	 
+	
 }
