@@ -14,7 +14,6 @@
 	        android:id="@+id/searchText"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:text = "피자헛"
 	        android:hint="텍스트를 입력해주세요"
 	        >
 			
