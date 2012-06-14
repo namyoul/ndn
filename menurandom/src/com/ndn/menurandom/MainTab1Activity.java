@@ -49,6 +49,9 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private static String STATE_THIRD = "2";
 	private static String STATE_FOURTH = "3";
 	private static String STATE_DRINK = "4";
+	private static String STATE_DRINK_LIST = "5";
+	
+	
 	
 	private static String F_View0 = "0";
 	private static String F_View1 = "1";
@@ -77,7 +80,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     private float lastZ;
    
     private float x, y, z;
-    private static final int SHAKE_THRESHOLD = 800;
+    private static final int SHAKE_THRESHOLD = 900;
    
     private static final int DATA_X = SensorManager.DATA_X;
     private static final int DATA_Y = SensorManager.DATA_Y;
@@ -331,11 +334,16 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			
 			setViewAsVisible(view1);
 		}
+		else if(currentState == STATE_DRINK_LIST){
+			currentState = STATE_FIRST;
+			
+			setViewAsVisible(view1);
+		}
 		else if(currentState == STATE_DRINK)
 		{
 			// 첫번째 화면으로 변경
-			currentState = STATE_FIRST;
-			setViewAsVisible(view1);
+			currentState = STATE_DRINK_LIST;
+			setViewAsVisible(view1_2);
 		}
 		else if(currentState == STATE_THIRD)
 		{
@@ -386,7 +394,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	    }
 		else if(v.getTag()==SECOND_BUTTON){
 			
-			currentState = STATE_DRINK;			
+			currentState = STATE_DRINK_LIST;			
 			
 	        setViewAsVisible(view1_2);
 			
@@ -564,13 +572,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		
 		ListView listview = (ListView) view1_1_5.findViewById(R.id.list1_1_5);
 		listview.setAdapter(MyAdapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+/*		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Toast.makeText(getApplicationContext(), ((TextView)view).getText(),Toast.LENGTH_LONG).show();
 				setViewAsVisible(view_pic);
 			}
-		});
+		});*/
 		currentThird_View=T_View5;
 	}
 	
@@ -624,7 +632,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			y = event.values[SensorManager.DATA_Y];
 			z = event.values[SensorManager.DATA_Z];
 
-			long gabOfTime = 120;
+			long gabOfTime = 150;
 			
 			speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
 
@@ -689,7 +697,7 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 						toast.show();
 	
 					} 
-					else if (currentState == STATE_DRINK) {
+					else if (currentState == STATE_DRINK_LIST) {
 						Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
 						toast.show();
 	
