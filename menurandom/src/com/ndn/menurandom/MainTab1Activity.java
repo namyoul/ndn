@@ -77,12 +77,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     private float lastZ;
    
     private float x, y, z;
-    private static final int SHAKE_THRESHOLD = 900;
+    private static final int SHAKE_THRESHOLD = 800;
    
     private static final int DATA_X = SensorManager.DATA_X;
     private static final int DATA_Y = SensorManager.DATA_Y;
     private static final int DATA_Z = SensorManager.DATA_Z;
     
+    private boolean isShaked = false;
 
 	private View view1;
 	private View view1_1;
@@ -294,7 +295,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     }
     
 	public void onBackPressed(){
-
 		if(currentState == STATE_FIRST){
 		
 		// 첫번째 버튼을 클릭하면, 
@@ -335,7 +335,6 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		{
 			// 첫번째 화면으로 변경
 			currentState = STATE_FIRST;
-			
 			setViewAsVisible(view1);
 		}
 		else if(currentState == STATE_THIRD)
@@ -585,23 +584,28 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	@Override
     protected void onResume() {
         super.onResume();
-        
-        List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER)  ; //
+        operateShaking();
+    }
+
+	private void operateShaking()
+	{
+		List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER)  ; //
         sensorManager.registerListener(this, sensors.get(0),        //
           SensorManager.SENSOR_ACCELEROMETER|
              SensorManager.SENSOR_DELAY_NORMAL
         );
-        sensorManager.registerListener(this, sensors.get(0),        //
-          SensorManager.SENSOR_ORIENTATION |
-          SensorManager.SENSOR_DELAY_NORMAL
-        );
-    }
-
+	}
+	
+	private void stopShaking()
+	{
+		sensorManager.unregisterListener(this);
+	}
+	
     
    @Override
     protected void onStop() {
-	   sensorManager.unregisterListener(this);
-        super.onStop();
+	   stopShaking();
+	   super.onStop();
     }
 	
 	
@@ -620,66 +624,81 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			y = event.values[SensorManager.DATA_Y];
 			z = event.values[SensorManager.DATA_Z];
 
-			long gabOfTime = 150;
+			long gabOfTime = 120;
 			
 			speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
 
 			if (speed > SHAKE_THRESHOLD) {
 				
-				/*Random random = new Random(System.nanoTime());
-				int r = random.nextInt();
-				String temp_String2 = String.valueOf(r);
-				String dtemp_String = temp_String2.substring(temp_String2
-						.length() - 1);
-				int abc = Integer.parseInt(dtemp_String);*/
-				
-//				1 shake pass 
-//				2 shake 4th -b 2p
-//				3 shake 4th -b 3p
-//				4 shake pass
-				if (currentState == STATE_FIRST || currentState == STATE_FOURTH) {
-					return;
-				}
-				if (currentState == STATE_SECOND) {
-
-					select_food("1", "", STATE_FOURTH, F_View0);
-
-				} 
-				else if (currentState == STATE_THIRD) 
-				{
-					if(currentThird_View==T_View1)
-					{
-						select_food("1", "K", STATE_FOURTH, F_View1);
+				//if(!isShaked)
+				//{
+					
+					/*Random random = new Random(System.nanoTime());
+					int r = random.nextInt();
+					String temp_String2 = String.valueOf(r);
+					String dtemp_String = temp_String2.substring(temp_String2
+							.length() - 1);
+					int abc = Integer.parseInt(dtemp_String);*/
+					
+	//				1 shake pass 
+	//				2 shake 4th -b 2p
+	//				3 shake 4th -b 3p
+	//				4 shake pass
+					if (currentState == STATE_FIRST || currentState == STATE_FOURTH) {
 						
 					}
-					else if(currentThird_View==T_View2)
+					if (currentState == STATE_SECOND) {
+						isShaked=false;
+						select_food("1", "", STATE_FOURTH, F_View0);
+					} 
+					else if (currentState == STATE_THIRD) 
 					{
-						select_food("1", "C", STATE_FOURTH, F_View2);
+						if(currentThird_View==T_View1)
+						{
+							isShaked=false;
+							select_food("1", "K", STATE_FOURTH, F_View1);
+							
+						}
+						else if(currentThird_View==T_View2)
+						{
+							isShaked=false;
+							select_food("1", "C", STATE_FOURTH, F_View2);
+							
+						}
+						else if(currentThird_View==T_View3)
+						{
+							isShaked=false;
+							select_food("1", "J", STATE_FOURTH, F_View3);
+							
+						}
+						else if(currentThird_View==T_View4)
+						{
+							isShaked=false;
+							select_food("1", "A", STATE_FOURTH, F_View4);
+							
+							
+						}
+						else if(currentThird_View==T_View5)
+						{
+							isShaked=false;
+							select_food("1", "S", STATE_FOURTH, F_View5);
+							
+						}
+	
+						Toast toast = Toast.makeText(this, "세번째 페이지", 2);
+						toast.show();
+	
+					} 
+					else if (currentState == STATE_DRINK) {
+						Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
+						toast.show();
+	
+						select_food("2", "", STATE_DRINK, "");
+	
 					}
-					else if(currentThird_View==T_View3)
-					{
-						select_food("1", "J", STATE_FOURTH, F_View3);
-					}
-					else if(currentThird_View==T_View4)
-					{
-						select_food("1", "A", STATE_FOURTH, F_View4);
-					}
-					else if(currentThird_View==T_View5)
-					{
-						select_food("1", "S", STATE_FOURTH, F_View5);
-					}
-
-					Toast toast = Toast.makeText(this, "세번째 페이지", 2);
-					toast.show();
-
-				} 
-				else if (currentState == STATE_DRINK) {
-					Toast toast = Toast.makeText(this, "술먹기 페이지", 2);
-					toast.show();
-
-					select_food("2", "", STATE_DRINK, "");
-
-				}
+					
+				//}
+				
 			}
 			lastX = event.values[DATA_X];
 			lastY = event.values[DATA_Y];
