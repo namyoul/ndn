@@ -31,6 +31,16 @@ import android.widget.Toast;
 
 public class MainTab1Activity extends Activity implements OnClickListener, SensorEventListener {
     /** Called when the activity is first created. */
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 변수선언부
+//************************************************************************
+
+//***************************************************
+// 내용 : 버튼 선택시 처리 변수
+//***************************************************
 	private static Integer FIRST_BUTTON = 1;
 	private static Integer SECOND_BUTTON = 2;
 	private static Integer KOREA = 3;
@@ -38,21 +48,27 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private static Integer JAPAN = 5;
 	private static Integer AMERICA = 6;
 	private static Integer OTHER = 7;
+//*********************** 끝 *************************
 	
+
+//***************************************************
+// 내용 : 어떤 뷰를 선택했는지에 대한 상태 함수 관련 변수
+//***************************************************
 	private String currentState = STATE_FIRST;
-	private String currentThird_View = T_View1;
-	private String currentFourth_View = F_View1;
-	SensorManager sensorManager = null;
-	
 	private static String STATE_FIRST = "0";
 	private static String STATE_SECOND = "1";
 	private static String STATE_THIRD = "2";
 	private static String STATE_FOURTH = "3";
 	private static String STATE_DRINK = "4";
 	private static String STATE_DRINK_LIST = "5";
+//*********************** 끝 *************************
 	
 	
-	
+//***************************************************
+// 내용 : 최종메뉴 선택시 해당음식 출력 관련 변수
+//***************************************************
+	private String currentThird_View = T_View1;
+	private String currentFourth_View = F_View1;
 	private static String F_View0 = "0";
 	private static String F_View1 = "1";
 	private static String F_View2 = "2";
@@ -64,30 +80,40 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private static String T_View3 = "3";
 	private static String T_View4 = "4";
 	private static String T_View5 = "5";
+//*********************** 끝 *************************
 	
 	
+//***************************************************
+// 내용 : 백버튼 입력 변수
+//***************************************************	
 	private int backPressedCount = 0;
 	private long backPressedStartTime = 0;
 	private int doublePressedTimeThresHold = 300;
+//*********************** 끝 *************************
 	
-	private int sensor_Count = 0;
 	
-	
-    private long lastTime;
+//***************************************************
+// 내용 : 센서부 변수
+//***************************************************
+	SensorManager sensorManager = null;
+
     private float speed;
     private float lastX;
     private float lastY;
     private float lastZ;
    
     private float x, y, z;
-    private static final int SHAKE_THRESHOLD = 900;
+    private static final int SHAKE_THRESHOLD = 900;     // 흔들기 모션 강도(얼만큼 세게 흔들었느냐)
    
     private static final int DATA_X = SensorManager.DATA_X;
     private static final int DATA_Y = SensorManager.DATA_Y;
     private static final int DATA_Z = SensorManager.DATA_Z;
-    
-    private boolean isShaked = false;
+//*********************** 끝 *************************
 
+    
+//***************************************************
+// 내용 : 뷰를 저장하기 위한 변수
+//***************************************************
 	private View view1;
 	private View view1_1;
 	private View view1_2;
@@ -97,17 +123,34 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	private View view1_1_4;
 	private View view1_1_5;
 	private View view_pic;
-		
-    public void onCreate(Bundle savedInstanceState) {
+//*********************** 끝 *************************
 
+//******************************* 끝 *************************************
+	
+	
+	
+	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : Activity OnCreate함수
+//************************************************************************
+	public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
 
+//***************************************************
+// 내용 : 센서부 호출
+//***************************************************
         sensor_Initialize();
+//*********************** 끝 *************************
         //setSelectTab(0);
 
-		
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
+//***************************************************
+// 내용 : 각 뷰 전체를 호출함(처음 보여줄 뷰를 제외한 나머지 뷰 숨김)
+//***************************************************
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	//탭선택부
 		
         view1 = createView1();
         
@@ -145,11 +188,24 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		view_pic = createView_Pic();
 		frameLayout.addView(view_pic);
 		view_pic.setVisibility(View.GONE);
-		
+//*********************** 끝 *************************
     }
     	
-    
+//******************************* 끝 *************************************
 
+	
+	
+	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 각 뷰에 버튼 및 리스너 등록
+//************************************************************************
+
+//***************************************************
+// 내용 : 처음 화면[식사 / 안주]
+//***************************************************
     private View createView1()
     {
     	View returnVal;
@@ -168,7 +224,12 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
         return returnVal;
     }
+//*********************** 끝 *************************
     
+    
+//***************************************************
+// 내용 : 처음화면->식사버튼 클릭[한식/중식/일식/양식/기타]
+//***************************************************
     private View createView1_1()
     {
     	View returnVal;
@@ -198,7 +259,12 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
         
         return returnVal;
     }
-
+//*********************** 끝 *************************
+    
+    
+//***************************************************
+// 내용 : 처음화면->안주버튼 클릭[안주 리스트]
+//***************************************************    
     private View createView1_2()
     {
     	View returnVal;
@@ -208,7 +274,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
            
         return returnVal;
     }
+//*********************** 끝 *************************
     
+    
+    
+//***************************************************
+// 내용 : 식사버튼->한식버튼 클릭[한식 리스트]
+//***************************************************
     private View createView1_1_1()
     {
     	View returnVal;
@@ -218,7 +290,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     
         return returnVal;
     }
+//*********************** 끝 *************************
     
+    
+    
+//***************************************************
+// 내용 : 식사버튼->중식버튼 클릭[중식 리스트]
+//***************************************************
     private View createView1_1_2()
     {
     	View returnVal;
@@ -227,7 +305,13 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		returnVal = inflater.inflate(R.layout.view1_1_2, null);        
         return returnVal;
     }
+//*********************** 끝 *************************
+    
 
+
+//***************************************************
+// 내용 : 식사버튼->일식버튼 클릭[일식 리스트]
+//***************************************************
     private View createView1_1_3()
     {
     	View returnVal;
@@ -237,7 +321,12 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
            
         return returnVal;
     }
+//*********************** 끝 *************************
     
+    
+//***************************************************
+// 내용 : 식사버튼->양식버튼 클릭[양식 리스트]
+//***************************************************
     private View createView1_1_4()
     {
     	View returnVal;
@@ -247,7 +336,12 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
            
         return returnVal;
     }
+//*********************** 끝 *************************
     
+    
+//***************************************************
+// 내용 : 식사버튼->기타버튼 클릭[기타음식 리스트]
+//***************************************************
     private View createView1_1_5()
     {
     	View returnVal;
@@ -257,7 +351,12 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
            
         return returnVal;
     }
-    
+//*********************** 끝 *************************
+
+
+//***************************************************
+// 내용 : 각 리스트-> 음식정보
+//***************************************************
     private View createView_Pic()
     {
     	View returnVal;
@@ -267,7 +366,19 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
         return returnVal;
     }
+//*********************** 끝 *************************
     
+//******************************* 끝 *************************************
+    
+    
+    
+    
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 각 뷰에 버튼 및 리스너 등록
+//************************************************************************
     private void setViewAsVisible(View view)
     {
     	FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab1);	
@@ -296,7 +407,17 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
     		}
     	}*/
     }
+//******************************* 끝 *************************************
     
+    
+    
+    
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 백버튼 클릭시 처리 함수
+//************************************************************************
 	public void onBackPressed(){
 		if(currentState == STATE_FIRST){
 		
@@ -384,8 +505,17 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			}
 		}
 	}
+//******************************* 끝 *************************************
 
-
+	
+	
+	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 버튼 클릭시 처리 함수
+//************************************************************************
 	public void onClick(View v) {
 		if(v.getTag()==FIRST_BUTTON){
 	        currentState = STATE_SECOND;			
@@ -480,8 +610,17 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			Array_Other();
 		}
 	}
+//******************************* 끝 *************************************
 
-
+	
+	
+	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 각 리스트 배열 입력
+//************************************************************************
 	public void Array_Korea(){
 		
 		ArrayList arItem = getArrayList("1", "K"); // 한식 데이터 가져오기
@@ -581,7 +720,17 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 		});*/
 		currentThird_View=T_View5;
 	}
+//******************************* 끝 *************************************
 	
+	
+	
+	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 센서 선언부
+//************************************************************************
 	private void sensor_Initialize(){
 		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		/*SensorManager sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -615,13 +764,20 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 	   stopShaking();
 	   super.onStop();
     }
-	
+//******************************* 끝 *************************************	
 	
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
 		
 	}
 
+    
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 센서 변경시 처리 구문
+//************************************************************************
 	public void onSensorChanged(SensorEvent event) {
 		// Log.i("Test", String.valueOf(event.values[0]) + " " +
 		// String.valueOf(event.values[1]) + " " +
@@ -656,39 +812,39 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 						
 					}
 					if (currentState == STATE_SECOND) {
-						isShaked=false;
+						
 						select_food("1", "", STATE_FOURTH, F_View0);
 					} 
 					else if (currentState == STATE_THIRD) 
 					{
 						if(currentThird_View==T_View1)
 						{
-							isShaked=false;
+							
 							select_food("1", "K", STATE_FOURTH, F_View1);
 							
 						}
 						else if(currentThird_View==T_View2)
 						{
-							isShaked=false;
+							
 							select_food("1", "C", STATE_FOURTH, F_View2);
 							
 						}
 						else if(currentThird_View==T_View3)
 						{
-							isShaked=false;
+							
 							select_food("1", "J", STATE_FOURTH, F_View3);
 							
 						}
 						else if(currentThird_View==T_View4)
 						{
-							isShaked=false;
+							
 							select_food("1", "A", STATE_FOURTH, F_View4);
 							
 							
 						}
 						else if(currentThird_View==T_View5)
 						{
-							isShaked=false;
+							
 							select_food("1", "S", STATE_FOURTH, F_View5);
 							
 						}
@@ -716,8 +872,17 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 
 
 	}
+//******************************* 끝 *************************************	
 	
-
+	
+	
+	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 선택된 리스트 음식추천화면 넘김
+//************************************************************************
 	private void select_food(String code, String detailCode, String state, String f_view){
 		DBHandler dbhandler = DBHandler.open(this);
 		HashMap itemMap = new HashMap();
@@ -738,6 +903,10 @@ public class MainTab1Activity extends Activity implements OnClickListener, Senso
 			currentFourth_View = f_view;
 		}
 	}
+//******************************* 끝 *************************************	
+	
+	
+	
 	
 	private ArrayList getArrayList(String code, String detailCode){
 		DBHandler dbhandler = DBHandler.open(this);
