@@ -18,45 +18,37 @@ public class DBHandler {
     private SQLiteDatabase db;
     
     private DBHandler(Context ctx) {
-    	//Log.v("", "################DBHelper(ctx) 시작");
-        this.helper = new DBHelper(ctx);
-        //Log.v("", "################DBHelper(ctx) 중간");
-        this.db = helper.getWritableDatabase();
-        //Log.v("", "################DBHelper(ctx) 끝");
+    	
+    	helper = new DBHelper(ctx);
+   
+        try {
+   
+        	helper.createDataBase();
+   
+		  } catch (IOException ioe) {
+		   
+		    throw new Error("Unable to create database");
+		   
+		  }
+        
+        try {
+        	 
+        	db = helper.openDataBase();
+        	 
+        	}catch(SQLException sqle){
+        	 
+        	  throw sqle;
+        	 
+        	}
+        
     }
-    
-    public static final String ROOT_DIR = "/data/data/com.ndn.menurandom/";
-    private static final String DATABASE_NAME = "dbmenu.db";
-    
-    public static void initialize(Context ctx) {
-		// check 
-		File folder = new File(ROOT_DIR + "databases");
-		folder.mkdirs();
-		File outfile = new File(ROOT_DIR + "databases/" + DATABASE_NAME);
-		if (outfile.isFile()) {
-			AssetManager assetManager = ctx.getResources().getAssets();
-			try {
-				InputStream is = assetManager.open(DATABASE_NAME, AssetManager.ACCESS_BUFFER);
-				long filesize = is.available();
-				byte [] tempdata = new byte[(int)filesize];
-				is.read(tempdata); 
-				is.close();
-				
-				outfile.createNewFile();
-				FileOutputStream fo = new FileOutputStream(outfile);
-				fo.write(tempdata);
-				fo.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}    
+
+
     
 
     public static DBHandler open(Context ctx) throws SQLException {
-    	Log.v("", "디비오픈시작");
+    	
         DBHandler handler = new DBHandler(ctx);        
-        Log.v("", "디비오픈끝");
         return handler;    
     }
     

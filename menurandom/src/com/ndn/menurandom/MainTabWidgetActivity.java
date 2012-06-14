@@ -13,8 +13,6 @@ public class MainTabWidgetActivity extends TabActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		
-		DBHandler.initialize(this);//assets db 파일을 databases 폴더로 복사
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
