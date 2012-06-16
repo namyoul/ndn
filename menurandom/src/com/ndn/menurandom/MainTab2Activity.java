@@ -62,8 +62,8 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		LinearLayout frameLayout = (LinearLayout) findViewById(R.id.tab2);
 
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View view1 = inflater.inflate(R.layout.tab_2, null);
-		frameLayout.addView(view1);
+		View view2 = inflater.inflate(R.layout.tab_2, null);
+		frameLayout.addView(view2);
 		
 		
 		anjuTextView = (TextView) findViewById(R.id.anjuTextView);

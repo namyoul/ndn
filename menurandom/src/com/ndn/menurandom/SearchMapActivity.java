@@ -46,8 +46,11 @@ public class SearchMapActivity extends NMapActivity {
 	private SearchMapResourceProvider mMapViewerResourceProvider;
 	
 	private NMapLocationManager mMapLocationManager;
-	
-	
+
+/*	private String BACKBTNCURRENT = BACKBTN_NOTCOMPLEAT;
+	private static String BACKBTN_NOTCOMPLEAT = "0";	
+	private static String BACKBTN_COMPLEAT = "1";*/
+
 	
 	////////////////////////////////////////////////////////////////////////////
 	// for restoreInstance & saveInstance 
@@ -82,7 +85,7 @@ public class SearchMapActivity extends NMapActivity {
 		
 		Log.e("NHK", "========================================================================================");
 		Log.e("NHK", "onCreate!");
-		
+/*		BACKBTNCURRENT = BACKBTN_NOTCOMPLEAT;*/
 		// retrieve menu value
 		Intent intent = getIntent();
         if( intent.hasExtra("search_menu"))
@@ -106,6 +109,7 @@ public class SearchMapActivity extends NMapActivity {
 	
 		startMyLocation();
 		searchRestaurant();
+
 	}
 
 	protected void onResume() {
@@ -128,6 +132,19 @@ public class SearchMapActivity extends NMapActivity {
 		
 		// add SlidingDrawer
 	}
+	
+	
+/*	public void onBackPressed(){
+
+		if(BACKBTNCURRENT == BACKBTN_COMPLEAT){
+			finish();
+		}
+		else
+		{
+			
+		}
+		BACKBTNCURRENT=BACKBTN_COMPLEAT;
+	}*/
 	
 	private void initializeNMap() {
 		mMapView.setClickable(true);
@@ -188,7 +205,10 @@ public class SearchMapActivity extends NMapActivity {
 			public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
 				mMyGeoPoint = myLocation;
 //				mMapController.setMapCenter(myLocation);
+				
+// 남훈아 에러나는 부분이야
 				findPlacemarkAtLocation(mMyGeoPoint.getLongitude(), mMyGeoPoint.getLatitude());
+///////////////////////////////////
 				stopMyLocation();
 				return true;
 			}
