@@ -395,7 +395,12 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 		}
 	}
 	
-	
+//************************************************************************
+// 개발자 : 김두현
+// 개발버전 : VER 1.000
+// 개발일시 : 12. 06. 14
+// 개발내용 : 백버튼 클릭시 처리 함수
+//************************************************************************
 	public void onBackPressed(){
 
 		if(currentState == STATE_FIRST){
@@ -428,5 +433,5 @@ public class MainTab2Activity extends Activity implements OnClickListener {
 			}
 		}
 	}
-
+//******************************* 끝 *************************************
 }
