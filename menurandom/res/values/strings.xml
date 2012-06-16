@@ -3,5 +3,8 @@
 
     <string name="hello">Hello World, MenurandomActivity!</string>
     <string name="app_name">Menurandom</string>
-
+    <string name="intro1">프로젝트명 : 메뉴랜덤</string>
+    <string name="intro2">개발팀 : NDN</string>
+    <string name="intro3">개발자 : 김남열, 김두현, 김남훈</string>
+	<string name="intro4"></string>
 </resources>
